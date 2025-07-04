@@ -7,12 +7,13 @@ import Footer from "../components/footer";
 import PageLoader from "../components/pageLoader";
 
 export default function RootLayout({ children }) {
-  const [loading, setLoading] = useState(true);
+  // Loader is always visible on first render (both SSR and client)
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    // Simulate loading; replace with real logic if needed
-    const handle = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(handle);
+    // Remove loader after hydration (or after your loading logic)
+    const timer = setTimeout(() => setShowLoader(false), 1200); // adjust as needed
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -32,10 +33,14 @@ export default function RootLayout({ children }) {
           <title>대명리얼코</title>
         </head>
         <body>
-          <PageLoader show={loading} />
-          <Header />
-          {children}
-          <Footer />
+          <PageLoader show={showLoader} />
+          <div
+            style={{ opacity: showLoader ? 0 : 1, transition: "opacity 0.2s" }}
+          >
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </body>
       </html>
     </>
