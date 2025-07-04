@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     // Remove loader after hydration (or after your loading logic)
-    const timer = setTimeout(() => setShowLoader(false), 1200); // adjust as needed
+    const timer = setTimeout(() => setShowLoader(false), 2000); // adjust as needed
     return () => clearTimeout(timer);
   }, []);
 
