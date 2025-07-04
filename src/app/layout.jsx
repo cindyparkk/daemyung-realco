@@ -1,10 +1,20 @@
 "use client";
 import "./globals.css";
+import { useEffect, useState } from "react";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
+import PageLoader from "../components/pageLoader";
 
 export default function RootLayout({ children }) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading; replace with real logic if needed
+    const handle = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(handle);
+  }, []);
+
   return (
     <>
       <html lang="en">
@@ -22,6 +32,7 @@ export default function RootLayout({ children }) {
           <title>대명리얼코</title>
         </head>
         <body>
+          <PageLoader show={loading} />
           <Header />
           {children}
           <Footer />
