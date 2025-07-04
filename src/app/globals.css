@@ -51,6 +51,11 @@ h1 {
   font-weight: 700;
 }
 
+h2 {
+  font-family: "KIMM", sans-serif;
+  font-weight: 500;
+}
+
 h3 {
   font-family: "Pretendard", sans-serif;
   font-weight: 600;
@@ -61,6 +66,11 @@ h4 {
   font-family: "Pretendard", sans-serif;
   font-weight: 400;
   font-size: 14px;
+}
+
+button {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 500;
 }
 
 :root {
