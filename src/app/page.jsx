@@ -7,6 +7,7 @@ import colors from "../constants/colors";
 import CustomButton from "../components/button";
 import Title from "../components/title";
 import Carousel from "../components/carousel";
+import NewsCarousel from "../components/newsCarousel";
 
 export default function Home() {
   const MainWrapper = styled.main`
@@ -173,6 +174,29 @@ export default function Home() {
     width: 100%;
   `;
 
+  const news = [
+    {
+      title: "대명, 새로운 브랜드 런칭",
+      date: "2023-10-01",
+      content:
+        "대명 그룹이 새로운 브랜드를 런칭하며, 고객과의 소통을 강화합니다.",
+      image: "/assets/images/news-1.jpg",
+    },
+    {
+      title: "대명 리조트, 여름 시즌 프로모션",
+      date: "2023-09-15",
+      content: "대명 리조트가 여름 시즌을 맞아 특별 프로모션을 진행합니다.",
+      image: "/assets/images/news-2.jpg",
+    },
+    {
+      title: "대명, 지속 가능한 경영 선언",
+      date: "2023-08-20",
+      content:
+        "대명 그룹이 지속 가능한 경영을 위한 새로운 정책을 발표했습니다.",
+      image: "/assets/images/news-3.jpg",
+    },
+  ];
+
   return (
     <MainWrapper>
       {/* Hero Section */}
@@ -240,6 +264,7 @@ export default function Home() {
       {/* 뉴스 & 소식 Section */}
       <NewsSection>
         <Title text={"뉴스 & 소식"} />
+        <NewsCarousel news={news} />
       </NewsSection>
     </MainWrapper>
   );
