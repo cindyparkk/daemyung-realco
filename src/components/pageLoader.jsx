@@ -14,14 +14,14 @@ const LoaderWrapper = styled(motion.div)`
 `;
 
 export default function PageLoader({ show }) {
-  const [hasMounted, setHasMounted] = useState(false);
+  // const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setHasMounted(true);
+  // }, []);
 
-  // Prevent rendering on the server
-  if (!hasMounted) return null;
+  // // Prevent rendering on the server
+  // if (!hasMounted) return null;
 
   return (
     <AnimatePresence>

@@ -52,6 +52,10 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
+  // const [isClient, setIsClient] = useState(false);
+  // useEffect(() => setIsClient(true), []);
+  // if (!isClient) return null;
+
   return (
     <>
       <HeaderContainer>
@@ -70,7 +74,6 @@ const Header = () => {
                 <MenuItem
                   key={item.key}
                   $active={selectedMenu === item.key}
-                  onClick={() => {}}
                   onMouseEnter={() => {
                     setIsExpanded(true);
                     setSelectedMenu(item.key);
@@ -169,7 +172,7 @@ const MenuItem = styled.h3`
   margin-left: 20px;
   font-size: 14px;
 
-  color: ${(props) => (props.active ? colors.red : colors.black)};
+  color: ${(props) => (props.$active ? colors.red : colors.black)};
 
   &:hover {
     cursor: pointer;

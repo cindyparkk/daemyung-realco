@@ -22,6 +22,11 @@ const SideNav = ({ isOpen, onClose, children }) => {
     }
   }, [isOpen]);
 
+  const handleMenuClick = (path) => {
+    router.push(path);
+    onClose();
+  };
+
   return (
     <>
       <Backdrop $isOpen={isOpen} />
@@ -51,7 +56,7 @@ const SideNav = ({ isOpen, onClose, children }) => {
                     <div key={idx}>
                       <p
                         style={{ margin: "5px 0" }}
-                        onClick={() => router.push(sub.path)}
+                        onClick={() => handleMenuClick(sub.path)}
                       >
                         {sub.label}{" "}
                       </p>
