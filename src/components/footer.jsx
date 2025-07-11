@@ -29,14 +29,14 @@ const Footer = () => {
         </div>
       </ContentContainer>
       <LogoContainer>
-        <hr style={{ width: "100%", border: "0.5px solid #fff" }} />
+        <hr style={{ width: "100%", border: `0.5px solid ${colors.white}` }} />
         <Image
           src="/assets/logo-light.svg"
           alt="Logo"
           width={110}
           height={75}
         />
-        <hr style={{ width: "100%", border: "0.5px solid #fff" }} />
+        <hr style={{ width: "100%", border: `0.5px solid ${colors.white}` }} />
       </LogoContainer>
       <FooterLinks>
         <FooterText>

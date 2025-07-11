@@ -40,7 +40,7 @@ const Home = () => {
         <HeroTitle>DAEMYUNG</HeroTitle>
         <HeroSubtitle>대명 그룹의 새로운 시작.</HeroSubtitle>
         <HeroImageWrapper>
-          <Image src="/assets/images/hero-image.jpg" alt="Daemyung Hero" />
+          <Image src="/assets/images/hero-image.jpg" alt="Hero Image" />
         </HeroImageWrapper>
         <RedSquare />
         <Circle />
@@ -252,7 +252,6 @@ const VisionImageWrapper = styled.div`
   min-height: 300px;
 
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   margin-top: 100px;
   z-index: 3;
 `;
