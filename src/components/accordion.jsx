@@ -18,11 +18,13 @@ const CustomAccordion = ({ dataItems }) => {
   return (
     <AccordionContainer>
       {dataItems.map((item, index) => {
+        const desc = item.desc.replace(/\./g, ".\n");
         return (
           <StyledAccordion
             key={index}
             expanded={expanded === index}
             onChange={handleChange(index)}
+            $isFirst={index === 0}
           >
             <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
               <div>
@@ -34,7 +36,7 @@ const CustomAccordion = ({ dataItems }) => {
               </div>
             </StyledAccordionSummary>
             <StyledAccordionDetails>
-              <p>{item.desc}</p>
+              <p style={{ whiteSpace: "pre-line" }}>{desc}</p>
             </StyledAccordionDetails>
           </StyledAccordion>
         );
@@ -53,8 +55,11 @@ const StyledAccordion = styled(Accordion)`
   /* border: none; */
   box-shadow: none;
   margin-bottom: 12px;
+  background: none;
   &.Mui-expanded {
     /* margin: 0; */
+    border-top: ${(props) =>
+      !props.$isFirst && `0.5px solid ${colors.darkGrey}`};
   }
 `;
 

@@ -35,7 +35,9 @@ const VisionPage = () => {
           alt="Banner Image"
         />
       </BannerImageWrapper>
-      <CustomAccordion dataItems={coreValues_KO} />
+      <AccordionSection>
+        <CustomAccordion dataItems={coreValues_KO} />
+      </AccordionSection>
     </>
   );
 };
@@ -63,10 +65,19 @@ const BannerImageWrapper = styled.div`
   width: 100%;
   max-height: 450px;
   overflow: hidden;
-  margin: 50px 0px;
+  margin-top: 50px;
 `;
 
 const BannerImage = styled.img`
   width: 100%;
   display: block;
+`;
+
+const AccordionSection = styled.section`
+  background-color: ${colors.lightGrey};
+  padding: 80px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
