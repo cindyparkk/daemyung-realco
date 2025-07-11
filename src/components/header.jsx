@@ -32,12 +32,12 @@ const Header = () => {
       }
       return [...prevRoutes, menu];
     });
-    setIsExpanded((prev) => !prev);
+    // setIsExpanded((prev) => !prev);
   };
 
   const handleLogoClick = () => {
     setSelectedMenu(null);
-    setIsExpanded(false);
+    // setIsExpanded(false);
     router.push("/");
   };
 
@@ -53,6 +53,8 @@ const Header = () => {
   //       document.body.style.overflow = "auto"; // Cleanup on unmount
   //     };
   //   }, [isMenuOpen]);
+
+  console.log(menu_KO);
 
   return (
     <>
@@ -72,12 +74,12 @@ const Header = () => {
                 <MenuItem
                   key={item.key}
                   $active={selectedMenu === item.key}
-                  onClick={() => {
-                    setSelectedMenu(
-                      selectedMenu === item.key ? null : item.key
-                    );
+                  onClick={() => {}}
+                  onMouseEnter={() => {
                     setIsExpanded(true);
+                    setSelectedMenu(item.key);
                   }}
+                  onMouseLeave={() => setIsExpanded(false)}
                 >
                   {item.label}
                 </MenuItem>
@@ -108,7 +110,10 @@ const Header = () => {
             menu_KO.map(
               (item) =>
                 selectedMenu === item.key && (
-                  <ExpandedMenuContainer key={item.key}>
+                  <ExpandedMenuContainer
+                    key={item.key}
+                    style={{ paddingRight: `${item.paddingRight}px` }}
+                  >
                     {item.submenu.map((sub, idx) => (
                       <SubMenuItem key={idx}>{sub}</SubMenuItem>
                     ))}
@@ -198,7 +203,7 @@ const ExpandedMenuContainer = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   color: ${colors.white};
   position: absolute;
   left: 0;
