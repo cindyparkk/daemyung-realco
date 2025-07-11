@@ -32,29 +32,25 @@ const Header = () => {
       }
       return [...prevRoutes, menu];
     });
-    // setIsExpanded((prev) => !prev);
   };
 
   const handleLogoClick = () => {
     setSelectedMenu(null);
-    // setIsExpanded(false);
     router.push("/");
   };
 
-  //   useEffect(() => {
-  //     // Close the sidebar when the component mounts
-  //     if (isMenuOpen) {
-  //       document.body.style.overflow = "hidden"; // Prevent scrolling
-  //     } else {
-  //       document.body.style.overflow = "auto"; // Allow scrolling
-  //     }
+  useEffect(() => {
+    // Close the sidebar when the component mounts
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden"; // Prevent scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Allow scrolling
+    }
 
-  //     return () => {
-  //       document.body.style.overflow = "auto"; // Cleanup on unmount
-  //     };
-  //   }, [isMenuOpen]);
-
-  console.log(menu_KO);
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup on unmount
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -67,7 +63,7 @@ const Header = () => {
               width={70}
               height={50}
               onClick={handleLogoClick}
-              style={{ cursor: "pointer", "&:hover": { opacity: 0.8 } }}
+              style={{ cursor: "pointer" }}
             />
             <div>
               {menu_KO.map((item) => (
@@ -79,7 +75,6 @@ const Header = () => {
                     setIsExpanded(true);
                     setSelectedMenu(item.key);
                   }}
-                  onMouseLeave={() => setIsExpanded(false)}
                 >
                   {item.label}
                 </MenuItem>
@@ -113,9 +108,15 @@ const Header = () => {
                   <ExpandedMenuContainer
                     key={item.key}
                     style={{ paddingRight: `${item.paddingRight}px` }}
+                    onMouseLeave={() => setIsExpanded(false)}
                   >
                     {item.submenu.map((sub, idx) => (
-                      <SubMenuItem key={idx}>{sub}</SubMenuItem>
+                      <SubMenuItem
+                        key={idx}
+                        onClick={() => router.push(sub.path)}
+                      >
+                        {sub.label}
+                      </SubMenuItem>
                     ))}
                   </ExpandedMenuContainer>
                 )
@@ -219,13 +220,3 @@ const SubMenuItem = styled.h4`
     color: ${colors.lightRed};
   }
 `;
-
-// const SideMenu = styled.div`
-//   position: absolute;
-//   top: 60px;
-//   right: 0;
-//   background-color: ${colors.white};
-//   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-//   padding: 10px;
-//   z-index: 1000;
-// `

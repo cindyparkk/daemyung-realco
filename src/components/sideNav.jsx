@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -9,9 +10,10 @@ import menu_KO from "../constants/routes";
 
 const SideNav = ({ isOpen, onClose, children }) => {
   const [ready, setReady] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       // Wait for the next tick to enable click-away detection
       const timer = setTimeout(() => setReady(true), 0);
       return () => clearTimeout(timer);
@@ -23,7 +25,7 @@ const SideNav = ({ isOpen, onClose, children }) => {
   return (
     <>
       <Backdrop $isOpen={isOpen} />
-      {/* <ClickAwayListener onClickAway={ready ? onClose : undefined}> */}
+      {/* <ClickAwayListener onClickAway={onClose}> */}
       <SidebarWrapper $isOpen={isOpen} role="navigation">
         <SideNavContent>
           <div>
@@ -46,9 +48,15 @@ const SideNav = ({ isOpen, onClose, children }) => {
                 <MenuTitle>{item.label}</MenuTitle>
                 <MenuItems>
                   {item.submenu.map((sub, idx) => (
-                    <p key={idx} style={{ margin: "5px 0" }}>
-                      {sub} {idx !== item.submenu.length - 1 && <span>|</span>}
-                    </p>
+                    <div key={idx}>
+                      <p
+                        style={{ margin: "5px 0" }}
+                        onClick={() => router.push(sub.path)}
+                      >
+                        {sub.label}{" "}
+                      </p>
+                      {idx !== item.submenu.length - 1 && <span>|</span>}
+                    </div>
                   ))}
                 </MenuItems>
               </div>
@@ -130,10 +138,19 @@ const MenuItems = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
   margin-bottom: 2rem;
+  gap: 10px;
   p {
     font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      color: ${colors.red};
+    }
+  }
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 `;
 

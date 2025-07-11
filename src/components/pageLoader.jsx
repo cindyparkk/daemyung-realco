@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LoaderWrapper = styled(motion.div)`
@@ -13,6 +14,15 @@ const LoaderWrapper = styled(motion.div)`
 `;
 
 export default function PageLoader({ show }) {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  // Prevent rendering on the server
+  if (!hasMounted) return null;
+
   return (
     <AnimatePresence>
       {show && (

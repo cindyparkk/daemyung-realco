@@ -35,75 +35,73 @@ const Home = () => {
 
   return (
     <>
-      <MainWrapper>
-        {/* Hero Section */}
-        <HeroSection>
-          <HeroTitle>DAEMYUNG</HeroTitle>
-          <HeroSubtitle>대명 그룹의 새로운 시작.</HeroSubtitle>
-          <HeroImageWrapper>
-            <Image src="/assets/images/hero-image.jpg" alt="Daemyung Hero" />
-          </HeroImageWrapper>
-          <RedSquare />
-          <Circle />
-        </HeroSection>
+      {/* Hero Section */}
+      <HeroSection>
+        <HeroTitle>DAEMYUNG</HeroTitle>
+        <HeroSubtitle>대명 그룹의 새로운 시작.</HeroSubtitle>
+        <HeroImageWrapper>
+          <Image src="/assets/images/hero-image.jpg" alt="Daemyung Hero" />
+        </HeroImageWrapper>
+        <RedSquare />
+        <Circle />
+      </HeroSection>
 
-        {/* Vision & Values Section */}
-        <VisionSection>
-          <VisionContent>
-            <VisionTitle>
-              <h3>DAEMYUNG'S</h3>
-              <h1>비전 및 핵심 가치</h1>
-            </VisionTitle>
-            <ValueList>
-              <ValueItem>
-                <ValueIcon>🤝</ValueIcon>
-                <ValueText>
-                  <ValueTitle>신뢰와 전문성</ValueTitle>
-                  <ValueDesc>Trust & Expertise</ValueDesc>
-                </ValueText>
-              </ValueItem>
-              <ValueItem>
-                <ValueIcon>💡</ValueIcon>
-                <ValueText>
-                  <ValueTitle>혁신과 트렌딩 리더십</ValueTitle>
-                  <ValueDesc>Innovation & Trend Leadership</ValueDesc>
-                </ValueText>
-              </ValueItem>
-              <ValueItem>
-                <ValueIcon>🔗</ValueIcon>
-                <ValueText>
-                  <ValueTitle>시너지와 융합</ValueTitle>
-                  <ValueDesc>Synergy & Integration</ValueDesc>
-                </ValueText>
-              </ValueItem>
-            </ValueList>
-            <CustomButton text={"LEARN MORE"} />
-          </VisionContent>
-          <VisionImageWrapper>
-            <Image
-              src="/assets/images/hero-image-2.jpg"
-              alt="Daemyung Building"
-            />
-          </VisionImageWrapper>
-        </VisionSection>
-
-        {/* 사업분야 Section */}
-        <BusinessSection>
-          <Title
-            text={"사업분야"}
-            desc={
-              "다년간의 숙련된 경험을 바탕으로 다양한 솔루션 및 시스템을 제공합니다."
-            }
+      {/* Vision & Values Section */}
+      <VisionSection>
+        <VisionContent>
+          <VisionTitle>
+            <h3>DAEMYUNG'S</h3>
+            <h1>비전 및 핵심 가치</h1>
+          </VisionTitle>
+          <ValueList>
+            <ValueItem>
+              <ValueIcon>🤝</ValueIcon>
+              <ValueText>
+                <ValueTitle>신뢰와 전문성</ValueTitle>
+                <ValueDesc>Trust & Expertise</ValueDesc>
+              </ValueText>
+            </ValueItem>
+            <ValueItem>
+              <ValueIcon>💡</ValueIcon>
+              <ValueText>
+                <ValueTitle>혁신과 트렌딩 리더십</ValueTitle>
+                <ValueDesc>Innovation & Trend Leadership</ValueDesc>
+              </ValueText>
+            </ValueItem>
+            <ValueItem>
+              <ValueIcon>🔗</ValueIcon>
+              <ValueText>
+                <ValueTitle>시너지와 융합</ValueTitle>
+                <ValueDesc>Synergy & Integration</ValueDesc>
+              </ValueText>
+            </ValueItem>
+          </ValueList>
+          <CustomButton text={"LEARN MORE"} />
+        </VisionContent>
+        <VisionImageWrapper>
+          <Image
+            src="/assets/images/hero-image-2.jpg"
+            alt="Daemyung Building"
           />
-          <Carousel />
-        </BusinessSection>
+        </VisionImageWrapper>
+      </VisionSection>
 
-        {/* 뉴스 & 소식 Section */}
-        <NewsSection>
-          <Title text={"뉴스 & 소식"} />
-          <NewsCarousel news={news} />
-        </NewsSection>
-      </MainWrapper>
+      {/* 사업분야 Section */}
+      <BusinessSection>
+        <Title
+          text={"사업분야"}
+          desc={
+            "다년간의 숙련된 경험을 바탕으로 다양한 솔루션 및 시스템을 제공합니다."
+          }
+        />
+        <Carousel />
+      </BusinessSection>
+
+      {/* 뉴스 & 소식 Section */}
+      <NewsSection>
+        <Title text={"뉴스 & 소식"} />
+        <NewsCarousel news={news} />
+      </NewsSection>
     </>
   );
 };
@@ -211,13 +209,12 @@ const VisionTitle = styled.div`
   }
 `;
 
-const ValueList = styled.ul`
-  list-style: none;
+const ValueList = styled.div`
   padding: 0;
   margin: 0 0 30px 0;
 `;
 
-const ValueItem = styled.li`
+const ValueItem = styled.div`
   background: #222;
   border-radius: 8px;
   margin-bottom: 18px;

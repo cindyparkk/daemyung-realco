@@ -2,25 +2,89 @@ const menu_KO = [
   {
     label: "ABOUT",
     key: "about",
-    submenu: ["비전 및 이념", "CEO 인사말", "회사 연혁", "조직도", "오시는 길"],
+    submenu: [
+      {
+        label: "비전 및 이념",
+        path: "/about/vision",
+      },
+      {
+        label: "CEO 인사말",
+        path: "/about/ceo-greetings",
+      },
+      {
+        label: "회사 연혁",
+        path: "/about/history",
+      },
+      {
+        label: "조직도",
+        path: "/about/org-chart",
+      },
+      {
+        label: "오시는 길",
+        path: "/about/directions",
+      },
+    ],
     paddingRight: 195,
   },
   {
     label: "SERVICES",
     key: "services",
-    submenu: ["전체보기", "분양대행", "F&B", "엔터테인먼트"],
+    submenu: [
+      {
+        label: "전체보기",
+        path: "/",
+      },
+      {
+        label: "분양대행",
+        path: "/real-estate",
+      },
+      {
+        label: "F&B",
+        path: "/f&b",
+      },
+      {
+        label: "엔터테인먼트",
+        path: "/entertainment",
+      },
+    ],
     paddingRight: 220,
   },
   {
     label: "PROJECTS",
     key: "projects",
-    submenu: ["분양대행", "F&B", "엔터테인먼트"],
+    submenu: [
+      {
+        label: "분양대행",
+        path: "/real-estate",
+      },
+      {
+        label: "F&B",
+        path: "/f&b",
+      },
+      {
+        label: "엔터테인먼트",
+        path: "/entertainment",
+      },
+    ],
     paddingRight: 190,
   },
   {
     label: "GET IN TOUCH",
     key: "contact",
-    submenu: ["뉴스 & 소식", "온라인 문의", "관련 사이트"],
+    submenu: [
+      {
+        label: "뉴스 & 소식",
+        path: "/news",
+      },
+      {
+        label: "온라인 문의",
+        path: "/online-inquiries",
+      },
+      {
+        label: "관련 사이트",
+        path: "/related-sites",
+      },
+    ],
     paddingRight: 35,
   },
 ];
