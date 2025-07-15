@@ -20,10 +20,19 @@ export default function ClientLoaderWrapper({ children }) {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    // Remove loader after hydration (or after your loading logic)
+    // Remove loader after hydration
     const timer = setTimeout(() => setShowLoader(false), 1200); // adjust as needed
     return () => clearTimeout(timer);
   }, []);
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  // Prevent rendering on the server
+  if (!hasMounted) return null;
 
   return (
     <>

@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-const VisionPage = () => {
+const OrgCharPage = () => {
   return (
     <>
       <h1>Org chart</h1>
@@ -10,4 +10,4 @@ const VisionPage = () => {
   );
 };
 
-export default VisionPage;
+export default OrgCharPage;

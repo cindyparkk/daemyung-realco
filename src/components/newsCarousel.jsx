@@ -4,7 +4,6 @@ import colors from "../constants/colors";
 import CustomButton from "./button";
 
 const NewsCarousel = ({ news }) => {
-  console.log("NewsSection", news);
   return (
     <NewsSectionContainer>
       {news.map((item, index) => (

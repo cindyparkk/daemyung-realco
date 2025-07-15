@@ -132,7 +132,7 @@ const SideNavContent = styled.div`
   height: 100%;
 `;
 
-const MenuTitle = styled.h1`
+const MenuTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;

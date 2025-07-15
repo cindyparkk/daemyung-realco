@@ -2,12 +2,15 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-const VisionPage = () => {
+import Title from "../../../components/title";
+import colors from "../../../constants/colors";
+
+const DirectionsPage = () => {
   return (
     <>
-      <h1>directions</h1>
+      <Title text={"오시는 길"} hr subtitle={<>daemyung</>} />
     </>
   );
 };
 
-export default VisionPage;
+export default DirectionsPage;

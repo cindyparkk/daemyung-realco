@@ -5,7 +5,8 @@ import { useState } from "react";
 import Title from "../../../components/title";
 import colors from "../../../constants/colors";
 
-const VisionPage = () => {
+const GreetingsPage = () => {
+  console.log("Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
   return (
     <>
       <Title
@@ -74,7 +75,7 @@ const VisionPage = () => {
   );
 };
 
-export default VisionPage;
+export default GreetingsPage;
 
 const TopBannerSection = styled.section`
   display: flex;

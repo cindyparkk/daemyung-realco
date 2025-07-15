@@ -1,15 +1,37 @@
 "use client";
 import styles from "./page.module.css";
-import React from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
+// components
 import colors from "../constants/colors";
 import CustomButton from "../components/button";
 import Title from "../components/title";
 import Carousel from "../components/carousel";
 import NewsCarousel from "../components/newsCarousel";
 
+// sanity
+import { client } from "../sanity/lib/client";
+
 const Home = () => {
+  const POSTS_QUERY = `*[
+    _type == "post"
+    && defined(slug.current)
+  ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+
+  const options = { next: { revalidate: 30 } };
+
+  useEffect(() => {
+    async function fetchData() {
+      // if (client) {
+      const posts = await client.fetch(POSTS_QUERY, {}, options);
+      // setData(json);
+      console.log(posts);
+      // }
+    }
+    fetchData();
+  }, []);
+
   const news = [
     {
       title: "대명, 새로운 브랜드 런칭",
