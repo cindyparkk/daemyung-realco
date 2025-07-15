@@ -26,7 +26,6 @@ const Home = () => {
       // if (client) {
       const posts = await client.fetch(POSTS_QUERY, {}, options);
       // setData(json);
-      console.log(posts);
       // }
     }
     fetchData();

@@ -1,4 +1,14 @@
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
   webpack(config) {
     // Find the Next.js rule that handles SVGs by default
     config.module.rules.forEach((rule) => {

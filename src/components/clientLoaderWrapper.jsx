@@ -6,8 +6,10 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import PageLoader from "../components/pageLoader";
 
+import colors from "../constants/colors";
+
 const MainWrapper = styled.main`
-  background: #fff;
+  background: ${colors.white};
   padding-top: 64px; /* Height of your fixed header */
   min-height: 100vh;
   display: flex;

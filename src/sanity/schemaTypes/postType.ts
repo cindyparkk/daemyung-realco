@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { timelineSchema } from "./timelineSchema";
 
 export const postType = defineType({
   name: "post",
@@ -30,6 +31,33 @@ export const postType = defineType({
       name: "body",
       type: "array",
       of: [{ type: "block" }],
+    }),
+  ],
+});
+
+export const timelineType = defineType({
+  name: "timeline",
+  title: "회사 연혁",
+  type: "document",
+  fields: [
+    defineField({
+      name: "year",
+      type: "number",
+      title: "연도",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "이미지",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "fields",
+      type: "array",
+      of: [{ type: "timelineSchema" }],
+      title: "해당 연도 설명란",
+      validation: (rule) => rule.required(),
     }),
   ],
 });
