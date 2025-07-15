@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -11,32 +11,23 @@ import SideNav from "./sideNav";
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [lang, setLang] = useState("ko");
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [expandedRoutes, setExpandedRoutes] = useState([]);
+
   const toggleLang = () => {
     setLang((prevLang) => (prevLang === "ko" ? "en" : "ko"));
   };
   const handleLangClick = () => {
     toggleLang();
   };
-  const handleMenuClick = (menu) => {
-    console.log(`Navigating to ${menu}`);
-    // Implement navigation logic here
-    setSelectedMenu(menu);
-    setExpandedRoutes((prevRoutes) => {
-      if (prevRoutes.includes(menu)) {
-        return prevRoutes.filter((route) => route !== menu);
-      }
-      return [...prevRoutes, menu];
-    });
-  };
 
   const handleLogoClick = () => {
     setSelectedMenu(null);
     router.push("/");
+    setIsExpanded(false);
   };
 
   useEffect(() => {
@@ -51,10 +42,6 @@ const Header = () => {
       document.body.style.overflow = "auto"; // Cleanup on unmount
     };
   }, [isMenuOpen]);
-
-  // const [isClient, setIsClient] = useState(false);
-  // useEffect(() => setIsClient(true), []);
-  // if (!isClient) return null;
 
   return (
     <>
@@ -111,12 +98,18 @@ const Header = () => {
                   <ExpandedMenuContainer
                     key={item.key}
                     style={{ paddingRight: `${item.paddingRight}px` }}
-                    onMouseLeave={() => setIsExpanded(false)}
+                    onMouseLeave={() => {
+                      if (pathname === "/") setIsExpanded(false);
+                    }}
                   >
                     {item.submenu.map((sub, idx) => (
                       <SubMenuItem
                         key={idx}
-                        onClick={() => router.push(sub.path)}
+                        $active={pathname === sub.path}
+                        onClick={() => {
+                          router.push(sub.path);
+                          setIsExpanded(true);
+                        }}
                       >
                         {sub.label}
                       </SubMenuItem>
@@ -208,7 +201,7 @@ const ExpandedMenuContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: ${colors.white};
+  /* color: ${colors.white}; */
   position: absolute;
   left: 0;
   width: 100%;
@@ -218,6 +211,8 @@ const ExpandedMenuContainer = styled.div`
 const SubMenuItem = styled.h4`
   margin: 0 10px;
   cursor: pointer;
+
+  color: ${(props) => (props.$active ? colors.lightRed : colors.white)};
 
   &:hover {
     color: ${colors.lightRed};
