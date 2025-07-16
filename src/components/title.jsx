@@ -6,7 +6,6 @@ const Title = ({ text, subtitle, desc, color, hr }) => {
     <TitleContainer style={{ color: color || colors.black }}>
       <SubtitleText>{subtitle || "Daemyung's"}</SubtitleText>
       <TitleText>{text || "대명리얼코"}</TitleText>
-      <DescText>{desc}</DescText>
       {hr && (
         <hr
           style={{
@@ -15,6 +14,7 @@ const Title = ({ text, subtitle, desc, color, hr }) => {
           }}
         />
       )}
+      <DescText>{desc}</DescText>
     </TitleContainer>
   );
 };
@@ -32,7 +32,7 @@ const TitleContainer = styled.div`
 
 const TitleText = styled.h1`
   font-size: 3.2rem;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 const SubtitleText = styled.h3`

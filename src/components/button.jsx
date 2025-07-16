@@ -14,29 +14,30 @@ const CustomButton = ({ text, onClick }) => {
 export default CustomButton;
 
 const StyledButton = styled(Button)`
-  background-color: ${colors.red};
-  color: ${colors.white};
-  &:hover {
-    background-color: ${colors.lightRed};
-    cursor: pointer;
-  }
-  padding: 8px 40px;
-  font-size: 14px;
-  text-transform: uppercase;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition:
-    background-color 0.3s ease,
-    box-shadow 0.3s ease;
-  &:active {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    background-color: ${colors.charcoal};
-  }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(175, 59, 39, 0.5);
-  }
-  /* @media (max-width: 600px) {
+  && {
+    background-color: ${colors.red};
+    color: ${colors.white};
+    &:hover {
+      background-color: ${colors.lightRed};
+      cursor: pointer;
+    }
+    padding: 8px 25px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    box-shadow: none;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+    &:active {
+      box-shadow: none;
+      background-color: ${colors.charcoal};
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    /* @media (max-width: 600px) {
     width: 100%;
     font-size: 14px;
     padding: 8px 16px;
@@ -51,4 +52,5 @@ const StyledButton = styled(Button)`
     font-size: 16px;
     padding: 10px 20px;
   } */
+  }
 `;

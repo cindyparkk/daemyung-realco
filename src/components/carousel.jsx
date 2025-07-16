@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
+import { useRouter } from "next/navigation";
 
 import colors from "../constants/colors";
 import Image from "next/image";
@@ -14,6 +15,7 @@ const CarouselItems = [
     index: 1,
     hoveredIcon: "/assets/icons/real_estate-icon-white.svg",
     backgroundImage: "/assets/images/carousel-1.jpg",
+    path: "/services/real-estate",
   },
   {
     title: "F&B",
@@ -23,6 +25,7 @@ const CarouselItems = [
     index: 2,
     hoveredIcon: "/assets/icons/f&b-icon-white.svg",
     backgroundImage: "/assets/images/carousel-2.jpg",
+    path: "/services/f&b",
   },
   {
     title: "엔터테인먼트",
@@ -32,16 +35,18 @@ const CarouselItems = [
     index: 3,
     hoveredIcon: "/assets/icons/entertainment-icon-white.svg",
     backgroundImage: "/assets/images/carousel-3.jpg",
+    path: "/services/entertainment",
   },
 ];
 
-const Carousel = () => {
+const Carousel = ({ isButton, isHoverAnimation }) => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
+  const router = useRouter();
 
   return (
     <CarouselContainer>
       {CarouselItems.map((item, idx) => {
-        const isHovered = hoveredIdx === item.index;
+        const isHovered = isHoverAnimation ? hoveredIdx === item.index : true;
 
         return (
           <CarouselItem
@@ -64,7 +69,12 @@ const Carousel = () => {
               {isHovered && (
                 <>
                   <CarouselItemText>{item.description}</CarouselItemText>
-                  <CustomButton text={"learn more"} />
+                  {isButton && (
+                    <CustomButton
+                      text={"learn more"}
+                      onClick={() => router.push(item.path)}
+                    />
+                  )}
                 </>
               )}
             </Content>
@@ -89,7 +99,7 @@ const CarouselContainer = styled.div`
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   opacity: ${({ $show }) => ($show ? 1 : 0)};
   transition: opacity 0.3s;
   pointer-events: none;
@@ -106,7 +116,7 @@ const CarouselItem = styled.div`
   justify-content: flex-start;
   font-size: 24px;
   flex: 1 1 0;
-  padding: 50px 20px;
+  padding: 30px 20px;
   position: relative;
   color: ${({ $active }) => ($active ? colors.white : colors.black)};
   /* transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); */
@@ -144,6 +154,6 @@ const CarouselItemTitle = styled.h1`
 
 const CarouselItemText = styled.p`
   font-size: 14px;
-  width: 80%;
+  width: 90%;
   margin-bottom: 20px;
 `;
