@@ -1,6 +1,7 @@
 "use client";
 import styles from "./page.module.css";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 // components
@@ -14,6 +15,7 @@ import NewsCarousel from "../components/newsCarousel";
 import { client } from "../sanity/lib/client";
 
 const Home = () => {
+  const router = useRouter();
   const POSTS_QUERY = `*[
     _type == "post"
     && defined(slug.current)
@@ -97,7 +99,10 @@ const Home = () => {
               </ValueText>
             </ValueItem>
           </ValueList>
-          <CustomButton text={"LEARN MORE"} />
+          <CustomButton
+            text={"LEARN MORE"}
+            onClick={() => router.push("/about/vision")}
+          />
         </VisionContent>
         <VisionImageWrapper>
           <Image
