@@ -37,6 +37,14 @@ const CustomAccordion = ({ dataItems }) => {
             </StyledAccordionSummary>
             <StyledAccordionDetails>
               <p style={{ whiteSpace: "pre-line" }}>{desc}</p>
+              <div>
+                {item.descArr &&
+                  item.descArr.map((d, idx) => (
+                    <ul key={idx}>
+                      <li>{d}</li>
+                    </ul>
+                  ))}
+              </div>
             </StyledAccordionDetails>
           </StyledAccordion>
         );
@@ -92,4 +100,8 @@ const StyledAccordionDetails = styled(AccordionDetails)`
   font-size: 14px;
   color: ${colors.charcoal};
   margin-left: 80px;
+
+  div {
+    padding: 20px 0px 0px 20px;
+  }
 `;

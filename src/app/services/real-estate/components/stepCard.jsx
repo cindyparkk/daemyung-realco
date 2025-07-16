@@ -69,5 +69,6 @@ const Desc = styled.div`
     font-family: "KIMM", sans-serif;
     font-weight: 500;
     line-height: 30px;
+    font-size: 16px;
   }
 `;
