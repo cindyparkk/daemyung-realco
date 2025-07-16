@@ -32,19 +32,19 @@ const menu_KO = [
     submenu: [
       {
         label: "전체보기",
-        path: "/",
+        path: "/services",
       },
       {
         label: "분양대행",
-        path: "/real-estate",
+        path: "/services/real-estate",
       },
       {
         label: "F&B",
-        path: "/f&b",
+        path: "/services/f&b",
       },
       {
         label: "엔터테인먼트",
-        path: "/entertainment",
+        path: "/services/entertainment",
       },
     ],
     paddingRight: 220,
@@ -55,15 +55,15 @@ const menu_KO = [
     submenu: [
       {
         label: "분양대행",
-        path: "/real-estate",
+        path: "/projects/real-estate",
       },
       {
         label: "F&B",
-        path: "/f&b",
+        path: "/projects/f&b",
       },
       {
         label: "엔터테인먼트",
-        path: "/entertainment",
+        path: "/projects/entertainment",
       },
     ],
     paddingRight: 190,
@@ -74,15 +74,15 @@ const menu_KO = [
     submenu: [
       {
         label: "뉴스 & 소식",
-        path: "/news",
+        path: "/get-in-touch/news",
       },
       {
         label: "온라인 문의",
-        path: "/online-inquiries",
+        path: "/get-in-touch/online-inquiries",
       },
       {
         label: "관련 사이트",
-        path: "/related-sites",
+        path: "/get-in-touch/related-sites",
       },
     ],
     paddingRight: 35,

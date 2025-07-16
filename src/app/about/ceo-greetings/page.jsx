@@ -101,7 +101,7 @@ const TextWrapperSection = styled.section`
   align-items: center;
   justify-content: center;
   padding: 50px 0px;
-  margin: 50px 0px 100px 0px;
+  margin: 50px 0px 80px 0px;
 `;
 
 const TextSection = styled.div`
@@ -130,7 +130,7 @@ const RedSquare = styled.div`
   z-index: 0;
   position: absolute;
   right: 80px;
-  bottom: -50px;
+  bottom: -30px;
   @media (max-width: 900px) {
     right: -20px;
     bottom: -20px;

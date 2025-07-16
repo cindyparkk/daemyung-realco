@@ -53,9 +53,9 @@ const AccordionContainer = styled.div`
 
 const StyledAccordion = styled(Accordion)`
   /* border: none; */
-  box-shadow: none;
+  box-shadow: none !important;
   margin-bottom: 12px;
-  background: none;
+  background: none !important;
   &.Mui-expanded {
     /* margin: 0; */
     border-top: ${(props) =>

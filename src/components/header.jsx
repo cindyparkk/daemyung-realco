@@ -111,7 +111,8 @@ const Header = () => {
                           setIsExpanded(true);
                         }}
                       >
-                        {sub.label}
+                        <h4>{sub.label}</h4>
+                        {idx !== item.submenu.length - 1 && <span>|</span>}
                       </SubMenuItem>
                     ))}
                   </ExpandedMenuContainer>
@@ -208,13 +209,19 @@ const ExpandedMenuContainer = styled.div`
   top: 100%;
 `;
 
-const SubMenuItem = styled.h4`
-  margin: 0 10px;
-  cursor: pointer;
+const SubMenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  h4 {
+    cursor: pointer;
+    color: ${(props) => (props.$active ? colors.lightRed : colors.white)};
+    &:hover {
+      color: ${colors.lightRed};
+    }
+  }
 
-  color: ${(props) => (props.$active ? colors.lightRed : colors.white)};
-
-  &:hover {
-    color: ${colors.lightRed};
+  span {
+    margin: 0 10px;
+    color: ${colors.white};
   }
 `;
