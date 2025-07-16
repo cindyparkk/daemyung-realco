@@ -43,6 +43,10 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (pathname !== "/") setIsExpanded(true);
+  }, [pathname]);
+
   return (
     <>
       <HeaderContainer>

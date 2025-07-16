@@ -115,7 +115,7 @@ const Home = () => {
             "다년간의 숙련된 경험을 바탕으로 다양한 솔루션 및 시스템을 제공합니다."
           }
         />
-        <Carousel />
+        <Carousel isButton isHoverAnimation />
       </BusinessSection>
 
       {/* 뉴스 & 소식 Section */}
