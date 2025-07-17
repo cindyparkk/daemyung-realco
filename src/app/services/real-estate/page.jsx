@@ -7,7 +7,7 @@ import PageTab from "../../../components/pageTab";
 import StepCard from "./components/stepCard";
 
 import colors from "../../../constants/colors";
-import { RealEstateSteps } from "../../../constants/staticData";
+import RealEstateSteps from "../../../data/realEstateSteps";
 
 const ServicesRealEstatePage = () => {
   return (
