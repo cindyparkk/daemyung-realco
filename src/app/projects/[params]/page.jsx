@@ -128,3 +128,12 @@ const SectionContent = styled.div`
   font-size: 2rem;
   font-weight: bold;
 `;
+
+const PageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 50px 50px 50px;
+`;
