@@ -40,6 +40,7 @@ const SubtitleText = styled.h3`
   font-size: 12px;
   margin-bottom: 15px;
   text-transform: uppercase;
+  margin-right: -0.5rem;
 
   span {
     color: ${colors.red};
