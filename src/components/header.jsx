@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -46,6 +46,13 @@ const Header = () => {
   useEffect(() => {
     if (pathname !== "/") setIsExpanded(true);
   }, [pathname]);
+
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
+
+  const goToPage = (nextPage) => {
+    router.push(`/projects?page=${nextPage}`);
+  };
 
   return (
     <>
@@ -112,6 +119,7 @@ const Header = () => {
                         $active={pathname === sub.path}
                         onClick={() => {
                           router.push(sub.path);
+                          // goToPage(page - 1);
                           setIsExpanded(true);
                         }}
                       >

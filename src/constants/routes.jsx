@@ -40,7 +40,7 @@ const menu_KO = [
       },
       {
         label: "F&B",
-        path: "/services/f&b",
+        path: "/services/fnb",
       },
       {
         label: "엔터테인먼트",
@@ -59,7 +59,7 @@ const menu_KO = [
       },
       {
         label: "F&B",
-        path: "/projects/f&b",
+        path: "/projects/fnb",
       },
       {
         label: "엔터테인먼트",
