@@ -7,9 +7,9 @@ const TimelineSection = React.forwardRef(
     <Section ref={ref} id={`year-${year}`}>
       <Marker onClick={onClick}>
         {/* Top half-line */}
-        <TopLine $isFirst={isFirst} />
+        {/* <TopLine $isFirst={isFirst} /> */}
         <Circle $active={active} />
-        <BottomLine $isLast={isLast} />
+        {/* <BottomLine $isLast={isLast} /> */}
         <h1>{year}</h1>
       </Marker>
       <Content>
