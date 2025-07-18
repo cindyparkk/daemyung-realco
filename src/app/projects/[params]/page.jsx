@@ -137,14 +137,14 @@ const ProjectsPage = () => {
       />
       <PageContainer>
         {params === "real-estate" ? (
-          <PageContainer $padding={"0px 25px"}>
+          <div>
             <PageTab
               pageValue={dataIndex}
               data={RealEstateData}
               isArr
               onClick={(idx) => setDataIndex(idx)}
             />
-          </PageContainer>
+          </div>
         ) : (
           <>
             <LogoBox>
