@@ -5,10 +5,9 @@ import styled from "styled-components";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import menu_KO from "../constants/routes";
 import colors from "../constants/colors";
 
-const PageTab = ({ pageValue }) => {
+const PageTab = ({ pageValue, data, isRouter, onClick }) => {
   const [tabValue, setTabValue] = useState(pageValue);
   const router = useRouter();
 
@@ -46,16 +45,20 @@ const PageTab = ({ pageValue }) => {
         <StyledTabs
           value={tabValue}
           onChange={handleTabChange}
-          variant="fullWidth"
+          variant={isRouter ? "fullWidth" : "scrollable"}
+          scrollButtons="auto"
           TabIndicatorProps={{
             style: { backgroundColor: colors.red, height: 2 },
           }}
         >
-          {menu_KO[1].submenu.map((item, idx) => (
+          {data.map((item, idx) => (
             <StyledTab
               key={idx}
               label={item.label}
-              onClick={() => handleTabPagination(item.path)}
+              onClick={() => {
+                if (isRouter) handleTabPagination(item.path);
+                else onClick(idx);
+              }}
             />
           ))}
         </StyledTabs>

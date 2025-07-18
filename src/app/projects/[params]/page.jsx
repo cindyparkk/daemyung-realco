@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import Title from "../../../components/title";
+import PageTab from "../../../components/pageTab";
 import colors from "../../../constants/colors";
 
 import {
@@ -54,11 +55,12 @@ const ProjectsPage = () => {
 
   const [data, setData] = useState([]);
   const [enterPage, setEnterPage] = useState(0);
+  const [dataIndex, setDataIndex] = useState(0);
 
   useEffect(() => {
     switch (params) {
       case "real-estate":
-        setData([]);
+        setData(RealEstateData[dataIndex]);
         break;
       case "fnb":
         setData(FNBData);
@@ -70,7 +72,7 @@ const ProjectsPage = () => {
       default:
         setData(RealEstateData);
     }
-  }, [params, enterPage]);
+  }, [params, enterPage, dataIndex]);
 
   const sliceSentences = (text) => {
     if (text && text !== "") {
@@ -78,9 +80,6 @@ const ProjectsPage = () => {
     } else return text;
   };
 
-  console.log(enterPage);
-
-  // Use 'page' to change content dynamically
   return (
     <>
       {/* <ScrollContainer ref={containerRef} onScroll={handleScroll}>
@@ -119,7 +118,7 @@ const ProjectsPage = () => {
               ? "F&B"
               : "분양대행"
         }
-        hr
+        hr={params !== "real-estate" && true}
         subtitle={
           params === "entertainment" ? (
             <>
@@ -137,32 +136,39 @@ const ProjectsPage = () => {
         }
       />
       <PageContainer>
-        {/* {section === "real-estate" && ( */}
-        {params === "real-estate" && (
-          <EmptyBox>
-            <p>[컨텐츠 업데이트 되는대로 추가 예정]</p>
-          </EmptyBox>
+        {params === "real-estate" ? (
+          <PageContainer $padding={"0px 25px"}>
+            <PageTab
+              pageValue={dataIndex}
+              data={RealEstateData}
+              isArr
+              onClick={(idx) => setDataIndex(idx)}
+            />
+          </PageContainer>
+        ) : (
+          <>
+            <LogoBox>
+              {data?.logo?.length > 0 &&
+                data.logo.map((logo, idx) => (
+                  <Logo
+                    key={idx}
+                    src={logo.src}
+                    alt={logo.alt}
+                    $isActive={logo.isActive}
+                    onClick={() => {
+                      if (data?.logo?.length > 1) {
+                        setEnterPage(idx);
+                      }
+                    }}
+                  />
+                ))}
+            </LogoBox>
+            <Text>{sliceSentences(data?.intro)}</Text>
+            <BannerImageWrapper>
+              <Image src={data?.bannerImage?.src} />
+            </BannerImageWrapper>
+          </>
         )}
-        <LogoBox>
-          {data?.logo?.length > 0 &&
-            data.logo.map((logo, idx) => (
-              <Logo
-                key={idx}
-                src={logo.src}
-                alt={logo.alt}
-                $isActive={logo.isActive}
-                onClick={() => {
-                  if (data?.logo?.length > 1) {
-                    setEnterPage(idx);
-                  }
-                }}
-              />
-            ))}
-        </LogoBox>
-        <Text>{sliceSentences(data?.intro)}</Text>
-        <BannerImageWrapper>
-          <Image src={data?.bannerImage?.src} />
-        </BannerImageWrapper>
         <TextWrapper>
           <p style={{ color: colors.textGrey, fontSize: "14px" }}>
             {data?.brand?.desc}
@@ -172,17 +178,50 @@ const ProjectsPage = () => {
             <h6>{data?.brand?.location}</h6>
           </BrandName>
         </TextWrapper>
-        <TextWrapper>
-          {data?.desc?.map((desc, idx) =>
-            data?.isUl ? (
-              <ListedDesc key={idx}>
-                <li>{desc}</li>
-              </ListedDesc>
-            ) : (
-              <Text key={idx}>{desc}</Text>
-            )
-          )}
-        </TextWrapper>
+        {params === "real-estate" ? (
+          <div style={{ paddingTop: "30px" }}>
+            <RealEstateDesc>
+              <span>
+                <Image src={"/assets/icons/work-icon.svg"} />
+              </span>
+              <h5>업무</h5>
+              <p>{data?.work}</p>
+            </RealEstateDesc>
+            <RealEstateDesc>
+              <span>
+                <Image src={"/assets/icons/location-icon.svg"} />
+              </span>
+              <h5>위치</h5>
+              <p>{data?.location}</p>
+            </RealEstateDesc>
+            <RealEstateDesc>
+              <span>
+                <Image src={"/assets/icons/area-icon.svg"} />
+              </span>
+              <h5>연면적</h5>
+              <p>{data?.area}</p>
+            </RealEstateDesc>
+            <RealEstateDesc>
+              <span>
+                <Image src={"/assets/icons/contract-icon.svg"} />
+              </span>
+              <h5>계약주체</h5>
+              <p>{data?.contractedWith}</p>
+            </RealEstateDesc>
+          </div>
+        ) : (
+          <TextWrapper>
+            {data?.desc?.map((desc, idx) =>
+              data?.isUl ? (
+                <ListedDesc key={idx}>
+                  <li>{desc}</li>
+                </ListedDesc>
+              ) : (
+                <Text key={idx}>{desc}</Text>
+              )
+            )}
+          </TextWrapper>
+        )}
         {data?.images?.length > 0 && (
           <ImageWrapperSection>
             <Circle />
@@ -225,17 +264,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 50px;
+  padding: ${(props) => (props.$padding ? props.$padding : "0px 0px 50px 0px")};
   gap: 20px;
-`;
-
-const EmptyBox = styled.div`
-  width: 100%;
-  background-color: ${colors.lightGrey};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 320px;
 `;
 
 const LogoBox = styled.div`
@@ -313,6 +343,25 @@ const ListedDesc = styled.ul`
   li {
     font-size: 14px;
     margin-bottom: 4px;
+  }
+`;
+
+const RealEstateDesc = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  span {
+    width: 25px;
+    height: auto;
+  }
+
+  h5 {
+    color: ${colors.red};
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 15px;
   }
 `;
 

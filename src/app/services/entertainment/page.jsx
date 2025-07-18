@@ -1,11 +1,10 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
 
 import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
 
-import colors from "../../../constants/colors";
+import menu_KO from "../../../constants/routes";
 
 const ServicesEntPage = () => {
   return (
@@ -29,7 +28,7 @@ const ServicesEntPage = () => {
         </p>
       </TitleDescSection>
       <PageContainer>
-        <PageTab pageValue={3} />
+        <PageTab pageValue={3} data={menu_KO[1].submenu} isRouter />
         <FlexBox>
           <ImageWrapper $height={"80px"}>
             <Image

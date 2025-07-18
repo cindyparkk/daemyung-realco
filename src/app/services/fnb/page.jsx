@@ -8,6 +8,7 @@ import CustomAccordion from "../../../components/accordion";
 
 import FBValues from "../../../data/f&bValues";
 import colors from "../../../constants/colors";
+import menu_KO from "../../../constants/routes";
 
 const ServicesFBPage = () => {
   return (
@@ -31,7 +32,7 @@ const ServicesFBPage = () => {
         </p>
       </TitleDescSection>
       <PageContainer>
-        <PageTab pageValue={2} />
+        <PageTab pageValue={2} data={menu_KO[1].submenu} isRouter />
         <BannerImageWrapper>
           <BannerImage src="/assets/images/f&b-banner.jpg" alt="Banner Image" />
         </BannerImageWrapper>

@@ -1,12 +1,10 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
-
 import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
 import StepCard from "./components/stepCard";
 
-import colors from "../../../constants/colors";
+import menu_KO from "../../../constants/routes";
 import RealEstateSteps from "../../../data/realEstateSteps";
 
 const ServicesRealEstatePage = () => {
@@ -31,7 +29,7 @@ const ServicesRealEstatePage = () => {
         </p>
       </TitleDescSection>
       <PageContainer>
-        <PageTab pageValue={1} />
+        <PageTab pageValue={1} data={menu_KO[1].submenu} isRouter />
         <BannerImageWrapper>
           <BannerImage
             src="/assets/images/real-estate-banner.jpg"

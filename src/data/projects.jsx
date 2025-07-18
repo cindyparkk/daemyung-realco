@@ -1,23 +1,77 @@
-export const RealEstateData = {
-  logo: [
-    {
-      src: "",
-      alt: "",
+export const RealEstateData = [
+  {
+    label: "판교역 힐스테이트",
+    brand: {
+      desc: "2018.01 ~ 2018.12",
+      name: "판교역 힐스테이트",
     },
-  ],
-  intro: "",
-  bannerImage: {
-    src: "",
-    alt: "",
+    work: "분양대행 / MD컨설팅 / 상환경인테리어",
+    location: "경기도 성남시 분당구 백현동 539-1번지 일원",
+    area: "46,572평",
+    contractedWith: "브이아이피 주식회사",
+    images: [{ src: null, alt: "" }],
   },
-  brand: {
-    desc: "",
-    name: "",
-    location: "",
+  {
+    label: "현대 테라타워 영통 브루클린 381",
+    brand: {
+      desc: "2019.10 ~2022.12",
+      name: "현대 테라타워 영통 브루클린 381",
+    },
+    work: "분양대행 / MD컨설팅 / 상환경인테리어",
+    location: "경기도 수원시 영통구 원천동 381-1",
+    area: "29,326평",
+    contractedWith: "진양건설사업 주식회사",
+    images: [{ src: null, alt: "" }],
   },
-  desc: ["", ""],
-  images: [{ src: "", alt: "" }],
-};
+  {
+    label: "힐스테이트 청량리 더퍼스트",
+    brand: {
+      desc: "2020.02 ~",
+      name: "힐스테이트 청량리 더퍼스트",
+    },
+    work: "분양대행 / MD컨설팅 / 상환경인테리어",
+    location: "서울특별시 동대문구 전농동 620-56번지 / 620-60번지 일원",
+    area: "25,129평",
+    contractedWith: "STS개발 주식회사",
+    images: [{ src: null, alt: "" }],
+  },
+  {
+    label: "힐스테이트 여의도 파인루체",
+    brand: {
+      desc: "2020.02~",
+      name: "힐스테이트 여의도 파인루체",
+    },
+    work: "오피스텔 분양대행 / 상업시설 분양대행 / MD컨설팅",
+    location: "서울특별시 영등포구 여의도동 44-5",
+    area: "7,974평",
+    contractedWith: "마스턴제45호여의도피에프브이 주식회사",
+    images: [{ src: null, alt: "" }],
+  },
+  {
+    label: "현대 테라타워 구리갈매",
+    brand: {
+      desc: "2020.10 ~",
+      name: "현대 테라타워 구리갈매",
+    },
+    work: "지식산업센터 분양대행 / 상업시설 분양대행/ MD컨설팅 / 상환경인테리어",
+    location: "경기도 구리시 갈매동 552-17, 18번지",
+    area: "31,401평",
+    contractedWith: "구봉산업 주식회사",
+    images: [{ src: null, alt: "" }],
+  },
+  {
+    label: "덕은 DMC 에일린의 뜰 센트럴",
+    brand: {
+      desc: "2021.11~",
+      name: "덕은 DMC 에일린의 뜰 센트럴",
+    },
+    work: "오피스텔 분양대행 / 상업시설 분양대행 / MD컨설팅 / 상환경인테리어",
+    location: "경기도 고양시 덕양구 덕은동 업무 8, 9, 10BL",
+    area: "59,293평",
+    contractedWith: "아이에스동서 주식회사",
+    images: [{ src: null, alt: "" }],
+  },
+];
 
 export const FNBData = {
   logo: [

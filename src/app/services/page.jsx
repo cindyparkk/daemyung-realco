@@ -1,11 +1,10 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
 
 import Title from "../../components/title";
 import PageTab from "../../components/pageTab";
 import Carousel from "../../components/carousel";
-import colors from "../../constants/colors";
+import menu_KO from "../../constants/routes";
 
 const ServicesPage = () => {
   return (
@@ -27,7 +26,7 @@ const ServicesPage = () => {
         </p>
       </TitleDescSection>
       <PageContainer>
-        <PageTab pageValue={0} />
+        <PageTab pageValue={0} data={menu_KO[1].submenu} isRouter />
         <Carousel />
       </PageContainer>
     </>
