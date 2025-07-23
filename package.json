@@ -15,6 +15,7 @@
     "@mui/material": "^7.2.0",
     "@sanity/client": "^7.6.0",
     "@sanity/image-url": "^1.1.0",
+    "@sanity/locale-ko-kr": "^1.1.22",
     "@sanity/vision": "^3.99.0",
     "axios": "^1.10.0",
     "dotenv": "^17.2.0",
