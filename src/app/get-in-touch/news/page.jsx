@@ -1,50 +1,36 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Title from "../../../components/title";
 import NewsTable from "./components/newsTable";
 
 import colors from "../../../constants/colors";
 
-const newsData = [
-  {
-    id: 1,
-    image: "/assets/images/hero-image.jpg",
-    title: "[뉴스 제목1]",
-    source: "[매체명]",
-    date: "2024.05.01",
-  },
-  {
-    id: 2,
-    title: "[뉴스 제목2]",
-    source: "[매체명]",
-    date: "2024.05.01",
-  },
-  {
-    id: 3,
-    image: "",
-    title: "[뉴스 제목3]",
-    source: "[매체명]",
-    date: "2024.05.01",
-  },
-  {
-    id: 4,
-    image: "/news-img1.jpg",
-    title: "[뉴스 제목4]",
-    source: "[매체명]",
-    date: "2024.05.01",
-  },
-  {
-    id: 5,
-    image: "/news-img1.jpg",
-    title: "[뉴스 제목5]",
-    source: "[매체명]",
-    date: "2024.05.01",
-  },
-];
+import { client } from "../../../sanity/lib/client";
 
 const NewsPage = () => {
+  const [data, setData] = useState([]);
+  const NEWS_QUERY = `*[_type == "newsItem"]{
+  _id,
+  title,
+  "imageUrl": image.asset->url,
+  "imageAlt": image.alt,
+  publishedAt,
+  source,
+  link
+} | order(publishedAt desc)`;
+
+  const fetchOptions = { next: { revalidate: 30 } };
+
+  useEffect(() => {
+    async function fetchData() {
+      const newsData = await client.fetch(NEWS_QUERY, {}, fetchOptions);
+      setData(newsData);
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       <Title
@@ -57,7 +43,7 @@ const NewsPage = () => {
         }
       />
       <PageContainer>
-        <NewsTable data={newsData} />
+        <NewsTable data={data} />
       </PageContainer>
     </>
   );

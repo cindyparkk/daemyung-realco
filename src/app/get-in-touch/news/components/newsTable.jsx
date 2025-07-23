@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import colors from "../../../../constants/colors";
@@ -19,12 +20,18 @@ const NewsTable = ({ data }) => {
     if (newPage >= 1 && newPage <= totalPages) setPage(newPage);
   };
 
+  const router = useRouter();
+
+  const handleNewsClick = (id) => {
+    router.push(`/get-in-touch/news/${id}`);
+  };
+
   return (
     <NewsWrapper>
       {currentItems.map((item) => (
-        <NewsItem key={item.id}>
-          {item.image ? (
-            <NewsImage src={item.image} alt="뉴스 이미지" />
+        <NewsItem key={item._id} onClick={() => handleNewsClick(item._id)}>
+          {item.imageUrl ? (
+            <NewsImage src={item.imageUrl} alt={item.imageAlt} />
           ) : (
             <NewsImageTextWrapper>
               <h1>뉴스</h1>
@@ -35,7 +42,7 @@ const NewsTable = ({ data }) => {
               <NewsTitle>{item.title}</NewsTitle>
               <NewsMeta>{item.source}</NewsMeta>
             </div>
-            <NewsMeta>{item.date}</NewsMeta>
+            <NewsMeta>{item.publishedAt}</NewsMeta>
           </NewsContent>
         </NewsItem>
       ))}
@@ -86,6 +93,11 @@ const NewsItem = styled.div`
 
   &:first-child {
     border-top: 1px solid #eee;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f8f7f6;
   }
 `;
 
@@ -160,8 +172,8 @@ const PageDot = styled.button`
   font-weight: bold;
   color: ${({ $active }) => ($active ? colors.white : colors.black)};
   background-color: ${({ $active }) =>
-  $active ? colors.black : "transparent"};
-    
+    $active ? colors.black : "transparent"};
+
   ${(props) =>
     props.$active &&
     `

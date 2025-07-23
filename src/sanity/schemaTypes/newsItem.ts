@@ -24,9 +24,21 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "bodyText",
+      type: "text",
+      title: "기사 내용",
+      //   validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "author",
+      type: "string",
+      title: "기자",
+      //   validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "source",
       type: "string",
-      title: "출처",
+      title: "출처 (신문사)",
       //   validation: (rule) => rule.required(),
     }),
     defineField({

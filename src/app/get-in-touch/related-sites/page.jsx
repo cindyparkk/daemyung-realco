@@ -9,54 +9,6 @@ import colors from "../../../constants/colors";
 
 import { client, urlFor } from "../../../sanity/lib/client";
 
-const TEST_DATA = [
-  {
-    category: "분양대행",
-    sites: [
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-    ],
-  },
-  {
-    category: "F&B",
-    sites: [
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-    ],
-  },
-  {
-    category: "엔터테인먼트",
-    sites: [
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-      {
-        logo: "/assets/images/logo/cgv-logo.svg",
-        website: "https://cgv.co.kr/",
-        alt: "CGV Logo",
-      },
-    ],
-  },
-];
-
 const RelatedSitesPage = () => {
   const [siteData, setSiteData] = useState([]);
 
