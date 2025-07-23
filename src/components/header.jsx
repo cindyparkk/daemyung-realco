@@ -43,17 +43,6 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  useEffect(() => {
-    if (pathname !== "/") setIsExpanded(true);
-  }, [pathname]);
-
-  const searchParams = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1");
-
-  const goToPage = (nextPage) => {
-    router.push(`/projects?page=${nextPage}`);
-  };
-
   return (
     <>
       <HeaderContainer>
@@ -110,7 +99,7 @@ const Header = () => {
                     key={item.key}
                     style={{ paddingRight: `${item.paddingRight}px` }}
                     onMouseLeave={() => {
-                      if (pathname === "/") setIsExpanded(false);
+                      setIsExpanded(false);
                     }}
                   >
                     {item.submenu.map((sub, idx) => (
