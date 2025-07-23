@@ -6,21 +6,15 @@ export default defineType({
   type: "document",
   fields: [
     defineField({
-      name: "title",
+      name: "label",
       type: "string",
       title: "프로젝트 이름",
+      validation: (rule) => rule.required(),
     }),
-    // defineField({
-    //   name: "category",
-    //   title: "Category",
-    //   type: "reference",
-    //   to: [{ type: "projectCategory" }],
-    //   validation: (rule) => rule.required(),
-    // }),
     defineField({
       name: "category",
       type: "string",
-      title: "카테고리",
+      title: "사업 분야",
       options: {
         list: [
           { title: "분양대행", value: "분양대행" },
@@ -64,8 +58,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "title",
-      media: "",
+      title: "label",
+      media: "images.0",
     },
     prepare(selection) {
       const { title, media } = selection;
@@ -76,3 +70,11 @@ export default defineType({
     },
   },
 });
+
+// defineField({
+//   name: "category",
+//   title: "Category",
+//   type: "reference",
+//   to: [{ type: "projectCategory" }],
+//   validation: (rule) => rule.required(),
+// }),

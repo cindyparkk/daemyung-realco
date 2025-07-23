@@ -24,9 +24,9 @@ const SiteCard = ({ data, category }) => {
         </TitleWrapper>
         {data?.map((item, idx) => (
           <SiteBox key={idx}>
-            <Link href={item.website} target="_blank" rel="noopener noreferrer">
+            <Link href={item.link} target="_blank" rel="noopener noreferrer">
               <LogoWrapper>
-                <Logo src={item.logo} alt={item.alt} />
+                <Logo src={item.logoUrl} alt={item.logoAlt} />
               </LogoWrapper>
             </Link>
           </SiteBox>
@@ -78,7 +78,7 @@ const SiteBox = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  height: 30px;
+  height: 25px;
   width: auto;
   overflow: hidden; // hides any overflow for non-matching aspect ratios
   display: flex;

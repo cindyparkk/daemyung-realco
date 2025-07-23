@@ -7,6 +7,8 @@ import SiteCard from "./components/siteCard";
 
 import colors from "../../../constants/colors";
 
+import { client, urlFor } from "../../../sanity/lib/client";
+
 const TEST_DATA = [
   {
     category: "분양대행",
@@ -58,8 +60,31 @@ const TEST_DATA = [
 const RelatedSitesPage = () => {
   const [siteData, setSiteData] = useState([]);
 
+  const RELATEDSITE_QUERY = `*[_type == "relatedSite"]{
+  title,
+  category,
+  "logoUrl": logo.src.asset->url,
+  "logoAlt": logo.alt,
+  link
+}`;
+  const fetchOptions = { next: { revalidate: 30 } };
+
   useEffect(() => {
-    setSiteData(TEST_DATA);
+    async function fetchData() {
+      const siteData = await client.fetch(RELATEDSITE_QUERY, {}, fetchOptions);
+      const grouped = siteData.reduce((acc, obj) => {
+        const key = obj.category;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(obj);
+        return acc;
+      }, {});
+      const groupedArray = Object.entries(grouped).map(([category, sites]) => ({
+        category,
+        sites,
+      }));
+      setSiteData(groupedArray.reverse());
+    }
+    fetchData();
   }, []);
 
   return (
@@ -114,7 +139,7 @@ const SiteSection = styled.section`
 const SiteCardWrapper = styled.div`
   width: 90%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
 `;

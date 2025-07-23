@@ -18,8 +18,8 @@ export default defineType({
       options: {
         list: [
           { title: "분양대행", value: "분양대행" },
-          { title: "F&B", value: "fnb" },
-          { title: "엔터테인먼트", value: "entertainment" },
+          { title: "F&B", value: "F&B" },
+          { title: "엔터테인먼트", value: "엔터테인먼트" },
         ],
       },
     }),
