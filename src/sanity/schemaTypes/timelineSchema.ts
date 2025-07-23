@@ -1,6 +1,6 @@
 import { defineType, defineField } from "sanity";
 
-export const timelineSchema = defineType({
+export default defineType({
   name: "timelineSchema",
   type: "object",
   fields: [

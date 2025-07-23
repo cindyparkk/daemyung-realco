@@ -1,5 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { timelineSchema } from "./timelineSchema";
 
 export const postType = defineType({
   name: "post",
@@ -60,4 +59,17 @@ export const timelineType = defineType({
       validation: (rule) => rule.required(),
     }),
   ],
+  preview: {
+    select: {
+      title: "year",
+      media: "image",
+    },
+    prepare(selection) {
+      const { title, media } = selection;
+      return {
+        title: `${title}년도`,
+        media,
+      };
+    },
+  },
 });
