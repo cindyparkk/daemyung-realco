@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import colors from "../../../../constants/colors";
+import useTransitionRouter from "../../../../hooks/useTransitionRouter";
 
 const ITEMS_PER_PAGE = 3;
 
@@ -19,11 +19,10 @@ const NewsTable = ({ data }) => {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) setPage(newPage);
   };
+  const { push } = useTransitionRouter();
 
-  const router = useRouter();
-
-  const handleNewsClick = (id) => {
-    router.push(`/get-in-touch/news/${id}`);
+  const handleNewsClick = async (id) => {
+    await push(`/get-in-touch/news/${id}`);
   };
 
   return (

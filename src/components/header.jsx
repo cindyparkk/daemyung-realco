@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import styled from "styled-components";
+import useTransitionRouter from "../hooks/useTransitionRouter";
 
 import colors from "../constants/colors";
 import menu_KO from "../constants/routes";
@@ -16,6 +17,7 @@ const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const { push } = useTransitionRouter();
 
   const toggleLang = () => {
     setLang((prevLang) => (prevLang === "ko" ? "en" : "ko"));
@@ -24,10 +26,15 @@ const Header = () => {
     toggleLang();
   };
 
-  const handleLogoClick = () => {
+  const handleLogoClick = async () => {
     setSelectedMenu(null);
-    router.push("/");
+    await push("/");
     setIsExpanded(false);
+  };
+
+  const handleMenuClick = async (pathname) => {
+    await push(pathname);
+    setIsExpanded(true);
   };
 
   useEffect(() => {
@@ -106,11 +113,7 @@ const Header = () => {
                       <SubMenuItem
                         key={idx}
                         $active={pathname === sub.path}
-                        onClick={() => {
-                          router.push(sub.path);
-                          // goToPage(page - 1);
-                          setIsExpanded(true);
-                        }}
+                        onClick={() => handleMenuClick(sub.path)}
                       >
                         <h4>{sub.label}</h4>
                         {idx !== item.submenu.length - 1 && <span>|</span>}

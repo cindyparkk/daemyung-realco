@@ -1,8 +1,8 @@
 "use client";
-import styles from "./page.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import useTransitionRouter from "../hooks/useTransitionRouter";
 
 // components
 import colors from "../constants/colors";
@@ -32,6 +32,12 @@ const Home = () => {
     }
     fetchData();
   }, []);
+
+  const { push } = useTransitionRouter();
+
+  const handleRouting = async (path) => {
+    await push(path);
+  };
 
   const news = [
     {
@@ -101,7 +107,7 @@ const Home = () => {
           </ValueList>
           <CustomButton
             text={"LEARN MORE"}
-            onClick={() => router.push("/about/vision")}
+            onClick={() => handleRouting("/about/vision")}
           />
         </VisionContent>
         <VisionImageWrapper>

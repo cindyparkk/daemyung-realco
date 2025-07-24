@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import styled from "styled-components";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
 import PageLoader from "../components/pageLoader";
+import { useLoading } from "../context/LoadingContext";
 
 import colors from "../constants/colors";
 
@@ -18,28 +20,40 @@ const MainWrapper = styled.main`
 `;
 
 export default function ClientLoaderWrapper({ children }) {
-  // Loader is always visible on first render (both SSR and client)
-  const [showLoader, setShowLoader] = useState(true);
-
-  useEffect(() => {
-    // Remove loader after hydration
-    const timer = setTimeout(() => setShowLoader(false), 1200); // adjust as needed
-    return () => clearTimeout(timer);
-  }, []);
-
+  const { loading, setLoading } = useLoading();
+  const pathname = usePathname();
   const [hasMounted, setHasMounted] = useState(false);
+  const [showLoader, setShowLoader] = useState(false); // for fade animation
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  // Prevent rendering on the server
+  // Show loader when loading = true
+  useEffect(() => {
+    if (loading) {
+      setShowLoader(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShowLoader(false);
+      }, 300); // matches fade out duration
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  // Detect path change → hide loader
+  useEffect(() => {
+    if (hasMounted) {
+      setLoading(false); // ✅ stop loading after route change
+    }
+  }, [pathname]);
+
   if (!hasMounted) return null;
 
   return (
     <>
-      <PageLoader show={showLoader} />
-      <div style={{ opacity: showLoader ? 0 : 1, transition: "opacity 0.2s" }}>
+      <PageLoader show={showLoader} fadingOut={!loading} />
+      <div style={{ opacity: loading ? 0 : 1, transition: "opacity 0.2s" }}>
         <Header />
         <MainWrapper>{children}</MainWrapper>
         <Footer />

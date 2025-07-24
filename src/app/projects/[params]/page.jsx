@@ -1,5 +1,6 @@
 "use client";
 import styled from "styled-components";
+import { ImageList, ImageListItem } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 
@@ -147,6 +148,15 @@ const ProjectsPage = () => {
     setSelectedIndex(index);
     setOpenImageModal(true);
   };
+
+  function srcset(image, size, rows = 1, cols = 1) {
+    return {
+      src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+      srcSet: `${image}?w=${size * cols}&h=${
+        size * rows
+      }&fit=crop&auto=format&dpr=2 2x`,
+    };
+  }
 
   return (
     <>
@@ -305,6 +315,22 @@ const ProjectsPage = () => {
                   />
                 ))}
               </ImageWrapper>
+              {/* <ImageList
+                sx={{ width: "60%" }}
+                variant="quilted"
+                cols={2}
+                // rowHeight={121}
+              >
+                {data?.images?.map((img, idx) => (
+                  <ImageListItem key={idx} cols={1} rows={1}>
+                    <img
+                      {...srcset(img.url, 121, img.rows, img.cols)}
+                      alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList> */}
             </ImageWrapperSection>
             <ImageCarousel
               images={data?.images}
@@ -470,7 +496,7 @@ const RedSquare = styled.div`
   background: ${colors.red};
   z-index: 0;
   position: absolute;
-  right: 80px;
+  right: 15%;
   bottom: -30px;
   @media (max-width: 900px) {
     right: -20px;
@@ -494,7 +520,7 @@ const Circle = styled.div`
   width: 10rem;
   height: 10rem;
   position: absolute;
-  left: 70px;
+  left: 15%;
   top: 180px;
   @media (max-width: 900px) {
     left: -40px;

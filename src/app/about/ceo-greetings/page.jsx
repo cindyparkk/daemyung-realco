@@ -129,7 +129,7 @@ const RedSquare = styled.div`
   background: ${colors.red};
   z-index: 0;
   position: absolute;
-  right: 80px;
+  right: 10%;
   bottom: -30px;
   @media (max-width: 900px) {
     right: -20px;
@@ -153,7 +153,7 @@ const Circle = styled.div`
   width: 10rem;
   height: 10rem;
   position: absolute;
-  left: 70px;
+  left: 10%;
   top: 180px;
   @media (max-width: 900px) {
     left: -40px;

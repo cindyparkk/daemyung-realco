@@ -1,16 +1,15 @@
 import Image from "next/image";
 import React from "react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import useTransitionRouter from "../hooks/useTransitionRouter";
 
 import colors from "../constants/colors";
 import menu_KO from "../constants/routes";
 
 const SideNav = ({ isOpen, onClose, children }) => {
   const [ready, setReady] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     if (isOpen) {
@@ -22,8 +21,10 @@ const SideNav = ({ isOpen, onClose, children }) => {
     }
   }, [isOpen]);
 
-  const handleMenuClick = (path) => {
-    router.push(path);
+  const { push } = useTransitionRouter();
+
+  const handleMenuClick = async (path) => {
+    await push(path);
     onClose();
   };
 

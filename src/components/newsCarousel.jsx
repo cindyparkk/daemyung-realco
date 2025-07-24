@@ -38,7 +38,7 @@ const NewsItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid ${colors.textGrey};
+  border: 1px solid #dedede;
   min-height: 420px;
   padding-bottom: 20px;
 `;

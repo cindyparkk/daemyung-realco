@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import { useRouter } from "next/navigation";
+import useTransitionRouter from "../hooks/useTransitionRouter";
 
 import colors from "../constants/colors";
 import Image from "next/image";
@@ -41,7 +41,10 @@ const CarouselItems = [
 
 const Carousel = ({ isButton, isHoverAnimation }) => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
-  const router = useRouter();
+  const { push } = useTransitionRouter();
+  const handleRouting = async (path) => {
+    await push(path);
+  };
 
   return (
     <CarouselContainer>
@@ -72,7 +75,7 @@ const Carousel = ({ isButton, isHoverAnimation }) => {
                   {isButton && (
                     <CustomButton
                       text={"learn more"}
-                      onClick={() => router.push(item.path)}
+                      onClick={() => handleRouting(item.path)}
                     />
                   )}
                 </>

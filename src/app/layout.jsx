@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script";
 import ClientLoaderWrapper from "../components/clientLoaderWrapper";
+import { LoadingProvider } from "../context/LoadingContext";
 
 export default function RootLayout({ children }) {
   return (
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`}
             strategy="beforeInteractive"
           />
-          <ClientLoaderWrapper>{children}</ClientLoaderWrapper>
+          <LoadingProvider>
+            <ClientLoaderWrapper>{children}</ClientLoaderWrapper>
+          </LoadingProvider>
         </body>
       </html>
     </>
