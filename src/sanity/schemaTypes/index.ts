@@ -5,7 +5,8 @@ import relatedSite from "./relatedSite";
 import newsItem from "./newsItem";
 import onlineInquiry from "./onlineInquiry";
 import project from "./project";
-import projectCategory from "./category";
+// import projectCategory from "./category";
+import otherProject from "./otherProject";
 
 export const schemaTypes = [
   timelineType,
@@ -15,6 +16,7 @@ export const schemaTypes = [
   onlineInquiry,
   project,
   // projectCategory,
+  otherProject,
 ];
 
 export const schema: { types: SchemaTypeDefinition[] } = {

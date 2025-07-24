@@ -7,12 +7,7 @@ import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
 import colors from "../../../constants/colors";
 
-import {
-  RealEstateData,
-  FNBData,
-  EntertainmentData1,
-  EntertainmentData2,
-} from "../../../data/projects";
+import { client } from "../../../sanity/lib/client";
 
 const sections = ["real-estate", "fnb", "entertainment"];
 
@@ -54,31 +49,103 @@ const ProjectsPage = () => {
   // };
 
   const [data, setData] = useState([]);
+  const [realEstateData, setRealEstateData] = useState([]);
+  const [fnbData, setFnbData] = useState([]);
+  const [entertainmentData, setEntertainmentData] = useState([]);
+  const [otherData, setOtherData] = useState([]);
   const [enterPage, setEnterPage] = useState(0);
   const [dataIndex, setDataIndex] = useState(0);
+
+  const query = `*[_type == "otherProject"]{
+  _id,
+  label,
+  category,
+  logo{
+    "src": src.asset->url,
+    alt
+  },
+  intro,
+  bannerImage{
+    "src": src.asset->url,
+    alt
+  },
+  brand{
+    name,
+    desc,
+    location
+  },
+  desc,
+  images[]{
+    "url": asset->url
+  }
+}`;
+
+  const REALESTATE_QUERY = `*[_type == "project"]{
+  _id,
+  label,
+  category,
+  dateRange,
+  work,
+  location,
+  area,
+  contractedWith,
+  images[]{
+    "url": asset->url
+  }
+} | order(dateRange desc)`;
+
+  const fetchOptions = { next: { revalidate: 30 } };
+
+  useEffect(() => {
+    async function fetchData() {
+      const projectData = await client.fetch(query, {}, fetchOptions);
+      const REALESTATEData = await client.fetch(
+        REALESTATE_QUERY,
+        {},
+        fetchOptions
+      );
+      setFnbData(projectData.filter((obj) => obj.category === "fnb"));
+      setEntertainmentData(
+        projectData.filter((obj) => obj.category === "entertainment")
+      );
+      setRealEstateData(REALESTATEData);
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     switch (params) {
       case "real-estate":
-        setData(RealEstateData[dataIndex]);
+        setData(realEstateData[dataIndex]);
         break;
       case "fnb":
-        setData(FNBData);
+        setData(fnbData[dataIndex]);
         break;
       case "entertainment":
-        if (enterPage === 0) setData(EntertainmentData1);
-        else if (enterPage === 1) setData(EntertainmentData2);
+        setData(entertainmentData[dataIndex]);
         break;
       default:
-        setData(RealEstateData);
+        setData(realEstateData);
     }
-  }, [params, enterPage, dataIndex]);
+  }, [
+    params,
+    enterPage,
+    dataIndex,
+    realEstateData,
+    fnbData,
+    entertainmentData,
+  ]);
 
   const sliceSentences = (text) => {
     if (text && text !== "") {
       return text.replace(/\./g, ".\n");
     } else return text;
   };
+
+  const showPageTabs =
+    params === "real-estate" ||
+    (params === "fnb" && fnbData.length > 1) ||
+    (params === "entertainment" && entertainmentData.length > 1);
 
   return (
     <>
@@ -136,34 +203,30 @@ const ProjectsPage = () => {
         }
       />
       <PageContainer>
-        {params === "real-estate" ? (
+        {showPageTabs && (
           <div>
             <PageTab
               pageValue={dataIndex}
-              data={RealEstateData}
+              data={
+                params === "fnb"
+                  ? fnbData
+                  : params === "entertainment"
+                    ? entertainmentData
+                    : realEstateData
+              }
               isArr
-              onClick={(idx) => setDataIndex(idx)}
+              onClick={(idx) => {
+                setDataIndex(idx);
+              }}
             />
           </div>
-        ) : (
+        )}
+        {params !== "real-estate" && (
           <>
             <LogoBox>
-              {data?.logo?.length > 0 &&
-                data.logo.map((logo, idx) => (
-                  <Logo
-                    key={idx}
-                    src={logo.src}
-                    alt={logo.alt}
-                    $isActive={logo.isActive}
-                    onClick={() => {
-                      if (data?.logo?.length > 1) {
-                        setEnterPage(idx);
-                      }
-                    }}
-                  />
-                ))}
+              <Logo src={data?.logo?.src} alt={data?.logo?.alt} />
             </LogoBox>
-            <Text>{sliceSentences(data?.intro)}</Text>
+            <Text>{data?.intro}</Text>
             <BannerImageWrapper>
               <Image src={data?.bannerImage?.src} />
             </BannerImageWrapper>
@@ -171,10 +234,12 @@ const ProjectsPage = () => {
         )}
         <TextWrapper>
           <p style={{ color: colors.textGrey, fontSize: "14px" }}>
-            {data?.brand?.desc}
+            {params === "real-estate" ? data?.dateRange : data?.brand?.desc}
           </p>
           <BrandName>
-            <h4>{data?.brand?.name}</h4>
+            <h4>
+              {params === "real-estate" ? data?.label : data?.brand?.name}
+            </h4>
             <h6>{data?.brand?.location}</h6>
           </BrandName>
         </TextWrapper>
@@ -212,12 +277,14 @@ const ProjectsPage = () => {
         ) : (
           <TextWrapper>
             {data?.desc?.map((desc, idx) =>
-              data?.isUl ? (
+              params === "fnb" ? (
                 <ListedDesc key={idx}>
                   <li>{desc}</li>
                 </ListedDesc>
               ) : (
-                <Text key={idx}>{desc}</Text>
+                <Text key={idx} style={{ width: "55%" }}>
+                  {desc}
+                </Text>
               )
             )}
           </TextWrapper>
@@ -228,7 +295,11 @@ const ProjectsPage = () => {
             <RedSquare />
             <ImageWrapper>
               {data?.images?.map((img, idx) => (
-                <Image key={idx} src={img.src} alt={img.alt} />
+                <Image
+                  key={idx}
+                  src={img.url}
+                  alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
+                />
               ))}
             </ImageWrapper>
           </ImageWrapperSection>
@@ -282,17 +353,10 @@ const Logo = styled.img`
   height: 100%;
   width: auto;
   display: block;
-  opacity: ${(props) => (props.$isActive ? 1 : 0.5)};
-
-  &:hover {
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-    cursor: ${(props) => !props.$isActive && "pointer"};
-  }
 `;
 
 const Text = styled.p`
-  width: 55%;
+  /* width: 55%; */
   font-size: 14px;
   text-align: center;
   padding: 10px 0px;

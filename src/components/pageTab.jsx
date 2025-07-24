@@ -7,7 +7,7 @@ import Tab from "@mui/material/Tab";
 
 import colors from "../constants/colors";
 
-const PageTab = ({ pageValue, data, isRouter, onClick }) => {
+const PageTab = ({ pageValue, data, isRouter, onClick, isFullWidth }) => {
   const [tabValue, setTabValue] = useState(pageValue);
   const router = useRouter();
 
@@ -45,7 +45,7 @@ const PageTab = ({ pageValue, data, isRouter, onClick }) => {
         <StyledTabs
           value={tabValue}
           onChange={handleTabChange}
-          variant={isRouter ? "fullWidth" : "scrollable"}
+          variant={isRouter || isFullWidth ? "fullWidth" : "scrollable"}
           scrollButtons="auto"
           TabIndicatorProps={{
             style: { backgroundColor: colors.red, height: 2 },

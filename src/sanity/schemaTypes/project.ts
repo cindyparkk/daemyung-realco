@@ -2,13 +2,13 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "project",
-  title: "주요 실적",
+  title: "주요 실적 - 분양대행",
   type: "document",
   fields: [
     defineField({
       name: "label",
       type: "string",
-      title: "프로젝트 이름",
+      title: "사업 이름",
       validation: (rule) => rule.required(),
     }),
     defineField({
