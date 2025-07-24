@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
+import ImageCarousel from "../components/imageCarousel";
 import colors from "../../../constants/colors";
 
 import { client } from "../../../sanity/lib/client";
@@ -52,8 +53,6 @@ const ProjectsPage = () => {
   const [realEstateData, setRealEstateData] = useState([]);
   const [fnbData, setFnbData] = useState([]);
   const [entertainmentData, setEntertainmentData] = useState([]);
-  const [otherData, setOtherData] = useState([]);
-  const [enterPage, setEnterPage] = useState(0);
   const [dataIndex, setDataIndex] = useState(0);
 
   const query = `*[_type == "otherProject"]{
@@ -127,14 +126,7 @@ const ProjectsPage = () => {
       default:
         setData(realEstateData);
     }
-  }, [
-    params,
-    enterPage,
-    dataIndex,
-    realEstateData,
-    fnbData,
-    entertainmentData,
-  ]);
+  }, [params, dataIndex, realEstateData, fnbData, entertainmentData]);
 
   const sliceSentences = (text) => {
     if (text && text !== "") {
@@ -146,6 +138,15 @@ const ProjectsPage = () => {
     params === "real-estate" ||
     (params === "fnb" && fnbData.length > 1) ||
     (params === "entertainment" && entertainmentData.length > 1);
+
+  // Image Modal props
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleImageClick = (index) => {
+    setSelectedIndex(index);
+    setOpenImageModal(true);
+  };
 
   return (
     <>
@@ -290,19 +291,28 @@ const ProjectsPage = () => {
           </TextWrapper>
         )}
         {data?.images?.length > 0 && (
-          <ImageWrapperSection>
-            <Circle />
-            <RedSquare />
-            <ImageWrapper>
-              {data?.images?.map((img, idx) => (
-                <Image
-                  key={idx}
-                  src={img.url}
-                  alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
-                />
-              ))}
-            </ImageWrapper>
-          </ImageWrapperSection>
+          <>
+            <ImageWrapperSection>
+              <Circle />
+              <RedSquare />
+              <ImageWrapper>
+                {data?.images?.map((img, idx) => (
+                  <Image
+                    key={idx}
+                    src={img.url}
+                    alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
+                    onClick={() => handleImageClick(idx)}
+                  />
+                ))}
+              </ImageWrapper>
+            </ImageWrapperSection>
+            <ImageCarousel
+              images={data?.images}
+              open={openImageModal}
+              onClose={() => setOpenImageModal(false)}
+              startIndex={selectedIndex}
+            />
+          </>
         )}
       </PageContainer>
       {/* </Section>
@@ -369,6 +379,12 @@ const Image = styled.img`
   display: block;
   object-fit: cover;
   z-index: 3;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.12s;
+  }
 `;
 
 const BannerImageWrapper = styled.div`
