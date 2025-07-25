@@ -31,47 +31,49 @@ const SideNav = ({ isOpen, onClose, children }) => {
   return (
     <>
       <Backdrop $isOpen={isOpen} />
-      {/* <ClickAwayListener onClickAway={onClose}> */}
-      <SidebarWrapper $isOpen={isOpen} role="navigation">
-        <SideNavContent>
-          <div>
-            <ImageWrapper>
-              <Image
-                src="/assets/icons/plus-icon.svg"
-                alt="Close-icon"
-                width={50}
-                height={50}
-                style={{
-                  cursor: "pointer",
-                  transform: "rotate(90deg)",
-                  "&:hover": { opacity: 0.8 },
-                }}
-                onClick={onClose}
-              />
-            </ImageWrapper>
-            {menu_KO.map((item) => (
-              <div key={item.key}>
-                <MenuTitle>{item.label}</MenuTitle>
-                <MenuItems>
-                  {item.submenu.map((sub, idx) => (
-                    <div key={idx}>
-                      <p
-                        style={{ margin: "5px 0" }}
-                        onClick={() => handleMenuClick(sub.path)}
-                      >
-                        {sub.label}{" "}
-                      </p>
-                      {idx !== item.submenu.length - 1 && <span>|</span>}
-                    </div>
-                  ))}
-                </MenuItems>
+      {isOpen && (
+        <ClickAwayListener onClickAway={onClose}>
+          <SidebarWrapper $isOpen={isOpen} role="navigation">
+            <SideNavContent>
+              <div>
+                <ImageWrapper>
+                  <Image
+                    src="/assets/icons/plus-icon.svg"
+                    alt="Close-icon"
+                    width={50}
+                    height={50}
+                    style={{
+                      cursor: "pointer",
+                      transform: "rotate(90deg)",
+                      "&:hover": { opacity: 0.8 },
+                    }}
+                    onClick={onClose}
+                  />
+                </ImageWrapper>
+                {menu_KO.map((item) => (
+                  <div key={item.key}>
+                    <MenuTitle>{item.label}</MenuTitle>
+                    <MenuItems>
+                      {item.submenu.map((sub, idx) => (
+                        <div key={idx}>
+                          <p
+                            style={{ margin: "5px 0" }}
+                            onClick={() => handleMenuClick(sub.path)}
+                          >
+                            {sub.label}{" "}
+                          </p>
+                          {idx !== item.submenu.length - 1 && <span>|</span>}
+                        </div>
+                      ))}
+                    </MenuItems>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <LargeText>Daemyung</LargeText>
-        </SideNavContent>
-      </SidebarWrapper>
-      {/* </ClickAwayListener> */}
+              <LargeText>Daemyung</LargeText>
+            </SideNavContent>
+          </SidebarWrapper>
+        </ClickAwayListener>
+      )}
     </>
   );
 };
