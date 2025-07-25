@@ -1,24 +1,40 @@
 import styled from "styled-components";
+import useTransitionRouter from "../hooks/useTransitionRouter";
 
 import colors from "../constants/colors";
 import CustomButton from "./button";
 
 const NewsCarousel = ({ news }) => {
+  const recentItems = news.slice(-3);
+  const emptySlots = 3 - recentItems.length;
+
+  const { push } = useTransitionRouter();
+
+  const handleNewsClick = async (id) => {
+    await push(`/get-in-touch/news/${id}`);
+  };
   return (
     <NewsSectionContainer>
       {news.map((item, index) => (
         <NewsItem key={index}>
           <div>
-            <NewsImage src={item.image} alt={item.title} />
+            <NewsImage src={item.imageUrl} alt={item.imageAlt} />
             <NewsContent>
               <NewsTitleText>{item.title}</NewsTitleText>
-              <NewsDate>{item.date}</NewsDate>
+              <NewsDate>{item.publishedAt}</NewsDate>
             </NewsContent>
           </div>
           <div style={{ textAlign: "center" }}>
-            <CustomButton text={"read more"} />
+            <CustomButton
+              text={"read more"}
+              onClick={() => handleNewsClick(item._id)}
+            />
           </div>
         </NewsItem>
+      ))}
+      {/* Fills remaining columns to keep grid width consistent */}
+      {Array.from({ length: emptySlots }).map((_, idx) => (
+        <div key={`empty-${idx}`} style={{ visibility: "hidden" }} />
       ))}
     </NewsSectionContainer>
   );
@@ -28,9 +44,11 @@ export default NewsCarousel;
 
 const NewsSectionContainer = styled.section`
   width: 100%;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 const NewsItem = styled.div`

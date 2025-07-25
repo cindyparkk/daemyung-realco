@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import useTransitionRouter from "../../../../hooks/useTransitionRouter";
 
 import Title from "../../../../components/title";
 import CustomButton from "../../../../components/button";
@@ -41,7 +42,11 @@ const NewsArticlePage = () => {
     fetchData();
   }, []);
 
-  console.log(data);
+  const { push } = useTransitionRouter();
+
+  const handleBackClick = async () => {
+    await push(`/get-in-touch/news/`);
+  };
 
   return (
     <>
@@ -55,7 +60,7 @@ const NewsArticlePage = () => {
         }
       />
       <PageContainer>
-        <BackButton onClick={() => router.back()}>
+        <BackButton onClick={() => handleBackClick()}>
           <Image
             src={"/assets/icons/left-icon.svg"}
             alt={"Back Icon"}
@@ -95,7 +100,7 @@ const NewsArticlePage = () => {
           )}
           <CustomButton
             text={"목록으로 돌아가기"}
-            onClick={() => router.back()}
+            onClick={() => handleBackClick()}
           />
         </SourceWrapper>
       </PageContainer>

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import useTransitionRouter from "../hooks/useTransitionRouter";
 
@@ -15,20 +14,23 @@ import NewsCarousel from "../components/newsCarousel";
 import { client } from "../sanity/lib/client";
 
 const Home = () => {
-  const router = useRouter();
-  const POSTS_QUERY = `*[
-    _type == "post"
-    && defined(slug.current)
-  ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+  const [newsData, setNewsData] = useState([]);
+  const NEWS_QUERY = `*[_type == "newsItem"]{
+  _id,
+  title,
+  "imageUrl": image.asset->url,
+  "imageAlt": image.alt,
+  publishedAt,
+  source,
+  link
+} | order(publishedAt desc)`;
 
   const options = { next: { revalidate: 30 } };
 
   useEffect(() => {
     async function fetchData() {
-      // if (client) {
-      const posts = await client.fetch(POSTS_QUERY, {}, options);
-      // setData(json);
-      // }
+      const news = await client.fetch(NEWS_QUERY, {}, options);
+      setNewsData(news);
     }
     fetchData();
   }, []);
@@ -130,10 +132,12 @@ const Home = () => {
       </BusinessSection>
 
       {/* 뉴스 & 소식 Section */}
-      <NewsSection>
-        <Title text={"뉴스 & 소식"} />
-        <NewsCarousel news={news} />
-      </NewsSection>
+      {newsData?.length > 0 && (
+        <NewsSection>
+          <Title text={"뉴스 & 소식"} />
+          <NewsCarousel news={newsData} />
+        </NewsSection>
+      )}
     </>
   );
 };
