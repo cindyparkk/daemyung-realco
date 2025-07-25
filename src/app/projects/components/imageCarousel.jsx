@@ -26,8 +26,6 @@ const ImageCarousel = ({ images, open, onClose, startIndex }) => {
   const goNext = () => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
-
-  console.log(images);
   return (
     <>
       <Modal open={open} onClose={onClose} sx={modalStyle}>

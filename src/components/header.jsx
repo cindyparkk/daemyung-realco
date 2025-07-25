@@ -76,7 +76,7 @@ const Header = () => {
                   {item.label}
                 </MenuItem>
               ))}
-              <LangButton>
+              {/* <LangButton>
                 <Language selected={lang === "ko"} onClick={handleLangClick}>
                   ko
                 </Language>
@@ -84,13 +84,17 @@ const Header = () => {
                 <Language selected={lang === "en"} onClick={handleLangClick}>
                   en
                 </Language>
-              </LangButton>
+              </LangButton> */}
               <Image
                 src="/assets/icons/menu-icon.svg"
                 alt="Menu-icon"
                 width={30}
                 height={30}
-                style={{ cursor: "pointer", "&:hover": { opacity: 0.8 } }}
+                style={{
+                  cursor: "pointer",
+                  marginLeft: "15px",
+                  "&:hover": { opacity: 0.8 },
+                }}
                 onClick={() => {
                   setIsMenuOpen(true);
                 }}
