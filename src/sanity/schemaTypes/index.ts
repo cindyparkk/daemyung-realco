@@ -3,7 +3,7 @@ import { postType, timelineType } from "./postType";
 import timeline from "./timelineSchema";
 import relatedSite from "./relatedSite";
 import newsItem from "./newsItem";
-import onlineInquiry from "./onlineInquiry";
+import inquiry from "./inquiry";
 import project from "./project";
 // import projectCategory from "./category";
 import otherProject from "./otherProject";
@@ -13,7 +13,7 @@ export const schemaTypes = [
   timeline,
   relatedSite,
   newsItem,
-  onlineInquiry,
+  inquiry,
   project,
   // projectCategory,
   otherProject,

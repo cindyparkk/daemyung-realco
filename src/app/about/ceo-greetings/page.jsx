@@ -6,7 +6,6 @@ import Title from "../../../components/title";
 import colors from "../../../constants/colors";
 
 const GreetingsPage = () => {
-  console.log("Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
   return (
     <>
       <Title

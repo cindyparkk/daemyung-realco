@@ -17,13 +17,13 @@ const OnlineInquiriesPage = () => {
   const recaptchaRef = useRef();
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
-    담당자: "",
-    업체명: "",
-    연락처: "",
-    이메일: "",
-    내용: "",
-    스팸방지: "",
-    개인정보: false,
+    contactPerson: "",
+    companyName: "",
+    phone: "",
+    email: "",
+    content: "",
+    // spamCheck: "",
+    privacyAgreement: false,
   });
   const [error, setError] = useState("");
 
@@ -37,20 +37,34 @@ const OnlineInquiriesPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setError("");
-    if (!form.개인정보) {
+    if (!form.privacyAgreement) {
       setError("개인정보 수집 동의가 필요합니다.");
       return;
     }
     setSubmitting(true);
     try {
-      const token = await recaptchaRef.current.executeAsync();
-      recaptchaRef.current.reset();
+      // const token = await recaptchaRef.current.executeAsync();
+      // recaptchaRef.current.reset();
+
       // Submit form data + token to your API route here
       // Example:
       // await fetch('/api/submit-form', { method: 'POST', body: JSON.stringify({ ...form, token }) });
-      alert("폼이 제출되었습니다!");
+
+      // alert("폼이 제출되었습니다!");
+      const res = await fetch("/api/submit-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        alert("문의가 성공적으로 제출되었습니다!");
+      } else {
+        alert("오류가 발생했습니다: " + result.message);
+      }
     } catch {
       setError("reCAPTCHA 확인에 실패했습니다.");
     } finally {
@@ -99,10 +113,10 @@ const OnlineInquiriesPage = () => {
               담당자 <span>*</span>
             </Label>
             <Input
-              name="담당자"
+              name="contactPerson"
               placeholder="담당자 성명"
               required
-              value={form.담당자}
+              value={form.contactPerson}
               onChange={handleChange}
             />
 
@@ -110,10 +124,10 @@ const OnlineInquiriesPage = () => {
               업체명 <span>*</span>
             </Label>
             <Input
-              name="업체명"
+              name="companyName"
               placeholder="업체명"
               required
-              value={form.업체명}
+              value={form.companyName}
               onChange={handleChange}
             />
 
@@ -121,29 +135,29 @@ const OnlineInquiriesPage = () => {
               연락처 <span>*</span>
             </Label>
             <Input
-              name="연락처"
+              name="phone"
               placeholder="000-0000-0000"
               required
-              value={form.연락처}
+              value={form.phone}
               onChange={handleChange}
             />
 
-            <Label htmlFor="이메일">
+            <Label htmlFor="email">
               이메일 <span>*</span>
             </Label>
             <Input
               type="email"
-              name="이메일"
+              name="email"
               placeholder="sample@email.com"
               required
-              value={form.이메일}
+              value={form.email}
               onChange={handleChange}
             />
 
-            <Label htmlFor="내용">내용</Label>
+            <Label htmlFor="content">내용</Label>
             <Textarea
-              name="내용"
-              value={form.내용}
+              name="content"
+              value={form.content}
               onChange={handleChange}
               placeholder="문의할 내용을 써주세요."
             />
@@ -151,9 +165,9 @@ const OnlineInquiriesPage = () => {
             <CheckboxWrapper>
               <Checkbox
                 type="checkbox"
-                name="개인정보"
-                checked={form.개인정보}
-                // onChange={handleChange}
+                name="privacyAgreement"
+                checked={form.privacyAgreement}
+                onChange={handleChange}
                 onClick={handleConsentBoxClick}
                 readOnly
                 required
@@ -176,7 +190,11 @@ const OnlineInquiriesPage = () => {
             {/* <SubmitButton type="submit" disabled={submitting}>
               문의하기
             </SubmitButton> */}
-            <CustomButton disabled={submitting} text={"문의하기"} />
+            <CustomButton
+              disabled={submitting}
+              text={"문의하기"}
+              onClick={handleSubmit}
+            />
           </Form>
         </FormSection>
       </PageContainer>
