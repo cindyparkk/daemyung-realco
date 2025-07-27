@@ -24,7 +24,7 @@ const menu_KO = [
         path: "/about/directions",
       },
     ],
-    paddingRight: 195,
+    paddingRight: 85,
   },
   {
     label: "SERVICES",
@@ -47,7 +47,7 @@ const menu_KO = [
         path: "/services/entertainment",
       },
     ],
-    paddingRight: 220,
+    paddingRight: 110,
   },
   {
     label: "PROJECTS",
@@ -66,7 +66,7 @@ const menu_KO = [
         path: "/projects/entertainment",
       },
     ],
-    paddingRight: 190,
+    paddingRight: 90,
   },
   {
     label: "GET IN TOUCH",
