@@ -29,6 +29,12 @@ export default function ClientLoaderWrapper({ children }) {
     setHasMounted(true);
   }, []);
 
+  useEffect(() => {
+    setLoading(true); // Show loader initially
+    const timer = setTimeout(() => setLoading(false), 800); // Adjust as needed
+    return () => clearTimeout(timer);
+  }, []);
+
   // Show loader when loading = true
   useEffect(() => {
     if (loading) {
