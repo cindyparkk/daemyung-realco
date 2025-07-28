@@ -3,9 +3,10 @@ import styled from "styled-components";
 import colors from "../constants/colors";
 import { Button } from "@mui/material";
 
-const CustomButton = ({ text, onClick }) => {
+const CustomButton = (props) => {
+  const { text, onClick } = props;
   return (
-    <StyledButton variant="contained" onClick={onClick}>
+    <StyledButton variant="contained" onClick={onClick} {...props}>
       {text || "Button"}
     </StyledButton>
   );

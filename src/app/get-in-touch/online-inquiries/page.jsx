@@ -2,16 +2,17 @@
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import Image from "next/image";
 
 import Title from "../../../components/title";
 import CustomButton from "../../../components/button";
 import ProcessSteps from "./components/processSteps";
 import ConsentDialog from "./components/consentDialog";
+import ProgressLoader from "../../../components/progressLoader";
 
 import colors from "../../../constants/colors";
 
-const SITE_KEY = "YOUR_RECAPTCHA_SITE_KEY"; // Replace with your actual site key
-// TODO: https://www.google.com/recaptcha/admin/create after domain purchase
+const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 const OnlineInquiriesPage = () => {
   const recaptchaRef = useRef();
@@ -37,7 +38,7 @@ const OnlineInquiriesPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setError("");
     if (!form.privacyAgreement) {
       setError("개인정보 수집 동의가 필요합니다.");
@@ -45,8 +46,8 @@ const OnlineInquiriesPage = () => {
     }
     setSubmitting(true);
     try {
-      // const token = await recaptchaRef.current.executeAsync();
-      // recaptchaRef.current.reset();
+      const token = await recaptchaRef.current.executeAsync();
+      recaptchaRef.current.reset();
 
       // Submit form data + token to your API route here
       // Example:
@@ -56,7 +57,7 @@ const OnlineInquiriesPage = () => {
       const res = await fetch("/api/submit-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, token }),
       });
 
       const result = await res.json();
@@ -66,6 +67,7 @@ const OnlineInquiriesPage = () => {
         alert("오류가 발생했습니다: " + result.message);
       }
     } catch {
+      console.error("Submit error:", error);
       setError("reCAPTCHA 확인에 실패했습니다.");
     } finally {
       setSubmitting(false);
@@ -93,6 +95,7 @@ const OnlineInquiriesPage = () => {
 
   return (
     <>
+      <ProgressLoader open={submitting} text={"문의 접수 중"} />
       <Title
         text={"온라인 문의"}
         hr
@@ -185,7 +188,15 @@ const OnlineInquiriesPage = () => {
               sitekey={SITE_KEY}
             />
             {error && (
-              <div style={{ color: "#b2441c", marginTop: 8 }}>{error}</div>
+              <ErrorMessage>
+                <Image
+                  src={"/assets/icons/alert-icon.svg"}
+                  alt={"Alert Icon"}
+                  width={20}
+                  height={20}
+                />
+                <p>{error}</p>
+              </ErrorMessage>
             )}
             {/* <SubmitButton type="submit" disabled={submitting}>
               문의하기
@@ -194,6 +205,7 @@ const OnlineInquiriesPage = () => {
               disabled={submitting}
               text={"문의하기"}
               onClick={handleSubmit}
+              sx={{ mt: "20px" }}
             />
           </Form>
         </FormSection>
@@ -245,6 +257,7 @@ const Input = styled.input`
   margin-bottom: 18px;
   border: 1.5px solid #e6e6e6;
   background: #f9f9f9;
+  font-family: "Pretendard", sans-serif;
   /* color: ${colors.textGrey}; */
   border-radius: 5px;
   transition: border-color 0.2s;
@@ -256,14 +269,15 @@ const Input = styled.input`
 
 const Textarea = styled.textarea`
   min-height: 84px;
-  padding: 12px;
-  font-size: 16px;
+  padding: 8px 12px;
+  font-size: 14px;
   margin-bottom: 18px;
   border: 1.5px solid #e6e6e6;
   background: #f9f9f9;
   border-radius: 5px;
   transition: border-color 0.2s;
   resize: vertical;
+  font-family: "Pretendard", sans-serif;
   &:focus {
     outline: none;
     border-color: #e0703c;
@@ -283,7 +297,7 @@ const Label = styled.label`
 const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   p {
     font-size: 14px;
   }
@@ -294,4 +308,14 @@ const CheckboxWrapper = styled.div`
 
 const Checkbox = styled.input`
   margin-right: 8px;
+`;
+
+const ErrorMessage = styled.div`
+  color: ${colors.red};
+  display: flex;
+  align-items: center;
+  p {
+    margin-left: 5px;
+    font-size: 14px;
+  }
 `;
