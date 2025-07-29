@@ -9,8 +9,10 @@ import CustomAccordion from "../../../components/accordion";
 import FBValues from "../../../data/f&bValues";
 import colors from "../../../constants/colors";
 import menu_KO from "../../../constants/routes";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const ServicesFBPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
   return (
     <>
       <Title
@@ -23,7 +25,7 @@ const ServicesFBPage = () => {
           </>
         }
       />
-      <TitleDescSection>
+      <TitleDescSection $isMobile={isMobile}>
         <p>
           대명그룹은 단순한 외식업을 넘어, 외식 브랜드 운영부터 메뉴 개발,
           프랜차이즈 사업, 글로벌 진출까지
@@ -31,7 +33,7 @@ const ServicesFBPage = () => {
           F&B 산업 전반을 아우르는 종합 솔루션을 제공합니다.
         </p>
       </TitleDescSection>
-      <PageContainer>
+      <PageContainer $isMobile={isMobile}>
         <PageTab pageValue={2} data={menu_KO[1].submenu} isRouter />
         <BannerImageWrapper>
           <BannerImage src="/assets/images/f&b-banner.jpg" alt="Banner Image" />
@@ -71,6 +73,10 @@ const TitleDescSection = styled.section`
   p {
     font-weight: 300;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const PageContainer = styled.div`
@@ -80,6 +86,10 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0px 50px 50px 50px;
+  ${(props) =>
+    props.$isMobile && {
+      padding: "0px 20px 20px 20px",
+    }}
 `;
 
 const BannerImageWrapper = styled.div`

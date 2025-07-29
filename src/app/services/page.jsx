@@ -5,8 +5,11 @@ import Title from "../../components/title";
 import PageTab from "../../components/pageTab";
 import Carousel from "../../components/carousel";
 import menu_KO from "../../constants/routes";
+import useClientMediaQuery from "../../hooks/useClientMediaQuery";
 
 const ServicesPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -18,14 +21,14 @@ const ServicesPage = () => {
           </>
         }
       />
-      <TitleDescSection>
+      <TitleDescSection $isMobile={isMobile}>
         <p>
           대명그룹은 분양대행을 넘어 F&B 사업과 엔터 사업을 아우르며,
           <br />
           신뢰할 수 있는 도전과 혁신을 통해 새로운 가치를 창출하는 기업입니다.
         </p>
       </TitleDescSection>
-      <PageContainer>
+      <PageContainer $isMobile={isMobile}>
         <PageTab pageValue={0} data={menu_KO[1].submenu} isRouter />
         <Carousel />
       </PageContainer>
@@ -41,6 +44,10 @@ const TitleDescSection = styled.section`
   p {
     font-weight: 300;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const PageContainer = styled.div`
@@ -50,4 +57,9 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0px 50px 50px 50px;
+
+  ${(props) =>
+    props.$isMobile && {
+      padding: "0px 20px 20px 20px",
+    }}
 `;

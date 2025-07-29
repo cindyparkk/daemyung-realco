@@ -5,8 +5,11 @@ import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
 
 import menu_KO from "../../../constants/routes";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const ServicesEntPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -18,7 +21,7 @@ const ServicesEntPage = () => {
           </>
         }
       />
-      <TitleDescSection>
+      <TitleDescSection $isMobile={isMobile}>
         <p>
           대명그룹은 단순한 분양을 넘어, ‘운영의 관점에서 바라본 상업시설’
           이라는 시각으로
@@ -27,9 +30,9 @@ const ServicesEntPage = () => {
           솔루션을 제공합니다.
         </p>
       </TitleDescSection>
-      <PageContainer>
+      <PageContainer $isMobile={isMobile}>
         <PageTab pageValue={3} data={menu_KO[1].submenu} isRouter />
-        <FlexBox>
+        <FlexBox $isMobile={isMobile}>
           <ImageWrapper $height={"80px"}>
             <Image
               src="/assets/images/logo/friends_screen-logo.jpeg"
@@ -40,7 +43,7 @@ const ServicesEntPage = () => {
             <Image src="/assets/images/logo/cgv-logo.svg" alt="CGV Logo" />
           </ImageWrapper>
         </FlexBox>
-        <FlexBox>
+        <FlexBox $isMobile={isMobile}>
           <ImageWrapper $height={"320px"}>
             <Image
               src="/assets/images/enter-banner-1.jpg"
@@ -79,6 +82,10 @@ const TitleDescSection = styled.section`
   p {
     font-weight: 300;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const PageContainer = styled.div`
@@ -88,6 +95,10 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0px 50px 50px 50px;
+  ${(props) =>
+    props.$isMobile && {
+      padding: "0px 20px 20px 20px",
+    }}
 `;
 
 const FlexBox = styled.div`
@@ -96,6 +107,10 @@ const FlexBox = styled.div`
   justify-content: center;
   gap: 20px;
   padding: 30px 0px 20px 0px;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+    }}
 `;
 
 const ImageWrapper = styled.div`

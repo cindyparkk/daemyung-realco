@@ -6,8 +6,11 @@ import StepCard from "./components/stepCard";
 
 import menu_KO from "../../../constants/routes";
 import RealEstateSteps from "../../../data/realEstateSteps";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const ServicesRealEstatePage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -20,7 +23,7 @@ const ServicesRealEstatePage = () => {
           </>
         }
       />
-      <TitleDescSection>
+      <TitleDescSection $isMobile={isMobile}>
         <p>
           대명그룹은 다년간의 숙련된 경험과 차별화 된 마케팅 노하우, 체계적인
           운영 시스템을 제공하여
@@ -28,7 +31,7 @@ const ServicesRealEstatePage = () => {
           클라이언트가 만족할 수 있는 최적의 맞춤형 분양 솔루션을 제공합니다.
         </p>
       </TitleDescSection>
-      <PageContainer>
+      <PageContainer $isMobile={isMobile}>
         <PageTab pageValue={1} data={menu_KO[1].submenu} isRouter />
         <BannerImageWrapper>
           <BannerImage
@@ -54,6 +57,10 @@ const TitleDescSection = styled.section`
   p {
     font-weight: 300;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const PageContainer = styled.div`
@@ -63,6 +70,10 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0px 50px 50px 50px;
+  ${(props) =>
+    props.$isMobile && {
+      padding: "0px 20px 20px 20px",
+    }}
 `;
 
 const BannerImageWrapper = styled.div`

@@ -7,7 +7,9 @@ const Title = ({ text, subtitle, desc, color, hr }) => {
 
   return (
     <TitleContainer style={{ color: color || colors.black }}>
-      <SubtitleText>{subtitle || "Daemyung's"}</SubtitleText>
+      <SubtitleText $isMobile={isMobile}>
+        {subtitle || "Daemyung's"}
+      </SubtitleText>
       <TitleText>{text || "대명리얼코"}</TitleText>
       {hr && (
         <hr
@@ -48,6 +50,11 @@ const SubtitleText = styled.h3`
   span {
     color: ${colors.red};
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const DescText = styled.p`
