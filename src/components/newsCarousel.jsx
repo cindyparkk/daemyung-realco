@@ -1,5 +1,8 @@
 import styled from "styled-components";
+
+// hooks
 import useTransitionRouter from "../hooks/useTransitionRouter";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 import colors from "../constants/colors";
 import CustomButton from "./button";
@@ -13,8 +16,11 @@ const NewsCarousel = ({ news }) => {
   const handleNewsClick = async (id) => {
     await push(`/get-in-touch/news/${id}`);
   };
+
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
-    <NewsSectionContainer>
+    <NewsSectionContainer $isMobile={isMobile}>
       {news.map((item, index) => (
         <NewsItem key={index}>
           <div>
@@ -44,11 +50,13 @@ export default NewsCarousel;
 
 const NewsSectionContainer = styled.section`
   width: 100%;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+
+  ${(props) =>
+    props.$isMobile && {
+      gridTemplateColumns: "1fr",
+    }}
 `;
 
 const NewsItem = styled.div`

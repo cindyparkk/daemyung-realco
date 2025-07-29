@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import colors from "../constants/colors";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 const Title = ({ text, subtitle, desc, color, hr }) => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <TitleContainer style={{ color: color || colors.black }}>
       <SubtitleText>{subtitle || "Daemyung's"}</SubtitleText>
@@ -14,7 +17,7 @@ const Title = ({ text, subtitle, desc, color, hr }) => {
           }}
         />
       )}
-      <DescText>{desc}</DescText>
+      <DescText $isMobile={isMobile}>{desc}</DescText>
     </TitleContainer>
   );
 };
@@ -51,4 +54,8 @@ const DescText = styled.p`
   font-size: 14px;
   color: ${colors.darkGrey};
   /* margin-top: 30px; */
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;

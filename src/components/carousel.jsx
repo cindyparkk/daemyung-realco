@@ -1,9 +1,12 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
+import Image from "next/image";
+
+// hooks
 import useTransitionRouter from "../hooks/useTransitionRouter";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 import colors from "../constants/colors";
-import Image from "next/image";
 import CustomButton from "./button";
 
 const CarouselItems = [
@@ -46,8 +49,10 @@ const Carousel = ({ isButton, isHoverAnimation }) => {
     await push(path);
   };
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
-    <CarouselContainer>
+    <CarouselContainer $isMobile={isMobile}>
       {CarouselItems.map((item, idx) => {
         const isHovered = isHoverAnimation ? hoveredIdx === item.index : true;
 
@@ -96,6 +101,10 @@ const CarouselContainer = styled.div`
   scroll-snap-type: x mandatory;
   gap: 10px;
   padding: 20px;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+    }}
 `;
 
 // Overlay that appears on hover
