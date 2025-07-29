@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script";
 import ClientLoaderWrapper from "../components/clientLoaderWrapper";
+
 import { LoadingProvider } from "../context/LoadingContext";
 
 export default function RootLayout({ children }) {

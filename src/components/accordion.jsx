@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import styled from "styled-components";
 import colors from "../constants/colors";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 const CustomAccordion = ({ dataItems }) => {
   const [expanded, setExpanded] = useState(null);
@@ -15,8 +16,10 @@ const CustomAccordion = ({ dataItems }) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
-    <AccordionContainer>
+    <AccordionContainer $isMobile={isMobile}>
       {dataItems.map((item, index) => {
         const desc = item.desc.replace(/\./g, ".\n");
         return (
@@ -26,16 +29,20 @@ const CustomAccordion = ({ dataItems }) => {
             onChange={handleChange(index)}
             $isFirst={index === 0}
           >
-            <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <StyledAccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              $isMobile={isMobile}
+            >
               <div>
                 <h1>
                   <span>{item.num}</span>
+                  {item.label}
                 </h1>
-                <h1>{item.label}</h1>
+
                 <p>{item.label_ENG}</p>
               </div>
             </StyledAccordionSummary>
-            <StyledAccordionDetails>
+            <StyledAccordionDetails $isMobile={isMobile}>
               <p style={{ whiteSpace: "pre-line" }}>{desc}</p>
               <div>
                 {item.descArr &&
@@ -57,6 +64,11 @@ export default CustomAccordion;
 
 const AccordionContainer = styled.div`
   width: 80%;
+
+  ${(props) =>
+    props.$isMobile && {
+      width: "95%",
+    }}
 `;
 
 const StyledAccordion = styled(Accordion)`
@@ -86,6 +98,7 @@ const StyledAccordionSummary = styled(AccordionSummary)`
     span {
       color: ${colors.red};
       font-size: 2.5rem;
+      margin-right: 20px;
     }
   }
 
@@ -94,6 +107,21 @@ const StyledAccordionSummary = styled(AccordionSummary)`
     font-size: 16px;
     color: ${colors.textGrey};
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      div: {
+        flexDirection: "column",
+        gap: "10px",
+      },
+      h1: {
+        fontSize: "1.5rem",
+        span: {
+          fontSize: "1.75rem",
+          marginRight: "10px",
+        },
+      },
+    }}
 `;
 
 const StyledAccordionDetails = styled(AccordionDetails)`
@@ -104,4 +132,9 @@ const StyledAccordionDetails = styled(AccordionDetails)`
   div {
     padding: 20px 0px 0px 20px;
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      marginLeft: "10px",
+    }}
 `;

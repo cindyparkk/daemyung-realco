@@ -3,12 +3,16 @@ import styled from "styled-components";
 import { useState } from "react";
 
 import Title from "../../../components/title";
-import colors from "../../../constants/colors";
-import coreValues_KO from "../../../data/coreValues";
-
 import CustomAccordion from "../../../components/accordion";
 
+// hooks / constants
+import colors from "../../../constants/colors";
+import coreValues_KO from "../../../data/coreValues";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
+
 const VisionPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -20,7 +24,7 @@ const VisionPage = () => {
           </>
         }
       />
-      <TopBannerSection>
+      <TopBannerSection $isMobile={isMobile}>
         <h2>"경계를 넘어, 새로운 가치를 창조하다"</h2>
         <p>
           우리는 분양대행, F&B, 엔터테인먼트 분야에서 기존의 틀을 뛰어넘는
@@ -54,11 +58,16 @@ const TopBannerSection = styled.section`
   h2 {
     font-size: 2rem;
     color: ${colors.red};
+    line-height: 1.5;
   }
   p {
     font-weight: 300;
     font-size: 14px;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const BannerImageWrapper = styled.div`
