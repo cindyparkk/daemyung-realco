@@ -4,9 +4,16 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import useTransitionRouter from "../hooks/useTransitionRouter";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 import colors from "../constants/colors";
 import menu_KO from "../constants/routes";
+
+// mobile expandable
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const SideNav = ({ isOpen, onClose, children }) => {
   const [ready, setReady] = useState(false);
@@ -28,13 +35,25 @@ const SideNav = ({ isOpen, onClose, children }) => {
     onClose();
   };
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
+  const [expanded, setExpanded] = useState(null);
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   return (
     <>
       <Backdrop $isOpen={isOpen} />
       {isOpen && (
         <ClickAwayListener onClickAway={onClose}>
-          <SidebarWrapper $isOpen={isOpen} role="navigation">
-            <SideNavContent>
+          <SidebarWrapper
+            $isOpen={isOpen}
+            role="navigation"
+            $isMobile={isMobile}
+          >
+            <SideNavContent $isMobile={isMobile}>
               <div>
                 <ImageWrapper>
                   <Image
@@ -50,24 +69,56 @@ const SideNav = ({ isOpen, onClose, children }) => {
                     onClick={onClose}
                   />
                 </ImageWrapper>
-                {menu_KO.map((item) => (
-                  <div key={item.key}>
-                    <MenuTitle>{item.label}</MenuTitle>
-                    <MenuItems>
-                      {item.submenu.map((sub, idx) => (
-                        <div key={idx}>
-                          <p
-                            style={{ margin: "5px 0" }}
-                            onClick={() => handleMenuClick(sub.path)}
-                          >
-                            {sub.label}{" "}
-                          </p>
-                          {idx !== item.submenu.length - 1 && <span>|</span>}
-                        </div>
-                      ))}
-                    </MenuItems>
-                  </div>
-                ))}
+                {isMobile ? (
+                  <AccordionContainer>
+                    {menu_KO.map((item, index) => (
+                      <StyledAccordion
+                        key={index}
+                        expanded={expanded === index}
+                        onChange={handleChange(index)}
+                        $isFirst={index === 0}
+                      >
+                        <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <h2>{item.label}</h2>
+                        </StyledAccordionSummary>
+                        <StyledAccordionDetails>
+                          {item.submenu.map((sub, idx) => (
+                            <p
+                              style={{ margin: "5px 0" }}
+                              onClick={() => handleMenuClick(sub.path)}
+                              key={idx}
+                            >
+                              {sub.label}{" "}
+                            </p>
+                          ))}
+                        </StyledAccordionDetails>
+                      </StyledAccordion>
+                    ))}
+                  </AccordionContainer>
+                ) : (
+                  <>
+                    {menu_KO.map((item) => (
+                      <div key={item.key}>
+                        <MenuTitle $isMobile={isMobile}>{item.label}</MenuTitle>
+                        <MenuItems $isMobile={isMobile}>
+                          {item.submenu.map((sub, idx) => (
+                            <div key={idx}>
+                              <p
+                                style={{ margin: "5px 0" }}
+                                onClick={() => handleMenuClick(sub.path)}
+                              >
+                                {sub.label}{" "}
+                              </p>
+                              {idx !== item.submenu.length - 1 && (
+                                <span>|</span>
+                              )}
+                            </div>
+                          ))}
+                        </MenuItems>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
               <LargeText>Daemyung</LargeText>
             </SideNavContent>
@@ -84,7 +135,7 @@ const SidebarWrapper = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  width: 40vw;
+  width: ${(props) => (props.$isMobile ? "100vw" : "40vw")};
   min-width: 300px;
   height: 100vh;
   background-color: ${colors.black};
@@ -124,6 +175,8 @@ const ImageWrapper = styled.div`
 `;
 
 const SideNavContent = styled.div`
+  /* padding: ${(props) =>
+    props.$isMobile ? "20px 35px 0px 35px" : "20px 20px 0px 20px"}; */
   padding: 20px 20px 0px 20px;
   color: ${colors.white};
   font-size: 16px;
@@ -136,10 +189,14 @@ const SideNavContent = styled.div`
 `;
 
 const MenuTitle = styled.h2`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 1.75rem;
+  /* font-weight: bold; */
+  padding-bottom: 10px;
   color: ${colors.red};
+  /* ${(props) =>
+    props.$isMobile && {
+      borderBottom: `1px solid ${colors.charcoal}`,
+    }} */
 `;
 
 const MenuItems = styled.div`
@@ -170,4 +227,54 @@ const LargeText = styled.h1`
   font-weight: bold;
   color: ${colors.charcoal};
   text-transform: uppercase;
+`;
+
+const AccordionContainer = styled.div`
+  width: 100%;
+`;
+
+const StyledAccordion = styled(Accordion)`
+  /* border: none; */
+  box-shadow: none !important;
+  margin-bottom: 12px;
+  background: none !important;
+`;
+
+const StyledAccordionSummary = styled(AccordionSummary)`
+  border: none;
+  max-height: 50px;
+  border-bottom: 1px solid ${colors.charcoal};
+
+  div {
+    display: flex;
+    align-items: center;
+    /* gap: 20px; */
+  }
+
+  h2 {
+    color: ${colors.red};
+    font-size: 2rem;
+    /* border-bottom: 1px solid ${colors.charcoal}; */
+    span {
+      color: ${colors.red};
+      font-size: 2.5rem;
+    }
+  }
+
+  p {
+    font-weight: 300;
+    font-size: 16px;
+    color: ${colors.textGrey};
+  }
+`;
+
+const StyledAccordionDetails = styled(AccordionDetails)`
+  font-size: 18px;
+  color: ${colors.white};
+  && {
+    padding: 0px 16px;
+    p {
+      padding-bottom: 5px;
+    }
+  }
 `;

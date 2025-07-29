@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import styled from "styled-components";
 import useTransitionRouter from "../hooks/useTransitionRouter";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 import colors from "../constants/colors";
 import menu_KO from "../constants/routes";
@@ -11,7 +12,6 @@ import menu_KO from "../constants/routes";
 import SideNav from "./sideNav";
 
 const Header = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const [lang, setLang] = useState("ko");
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -50,6 +50,8 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <HeaderContainer>
@@ -64,18 +66,19 @@ const Header = () => {
               style={{ cursor: "pointer" }}
             />
             <div>
-              {menu_KO.map((item) => (
-                <MenuItem
-                  key={item.key}
-                  $active={selectedMenu === item.key}
-                  onMouseEnter={() => {
-                    setIsExpanded(true);
-                    setSelectedMenu(item.key);
-                  }}
-                >
-                  {item.label}
-                </MenuItem>
-              ))}
+              {!isMobile &&
+                menu_KO.map((item) => (
+                  <MenuItem
+                    key={item.key}
+                    $active={selectedMenu === item.key}
+                    onMouseEnter={() => {
+                      setIsExpanded(true);
+                      setSelectedMenu(item.key);
+                    }}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
               {/* <LangButton>
                 <Language selected={lang === "ko"} onClick={handleLangClick}>
                   ko
