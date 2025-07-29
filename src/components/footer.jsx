@@ -2,14 +2,17 @@
 import Image from "next/image";
 import styled from "styled-components";
 import colors from "../constants/colors";
+import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
 const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <FooterContainer>
-      <ContentContainer>
-        <div>
+      <ContentContainer $isMobile={isMobile}>
+        <div style={{ textAlign: isMobile && "center" }}>
           <FooterTitle>(주)대명리얼코</FooterTitle>
           <FooterText>
             대표자: 이문수
@@ -19,7 +22,7 @@ const Footer = () => {
             사업자등록번호: 220-88-15823
           </FooterText>
         </div>
-        <div style={{ textAlign: "right" }}>
+        <div style={{ textAlign: isMobile ? "center" : "right" }}>
           <FooterTitle>CONTACT</FooterTitle>
           <FooterText>
             Phone: 02-6672-1115
@@ -28,7 +31,7 @@ const Footer = () => {
           </FooterText>
         </div>
       </ContentContainer>
-      <LogoContainer>
+      <LogoContainer $isMobile={isMobile}>
         <hr style={{ width: "100%", border: `0.5px solid ${colors.white}` }} />
         <Image
           src="/assets/logo-light.svg"
@@ -38,9 +41,10 @@ const Footer = () => {
         />
         <hr style={{ width: "100%", border: `0.5px solid ${colors.white}` }} />
       </LogoContainer>
-      <FooterLinks>
+      <FooterLinks $isMobile={isMobile}>
         <FooterText>
-          Copyright © {year} 대명리얼코. All rights reserved. |
+          Copyright © {year} 대명리얼코. All rights reserved.{" "}
+          {!isMobile && `|`}
         </FooterText>
         <FooterLink href="#">개인정보 처리방침</FooterLink>
       </FooterLinks>
@@ -68,6 +72,12 @@ const ContentContainer = styled.div`
   justify-content: space-between;
   width: 75%;
   padding-top: 20px;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: `column`,
+      alignItems: "center",
+      gap: "35px",
+    }}
 `;
 
 const FooterTitle = styled.h1`
@@ -89,7 +99,7 @@ const LogoContainer = styled.div`
   justify-content: center;
   gap: 20px;
   width: 75%;
-  margin-top: -20px;
+  margin-top: ${(props) => (props.$isMobile ? "35px" : "-20px")};
   margin-bottom: 15px;
 `;
 
@@ -97,6 +107,10 @@ const FooterLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: `column`,
+    }}
 `;
 const FooterLink = styled.a`
   color: ${colors.white};

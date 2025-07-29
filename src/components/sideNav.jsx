@@ -53,7 +53,7 @@ const SideNav = ({ isOpen, onClose, children }) => {
             role="navigation"
             $isMobile={isMobile}
           >
-            <SideNavContent $isMobile={isMobile}>
+            <SideNavContent>
               <div>
                 <ImageWrapper>
                   <Image
@@ -175,8 +175,6 @@ const ImageWrapper = styled.div`
 `;
 
 const SideNavContent = styled.div`
-  /* padding: ${(props) =>
-    props.$isMobile ? "20px 35px 0px 35px" : "20px 20px 0px 20px"}; */
   padding: 20px 20px 0px 20px;
   color: ${colors.white};
   font-size: 16px;
@@ -190,7 +188,6 @@ const SideNavContent = styled.div`
 
 const MenuTitle = styled.h2`
   font-size: 1.75rem;
-  /* font-weight: bold; */
   padding-bottom: 10px;
   color: ${colors.red};
   /* ${(props) =>
