@@ -1,11 +1,13 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
 
 import Title from "../../../components/title";
 import colors from "../../../constants/colors";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const GreetingsPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -17,17 +19,17 @@ const GreetingsPage = () => {
           </>
         }
       />
-      <TopBannerSection>
+      <TopBannerSection $isMobile={isMobile}>
         <h2>
           <span>끊임없는 도전</span>과 <span>혁신</span>을 통해
           <br /> <span>인정</span>받는 기업으로 <span>성장</span>해
           나가겠습니다.
         </h2>
       </TopBannerSection>
-      <TextWrapperSection>
+      <TextWrapperSection $isMobile={isMobile}>
         <Circle />
         <RedSquare />
-        <TextSection>
+        <TextSection $isMobile={isMobile}>
           <p>
             2011년 설립이래 지금까지 함께해주신 임직원 여러분들의 노고와 열정,
             그리고 고객 여러분들 열렬한 성원과 관심에 진심으로 감사드립니다.
@@ -90,6 +92,13 @@ const TopBannerSection = styled.section`
       color: ${colors.red};
     }
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+      h2: {
+        fontSize: "1.5rem",
+      },
+    }}
 `;
 
 const TextWrapperSection = styled.section`
@@ -101,6 +110,11 @@ const TextWrapperSection = styled.section`
   justify-content: center;
   padding: 50px 0px;
   margin: 50px 0px 80px 0px;
+
+  ${(props) =>
+    props.$isMobile && {
+      padding: "30px 0px",
+    }}
 `;
 
 const TextSection = styled.div`
@@ -120,6 +134,12 @@ const TextSection = styled.div`
       margin-right: 10px;
     }
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      padding: "30px",
+      width: "85%",
+    }}
 `;
 
 const RedSquare = styled.div`
@@ -137,10 +157,10 @@ const RedSquare = styled.div`
     height: 60px;
   }
   @media (max-width: 600px) {
-    right: -10px;
+    right: 10px;
     bottom: -10px;
-    width: 40px;
-    height: 40px;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 
@@ -161,9 +181,9 @@ const Circle = styled.div`
     height: 90px;
   }
   @media (max-width: 600px) {
-    left: -20px;
+    left: -10px;
     top: 20px;
-    width: 60px;
-    height: 60px;
+    width: 5rem;
+    height: 5rem;
   }
 `;
