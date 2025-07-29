@@ -69,10 +69,10 @@ const RedSquare = styled.div`
     height: 60px;
   }
   @media (max-width: 600px) {
-    right: -10px;
-    bottom: -10px;
-    width: 40px;
-    height: 40px;
+    right: 20px;
+    bottom: -20px;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 
@@ -93,10 +93,10 @@ const Circle = styled.div`
     height: 90px;
   }
   @media (max-width: 600px) {
-    left: -20px;
+    left: -10px;
     top: 20px;
-    width: 60px;
-    height: 60px;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 

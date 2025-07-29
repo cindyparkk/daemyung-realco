@@ -6,13 +6,17 @@ import Title from "../../../components/title";
 import colors from "../../../constants/colors";
 import KakaoMap from "./components/kakaoMap";
 
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
+
 const DirectionsPage = () => {
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title text={"오시는 길"} hr subtitle={<>daemyung</>} />
       <PageWrapper>
         <KakaoMap address={"경기도 광명시 일직동 514"} />
-        <DirectionsWrapper>
+        <DirectionsWrapper $isMobile={isMobile}>
           <Directions>
             <DirectionsTitle>
               <h1>주소 및 연락처</h1>
@@ -30,7 +34,7 @@ const DirectionsPage = () => {
               <li>[팩스] 02-6672-1116</li>
             </ul>
           </Directions>
-          <Directions>
+          <Directions style={{ marginTop: isMobile && "20px" }}>
             <DirectionsTitle>
               <h1>대중교통 이용시</h1>
             </DirectionsTitle>
@@ -86,6 +90,11 @@ const DirectionsWrapper = styled.div`
   justify-content: space-between;
   gap: 5vw;
   padding-top: 50px;
+
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+    }}
 `;
 
 const Directions = styled.div`
