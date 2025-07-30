@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import colors from "../../../../constants/colors";
 import useTransitionRouter from "../../../../hooks/useTransitionRouter";
+import useClientMediaQuery from "../../../../hooks/useClientMediaQuery";
 
 const ITEMS_PER_PAGE = 3;
 
@@ -25,19 +26,34 @@ const NewsTable = ({ data }) => {
     await push(`/get-in-touch/news/${id}`);
   };
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <NewsWrapper>
       {currentItems.map((item) => (
-        <NewsItem key={item._id} onClick={() => handleNewsClick(item._id)}>
+        <NewsItem
+          key={item._id}
+          onClick={() => handleNewsClick(item._id)}
+          $isMobile={isMobile}
+        >
           {item.imageUrl ? (
-            <NewsImage src={item.imageUrl} alt={item.imageAlt} />
+            <NewsImage
+              src={item.imageUrl}
+              alt={item.imageAlt}
+              $isMobile={isMobile}
+            />
           ) : (
-            <NewsImageTextWrapper>
+            <NewsImageTextWrapper $isMobile={isMobile}>
               <h1>뉴스</h1>
             </NewsImageTextWrapper>
           )}
-          <NewsContent>
-            <div>
+          <NewsContent $isMobile={isMobile}>
+            <div
+              style={{
+                textAlign: isMobile && "center",
+                margin: isMobile && "10px 0px",
+              }}
+            >
               <NewsTitle>{item.title}</NewsTitle>
               <NewsMeta>{item.source}</NewsMeta>
             </div>
@@ -98,6 +114,12 @@ const NewsItem = styled.div`
     cursor: pointer;
     background-color: #f8f7f6;
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+      paddingRight: "0px",
+    }}
 `;
 
 const NewsImage = styled.img`
@@ -106,6 +128,11 @@ const NewsImage = styled.img`
   object-fit: cover;
   margin-right: 25px;
   border-right: 1px solid #eee;
+  ${(props) =>
+    props.$isMobile && {
+      marginRight: "0px",
+      width: "100%",
+    }}
 `;
 
 const NewsImageTextWrapper = styled.div`
@@ -120,6 +147,11 @@ const NewsImageTextWrapper = styled.div`
   h1 {
     color: ${colors.red};
   }
+
+  ${(props) =>
+    props.$isMobile && {
+      marginRight: "0px",
+    }}
 `;
 
 const NewsContent = styled.div`
@@ -127,6 +159,10 @@ const NewsContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+    }}
 `;
 
 const NewsTitle = styled.h2`
