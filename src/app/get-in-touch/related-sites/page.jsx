@@ -7,7 +7,8 @@ import SiteCard from "./components/siteCard";
 
 import colors from "../../../constants/colors";
 
-import { client, urlFor } from "../../../sanity/lib/client";
+import { client } from "../../../sanity/lib/client";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const RelatedSitesPage = () => {
   const [siteData, setSiteData] = useState([]);
@@ -39,6 +40,8 @@ const RelatedSitesPage = () => {
     fetchData();
   }, []);
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Title
@@ -52,7 +55,7 @@ const RelatedSitesPage = () => {
       />
       <PageContainer>
         <SiteSection>
-          <SiteCardWrapper>
+          <SiteCardWrapper $isMobile={isMobile}>
             {siteData &&
               siteData.map((data, idx) => (
                 <SiteCard
@@ -94,4 +97,10 @@ const SiteCardWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+      alignItems: "center",
+      width: "100%",
+    }}
 `;

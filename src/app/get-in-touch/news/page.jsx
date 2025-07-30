@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import Title from "../../../components/title";
 import NewsTable from "./components/newsTable";
 
-import colors from "../../../constants/colors";
-
 import { client } from "../../../sanity/lib/client";
 
 const NewsPage = () => {
