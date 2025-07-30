@@ -35,7 +35,7 @@ const ServicesFBPage = () => {
       </TitleDescSection>
       <PageContainer $isMobile={isMobile}>
         <PageTab pageValue={2} data={menu_KO[1].submenu} isRouter isFullWidth />
-        <BannerImageWrapper>
+        <BannerImageWrapper $isMobile={isMobile}>
           <BannerImage src="/assets/images/f&b-banner.jpg" alt="Banner Image" />
         </BannerImageWrapper>
         <TextWrapper>
@@ -94,9 +94,16 @@ const PageContainer = styled.div`
 
 const BannerImageWrapper = styled.div`
   width: 100%;
-  max-height: 450px;
+  min-height: 500px;
+  height: 60vh;
   overflow: hidden;
   margin-top: 50px;
+
+  ${(props) =>
+    props.$isMobile && {
+      minHeight: "200px",
+      height: "20vh",
+    }}
 `;
 
 const BannerImage = styled.img`

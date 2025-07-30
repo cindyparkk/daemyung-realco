@@ -33,7 +33,7 @@ const VisionPage = () => {
           파트너에게 새로운 경험과 가치를 제공합니다.
         </p>
       </TopBannerSection>
-      <BannerImageWrapper>
+      <BannerImageWrapper $isMobile={isMobile}>
         <BannerImage
           src="/assets/images/vision-banner.jpg"
           alt="Banner Image"
@@ -72,9 +72,16 @@ const TopBannerSection = styled.section`
 
 const BannerImageWrapper = styled.div`
   width: 100%;
-  max-height: 450px;
+  min-height: 550px;
+  height: 60vh;
   overflow: hidden;
   margin-top: 50px;
+
+  ${(props) =>
+    props.$isMobile && {
+      minHeight: "200px",
+      height: "20vh",
+    }}
 `;
 
 const BannerImage = styled.img`
