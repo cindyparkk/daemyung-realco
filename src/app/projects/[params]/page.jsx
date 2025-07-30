@@ -10,6 +10,7 @@ import ImageCarousel from "../components/imageCarousel";
 import colors from "../../../constants/colors";
 
 import { client } from "../../../sanity/lib/client";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const sections = ["real-estate", "fnb", "entertainment"];
 
@@ -158,6 +159,8 @@ const ProjectsPage = () => {
     };
   }
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       {/* <ScrollContainer ref={containerRef} onScroll={handleScroll}>
@@ -215,7 +218,12 @@ const ProjectsPage = () => {
       />
       <PageContainer>
         {showPageTabs && (
-          <div>
+          <div
+            style={{
+              width: isMobile && "100%",
+              padding: isMobile && "0px 20px 20px 20px",
+            }}
+          >
             <PageTab
               pageValue={dataIndex}
               data={
@@ -229,6 +237,7 @@ const ProjectsPage = () => {
               onClick={(idx) => {
                 setDataIndex(idx);
               }}
+              isFullWidth={params === "entertainment"}
             />
           </div>
         )}
@@ -237,51 +246,63 @@ const ProjectsPage = () => {
             <LogoBox>
               <Logo src={data?.logo?.src} alt={data?.logo?.alt} />
             </LogoBox>
-            <Text>{data?.intro}</Text>
+            <Text $isMobile={isMobile}>{data?.intro}</Text>
             <BannerImageWrapper>
               <Image src={data?.bannerImage?.src} />
             </BannerImageWrapper>
           </>
         )}
-        <TextWrapper>
+        <TextWrapper $isMobile={isMobile}>
           <p style={{ color: colors.textGrey, fontSize: "14px" }}>
             {params === "real-estate" ? data?.dateRange : data?.brand?.desc}
           </p>
           <BrandName>
-            <h4>
+            <h4
+              style={{
+                fontSize: isMobile && params === "real-estate" && "25px",
+              }}
+            >
               {params === "real-estate" ? data?.label : data?.brand?.name}
             </h4>
             <h6>{data?.brand?.location}</h6>
           </BrandName>
         </TextWrapper>
         {params === "real-estate" ? (
-          <div style={{ paddingTop: "30px" }}>
-            <RealEstateDesc>
-              <span>
-                <Image src={"/assets/icons/work-icon.svg"} />
-              </span>
-              <h5>업무</h5>
+          <div style={{ paddingTop: "30px", width: isMobile && "85%" }}>
+            <RealEstateDesc $isMobile={isMobile}>
+              <div>
+                <span>
+                  <Image src={"/assets/icons/work-icon.svg"} />
+                </span>
+                <h5>업무</h5>
+              </div>
               <p>{data?.work}</p>
             </RealEstateDesc>
-            <RealEstateDesc>
-              <span>
-                <Image src={"/assets/icons/location-icon.svg"} />
-              </span>
-              <h5>위치</h5>
+            <RealEstateDesc $isMobile={isMobile}>
+              <div>
+                <span>
+                  <Image src={"/assets/icons/location-icon.svg"} />
+                </span>
+                <h5>위치</h5>
+              </div>
               <p>{data?.location}</p>
             </RealEstateDesc>
-            <RealEstateDesc>
-              <span>
-                <Image src={"/assets/icons/area-icon.svg"} />
-              </span>
-              <h5>연면적</h5>
+            <RealEstateDesc $isMobile={isMobile}>
+              <div>
+                <span>
+                  <Image src={"/assets/icons/area-icon.svg"} />
+                </span>
+                <h5>연면적</h5>
+              </div>
               <p>{data?.area}</p>
             </RealEstateDesc>
-            <RealEstateDesc>
-              <span>
-                <Image src={"/assets/icons/contract-icon.svg"} />
-              </span>
-              <h5>계약주체</h5>
+            <RealEstateDesc $isMobile={isMobile}>
+              <div>
+                <span>
+                  <Image src={"/assets/icons/contract-icon.svg"} />
+                </span>
+                <h5>계약주체</h5>
+              </div>
               <p>{data?.contractedWith}</p>
             </RealEstateDesc>
           </div>
@@ -289,11 +310,15 @@ const ProjectsPage = () => {
           <TextWrapper>
             {data?.desc?.map((desc, idx) =>
               params === "fnb" ? (
-                <ListedDesc key={idx}>
+                <ListedDesc key={idx} $isMobile={isMobile}>
                   <li>{desc}</li>
                 </ListedDesc>
               ) : (
-                <Text key={idx} style={{ width: "55%" }}>
+                <Text
+                  key={idx}
+                  style={{ width: isMobile ? "85%" : "55%" }}
+                  $isMobile={isMobile}
+                >
                   {desc}
                 </Text>
               )
@@ -305,7 +330,7 @@ const ProjectsPage = () => {
             <ImageWrapperSection>
               <Circle />
               <RedSquare />
-              <ImageWrapper>
+              <ImageWrapper $isMobile={isMobile}>
                 {data?.images?.map((img, idx) => (
                   <Image
                     key={idx}
@@ -315,22 +340,6 @@ const ProjectsPage = () => {
                   />
                 ))}
               </ImageWrapper>
-              {/* <ImageList
-                sx={{ width: "60%" }}
-                variant="quilted"
-                cols={2}
-                // rowHeight={121}
-              >
-                {data?.images?.map((img, idx) => (
-                  <ImageListItem key={idx} cols={1} rows={1}>
-                    <img
-                      {...srcset(img.url, 121, img.rows, img.cols)}
-                      alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList> */}
             </ImageWrapperSection>
             <ImageCarousel
               images={data?.images}
@@ -398,6 +407,10 @@ const Text = styled.p`
   padding: 10px 0px;
   white-space: pre-line;
   line-height: 1.75;
+  ${(props) =>
+    props.$isMobile && {
+      width: "90%",
+    }}
 `;
 
 const Image = styled.img`
@@ -426,6 +439,10 @@ const TextWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${(props) =>
+    props.$isMobile && {
+      width: "85%",
+    }}
 `;
 
 const BrandName = styled.div`
@@ -438,6 +455,7 @@ const BrandName = styled.div`
     font-weight: bold;
     font-size: 28px;
     margin-right: 15px;
+    text-align: center;
   }
 
   h6 {
@@ -448,8 +466,12 @@ const BrandName = styled.div`
 const ListedDesc = styled.ul`
   li {
     font-size: 14px;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
+  ${(props) =>
+    props.$isMobile && {
+      width: "70%",
+    }}
 `;
 
 const RealEstateDesc = styled.div`
@@ -457,9 +479,13 @@ const RealEstateDesc = styled.div`
   align-items: center;
   margin-bottom: 10px;
 
-  span {
-    width: 25px;
-    height: auto;
+  div {
+    display: flex;
+    align-items: center;
+    span {
+      width: 25px;
+      height: auto;
+    }
   }
 
   h5 {
@@ -468,7 +494,21 @@ const RealEstateDesc = styled.div`
     font-size: 18px;
     margin-left: 5px;
     margin-right: 15px;
+    overflow: hidden;
+    white-space: nowrap;
   }
+
+  p {
+    text-align: center;
+  }
+
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+      div: {
+        margin: "10px 0px",
+      },
+    }}
 `;
 
 const ImageWrapperSection = styled.section`
@@ -488,6 +528,12 @@ const ImageWrapper = styled.div`
   gap: 16px;
   width: 60%;
   z-index: 3;
+
+  ${(props) =>
+    props.$isMobile && {
+      gridTemplateColumns: "1fr",
+      width: "85%",
+    }}
 `;
 
 const RedSquare = styled.div`
@@ -501,14 +547,14 @@ const RedSquare = styled.div`
   @media (max-width: 900px) {
     right: -20px;
     bottom: -20px;
-    width: 60px;
-    height: 60px;
+    width: 5rem;
+    height: 5rem;
   }
   @media (max-width: 600px) {
     right: -10px;
     bottom: -10px;
-    width: 40px;
-    height: 40px;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 
@@ -525,13 +571,13 @@ const Circle = styled.div`
   @media (max-width: 900px) {
     left: -40px;
     top: 40px;
-    width: 90px;
-    height: 90px;
+    width: 5rem;
+    height: 5rem;
   }
   @media (max-width: 600px) {
     left: -20px;
     top: 20px;
-    width: 60px;
-    height: 60px;
+    width: 5rem;
+    height: 5rem;
   }
 `;

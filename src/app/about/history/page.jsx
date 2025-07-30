@@ -59,36 +59,6 @@ const HistoryPage = () => {
     };
   }, []);
 
-  // const timelineData = [
-  //   {
-  //     year: "2024",
-  //     items: [
-  //       { month: "12", text: "컨벤션타워 GIDC공영역 입주" },
-  //       {
-  //         month: "08",
-  //         text: "역문DMC 에이원플라자 랩캠 GIDC스카이뷰룸(6월 분양)",
-  //       },
-  //       { month: "06", text: "트윈스퀘어타운 GIDC창업허브룸 운임" },
-  //       { month: "04", text: "더블플 GIDC와이업체 오픈" },
-  //     ],
-  //     image: "/images/2024.jpg",
-  //   },
-  //   {
-  //     year: "2023",
-  //     items: [
-  //       { month: "12", text: "컨벤션타워 GIDC공영역 입주" },
-  //       {
-  //         month: "08",
-  //         text: "역문DMC 에이원플라자 랩캠 GIDC스카이뷰룸(6월 분양)",
-  //       },
-  //       { month: "06", text: "트윈스퀘어타운 GIDC창업허브룸 운임" },
-  //       { month: "04", text: "더블플 GIDC와이업체 오픈" },
-  //     ],
-  //     image: "/images/2024.jpg",
-  //   },
-  //   // More years...
-  // ];
-
   return (
     <>
       <HistoryPageWrapper>

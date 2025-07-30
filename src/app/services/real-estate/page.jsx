@@ -32,7 +32,7 @@ const ServicesRealEstatePage = () => {
         </p>
       </TitleDescSection>
       <PageContainer $isMobile={isMobile}>
-        <PageTab pageValue={1} data={menu_KO[1].submenu} isRouter />
+        <PageTab pageValue={1} data={menu_KO[1].submenu} isRouter isFullWidth />
         <BannerImageWrapper>
           <BannerImage
             src="/assets/images/real-estate-banner.jpg"

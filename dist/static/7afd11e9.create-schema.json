@@ -1,0 +1,543 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "year",
+        "type": "number",
+        "title": "연도"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "image",
+        "type": "image",
+        "title": "이미지"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "type": "timelineSchema"
+          }
+        ],
+        "name": "fields",
+        "type": "array",
+        "title": "해당 연도 설명란"
+      }
+    ],
+    "name": "timeline",
+    "type": "document",
+    "title": "회사 연혁"
+  },
+  {
+    "fields": [
+      {
+        "name": "month",
+        "type": "string",
+        "title": "월 (예. 8월 -> 08)"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "title": "설명"
+      }
+    ],
+    "name": "timelineSchema",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "사이트 이름"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "분양대행",
+              "value": "분양대행"
+            },
+            {
+              "title": "F&B",
+              "value": "F&B"
+            },
+            {
+              "title": "엔터테인먼트",
+              "value": "엔터테인먼트"
+            }
+          ]
+        },
+        "name": "category",
+        "type": "string",
+        "title": "카테고리"
+      },
+      {
+        "fields": [
+          {
+            "name": "src",
+            "type": "image",
+            "title": "이미지 (png/svg/jpg) 업로드"
+          },
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "logo",
+        "type": "object",
+        "title": "로고"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "link",
+        "type": "url",
+        "title": "사이트 링크"
+      }
+    ],
+    "name": "relatedSite",
+    "type": "document",
+    "title": "관련 사이트"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "제목"
+      },
+      {
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "publishedAt",
+        "type": "date",
+        "title": "작성일"
+      },
+      {
+        "name": "bodyText",
+        "type": "text",
+        "title": "기사 내용"
+      },
+      {
+        "name": "author",
+        "type": "string",
+        "title": "기자"
+      },
+      {
+        "name": "source",
+        "type": "string",
+        "title": "출처 (신문사)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "link",
+        "type": "url",
+        "title": "기사 링크"
+      }
+    ],
+    "name": "newsItem",
+    "type": "document",
+    "title": "뉴스 기사"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "contactPerson",
+        "type": "string",
+        "title": "담당자"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "companyName",
+        "type": "string",
+        "title": "업체명"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "phone",
+        "type": "string",
+        "title": "연락처"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "email",
+        "type": "string",
+        "title": "이메일"
+      },
+      {
+        "name": "content",
+        "type": "text",
+        "title": "내용"
+      },
+      {
+        "name": "spamCheck",
+        "type": "boolean",
+        "title": "스팸방지"
+      },
+      {
+        "name": "privacyAgreement",
+        "type": "boolean",
+        "title": "개인정보 동의"
+      }
+    ],
+    "name": "inquiry",
+    "type": "document",
+    "title": "온라인 문의"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "label",
+        "type": "string",
+        "title": "사업 이름"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "분양대행",
+              "value": "분양대행"
+            },
+            {
+              "title": "F&B",
+              "value": "fnb"
+            },
+            {
+              "title": "엔터테인먼트",
+              "value": "entertainment"
+            }
+          ]
+        },
+        "name": "category",
+        "type": "string",
+        "title": "사업 분야"
+      },
+      {
+        "name": "dateRange",
+        "type": "string",
+        "title": "진행 기간"
+      },
+      {
+        "initialValue": "분양대행 / MD컨설팅 / 상환경인테리어",
+        "name": "work",
+        "type": "string",
+        "title": "업무"
+      },
+      {
+        "name": "location",
+        "type": "string",
+        "title": "위치"
+      },
+      {
+        "name": "area",
+        "type": "string",
+        "title": "연면적"
+      },
+      {
+        "name": "contractedWith",
+        "type": "string",
+        "title": "계약주체"
+      },
+      {
+        "of": [
+          {
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array",
+        "title": "실적 이미지"
+      }
+    ],
+    "name": "project",
+    "type": "document",
+    "title": "주요 실적 - 분양대행"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "label",
+        "type": "string",
+        "title": "사업 이름"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "F&B",
+              "value": "fnb"
+            },
+            {
+              "title": "엔터테인먼트",
+              "value": "entertainment"
+            }
+          ]
+        },
+        "name": "category",
+        "type": "string",
+        "title": "사업 분야"
+      },
+      {
+        "fields": [
+          {
+            "name": "src",
+            "type": "image",
+            "title": "이미지 (png/svg/jpg) 업로드"
+          },
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "logo",
+        "type": "object",
+        "title": "로고"
+      },
+      {
+        "name": "intro",
+        "type": "text",
+        "title": "사업 설명 (소개글)"
+      },
+      {
+        "fields": [
+          {
+            "name": "src",
+            "type": "image",
+            "title": "이미지 (png/svg/jpg) 업로드"
+          },
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "bannerImage",
+        "type": "object",
+        "title": "배너 이미지 (페이지 상단에 보여지는 상징적인 이미지)"
+      },
+      {
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": "브랜드 이름"
+          },
+          {
+            "name": "desc",
+            "type": "string",
+            "title": "설명"
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "title": "위치"
+          }
+        ],
+        "name": "brand",
+        "type": "object",
+        "title": "브랜드 소개"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "desc",
+        "type": "array",
+        "title": "브랜드 특징 / 부가설명"
+      },
+      {
+        "of": [
+          {
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array",
+        "title": "사업 관련 이미지"
+      }
+    ],
+    "name": "otherProject",
+    "type": "document",
+    "title": "주요 실적 - F&B / 엔터"
+  }
+]

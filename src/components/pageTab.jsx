@@ -41,7 +41,7 @@ const PageTab = ({ pageValue, data, isRouter, onClick, isFullWidth }) => {
 
   return (
     <>
-      <TabsContainer>
+      <TabsContainer $isFullWidth={isFullWidth}>
         <StyledTabs
           value={tabValue}
           onChange={handleTabChange}
@@ -70,10 +70,13 @@ const PageTab = ({ pageValue, data, isRouter, onClick, isFullWidth }) => {
 export default PageTab;
 
 const TabsContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${(props) =>
+    props.$isFullWidth && {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
 `;
 
 const StyledTabs = styled(Tabs)`

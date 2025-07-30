@@ -29,7 +29,7 @@ const ServicesPage = () => {
         </p>
       </TitleDescSection>
       <PageContainer $isMobile={isMobile}>
-        <PageTab pageValue={0} data={menu_KO[1].submenu} isRouter />
+        <PageTab pageValue={0} data={menu_KO[1].submenu} isRouter isFullWidth />
         <Carousel />
       </PageContainer>
     </>

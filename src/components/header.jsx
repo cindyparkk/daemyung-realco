@@ -105,7 +105,8 @@ const Header = () => {
             </div>
           </MainMenuContainer>
 
-          {isExpanded &&
+          {!isMobile &&
+            isExpanded &&
             menu_KO.map(
               (item) =>
                 selectedMenu === item.key && (
