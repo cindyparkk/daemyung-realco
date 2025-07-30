@@ -10,16 +10,22 @@ const steps = [
   "견적서 송부",
 ];
 
-const ProcessSteps = () => {
+const ProcessSteps = ({ isMobile }) => {
+  const hideConnector = (idx) => {
+    if (isMobile) {
+      return idx < steps.length - 1 && idx !== 2;
+    } else return idx < steps.length - 1;
+  };
+
   return (
-    <StepsWrapper>
+    <StepsWrapper $isMobile={isMobile}>
       {steps.map((label, idx) => (
-        <StepItem key={label}>
-          <StepCircle>
+        <StepItem key={label} $isMobile={isMobile}>
+          <StepCircle $isMobile={isMobile}>
             <h1>{idx + 1}</h1>
           </StepCircle>
-          <StepLabel>{label}</StepLabel>
-          {idx < steps.length - 1 && <StepConnector />}
+          <StepLabel $isMobile={isMobile}>{label}</StepLabel>
+          {hideConnector(idx) && <StepConnector />}
         </StepItem>
       ))}
     </StepsWrapper>
@@ -34,6 +40,17 @@ const StepsWrapper = styled.div`
   justify-content: center;
   gap: 0;
   margin: 48px 0;
+
+  ${(props) =>
+    props.$isMobile &&
+    `
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 32px 0;
+      justify-items: center;
+      align-items: start;
+    `}
 `;
 
 const StepItem = styled.div`
@@ -70,7 +87,7 @@ const StepLabel = styled.h1`
 `;
 
 const StepConnector = styled.div`
-  width: 150px;
+  min-width: 150px;
   height: 3px;
   background: ${colors.red};
   position: absolute;

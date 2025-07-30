@@ -11,6 +11,7 @@ import ConsentDialog from "./components/consentDialog";
 import ProgressLoader from "../../../components/progressLoader";
 
 import colors from "../../../constants/colors";
+import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
@@ -93,6 +94,8 @@ const OnlineInquiriesPage = () => {
     }
   };
 
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <ProgressLoader open={submitting} text={"문의 접수 중"} />
@@ -102,11 +105,18 @@ const OnlineInquiriesPage = () => {
         subtitle={<>온라인 문의 절차를 안내드립니다</>}
       />
       <PageContainer>
-        <p style={{ color: colors.textGrey, fontSize: "14px" }}>
+        <p
+          style={{
+            color: colors.textGrey,
+            fontSize: "14px",
+            width: isMobile && "85%",
+            textAlign: "center",
+          }}
+        >
           문의를 남겨 주시면 관련 내용 확인 후 빠른 시일 내에 연락 드리겠습니다.
         </p>
-        <ProcessSteps />
-        <FormSection>
+        <ProcessSteps isMobile={isMobile} />
+        <FormSection $isMobile={isMobile}>
           <Illustration
             src="/assets/images/hero-image-2.jpg"
             alt="Daemyung Building"
@@ -187,7 +197,7 @@ const OnlineInquiriesPage = () => {
               size="invisible" // for invisible reCAPTCHA
               sitekey={SITE_KEY}
             />
-            {error && (
+            {error && !form.privacyAgreement && (
               <ErrorMessage>
                 <Image
                   src={"/assets/icons/alert-icon.svg"}
@@ -237,6 +247,11 @@ const FormSection = styled.section`
   justify-content: center;
   align-items: center;
   background: #fff;
+
+  ${(props) =>
+    props.$isMobile && {
+      flexDirection: "column",
+    }}
 `;
 
 const Illustration = styled.img`
