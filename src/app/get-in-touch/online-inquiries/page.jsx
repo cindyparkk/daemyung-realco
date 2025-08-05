@@ -194,7 +194,7 @@ const OnlineInquiriesPage = () => {
             {/* reCAPTCHA widget (invisible recommended for UX) */}
             <ReCAPTCHA
               ref={recaptchaRef}
-              size="normal" // for invisible reCAPTCHA
+              size="invisble" // for invisible reCAPTCHA
               sitekey={SITE_KEY}
             />
             {error && !form.privacyAgreement && (
