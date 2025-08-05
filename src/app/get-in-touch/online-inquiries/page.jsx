@@ -67,8 +67,8 @@ const OnlineInquiriesPage = () => {
       } else {
         alert("오류가 발생했습니다: " + result.message);
       }
-    } catch {
-      console.error("Submit error:", error);
+    } catch (err) {
+      console.error("Submit error:", err);
       setError("reCAPTCHA 확인에 실패했습니다.");
     } finally {
       setSubmitting(false);
@@ -194,7 +194,7 @@ const OnlineInquiriesPage = () => {
             {/* reCAPTCHA widget (invisible recommended for UX) */}
             <ReCAPTCHA
               ref={recaptchaRef}
-              size="invisible" // for invisible reCAPTCHA
+              size="normal" // for invisible reCAPTCHA
               sitekey={SITE_KEY}
             />
             {error && !form.privacyAgreement && (
