@@ -14,7 +14,7 @@ const DirectionsPage = () => {
   return (
     <>
       <Title text={"오시는 길"} hr subtitle={<>daemyung</>} />
-      <PageWrapper>
+      <PageWrapper $isMobile={isMobile}>
         <KakaoMap address={"경기도 광명시 일직동 514"} />
         <DirectionsWrapper $isMobile={isMobile}>
           <Directions>
@@ -81,6 +81,11 @@ const PageWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  ${(props) =>
+    props.$isMobile && {
+      padding: "0px 20px 50px 20px",
+    }}
 `;
 
 const DirectionsWrapper = styled.div`
