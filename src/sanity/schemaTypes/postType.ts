@@ -49,14 +49,12 @@ export const timelineType = defineType({
       name: "image",
       type: "image",
       title: "이미지",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "fields",
       type: "array",
       of: [{ type: "timelineSchema" }],
       title: "해당 연도 설명란",
-      validation: (rule) => rule.required(),
     }),
   ],
   preview: {

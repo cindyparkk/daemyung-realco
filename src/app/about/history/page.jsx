@@ -8,6 +8,7 @@ import { client, urlFor } from "../../../sanity/lib/client";
 import Title from "../../../components/title";
 import colors from "../../../constants/colors";
 import TimelineSection from "./components/timelineSection";
+import AnimatedTimeline from "./components/timeline";
 
 const HistoryPage = () => {
   const sectionRefs = useRef([]);
@@ -75,7 +76,7 @@ const HistoryPage = () => {
             }
           />
           <Container>
-            <TimelineImageWrapper>
+            {/* <TimelineImageWrapper>
               {timelineData[activeIdx] && (
                 <Image
                   src={urlFor(timelineData[activeIdx].image.asset._ref)
@@ -89,9 +90,9 @@ const HistoryPage = () => {
                   priority
                 />
               )}
-            </TimelineImageWrapper>
+            </TimelineImageWrapper> */}
             <Sections>
-              {timelineData.map((data, idx) => (
+              {/* {timelineData.map((data, idx) => (
                 <TimelineSection
                   key={data.year}
                   year={data.year}
@@ -107,9 +108,10 @@ const HistoryPage = () => {
                   isFirst={idx === 0}
                   isLast={idx === timelineData.length - 1}
                 />
-              ))}
+              ))} */}
             </Sections>
           </Container>
+          <AnimatedTimeline data={timelineData} />
         </PageContainer>
       </HistoryPageWrapper>
     </>
@@ -129,9 +131,9 @@ const HistoryPageWrapper = styled.main`
 
 const PageContainer = styled.div`
   padding: 64px 20px 20px 20px;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
 `;
 
 const Container = styled.div`
