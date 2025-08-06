@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "inquiry",
-  title: "온라인 문의",
+  title: "온라인 문의 내역",
   type: "document",
   fields: [
     defineField({
@@ -34,11 +34,11 @@ export default defineType({
       title: "내용",
       type: "text",
     }),
-    defineField({
-      name: "spamCheck",
-      title: "스팸방지",
-      type: "boolean",
-    }),
+    // defineField({
+    //   name: "spamCheck",
+    //   title: "스팸방지",
+    //   type: "boolean",
+    // }),
     defineField({
       name: "privacyAgreement",
       title: "개인정보 동의",

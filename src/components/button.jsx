@@ -4,9 +4,15 @@ import colors from "../constants/colors";
 import { Button } from "@mui/material";
 
 const CustomButton = (props) => {
-  const { text, onClick } = props;
+  const { text, onClick, color, success } = props;
   return (
-    <StyledButton variant="contained" onClick={onClick} {...props}>
+    <StyledButton
+      variant="contained"
+      onClick={onClick}
+      {...props}
+      color={color}
+      $success={success}
+    >
       {text || "Button"}
     </StyledButton>
   );
@@ -16,10 +22,14 @@ export default CustomButton;
 
 const StyledButton = styled(Button)`
   && {
-    background-color: ${colors.red};
+    background-color: ${(props) => (props.color ? props.color : colors.red)};
     color: ${colors.white};
     &:hover {
-      background-color: ${colors.lightRed};
+      background-color: ${colors.darkRed};
+      ${(props) =>
+        props.color && {
+          backgroundColor: colors.darkGreen,
+        }}
       cursor: pointer;
     }
     padding: 8px 25px;

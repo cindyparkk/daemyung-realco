@@ -18,6 +18,7 @@ const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 const OnlineInquiriesPage = () => {
   const recaptchaRef = useRef();
   const [submitting, setSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [form, setForm] = useState({
     contactPerson: "",
     companyName: "",
@@ -32,6 +33,7 @@ const OnlineInquiriesPage = () => {
   const [consentChecked, setConsentChecked] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogCheckbox, setDialogCheckbox] = useState(false);
+  const [loaderOpen, setLoaderOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,6 +48,7 @@ const OnlineInquiriesPage = () => {
       return;
     }
     setSubmitting(true);
+    setLoaderOpen(true);
     try {
       const token = await recaptchaRef.current.executeAsync();
       recaptchaRef.current.reset();
@@ -63,8 +66,15 @@ const OnlineInquiriesPage = () => {
 
       const result = await res.json();
       if (res.ok) {
-        alert("문의가 성공적으로 제출되었습니다!");
+        setIsSubmitted(true);
+        setSubmitting(false);
+
+        // Reload the page after 2 seconds
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
       } else {
+        setSubmitting(false);
         alert("오류가 발생했습니다: " + result.message);
       }
     } catch (err) {
@@ -96,9 +106,21 @@ const OnlineInquiriesPage = () => {
 
   const isMobile = useClientMediaQuery("(max-width: 600px)");
 
+  const handleLoaderButtonClick =  () => {
+    window.location.reload();
+    setLoaderOpen(false);
+  };
+
   return (
     <>
-      <ProgressLoader open={submitting} text={"문의 접수 중"} />
+      <ProgressLoader
+        open={loaderOpen}
+        text={"문의 접수 중"}
+        submitting={submitting}
+        submitted={isSubmitted}
+        buttonOnClick={() => handleLoaderButtonClick()}
+      />
+
       <Title
         text={"온라인 문의"}
         hr
@@ -194,7 +216,7 @@ const OnlineInquiriesPage = () => {
             {/* reCAPTCHA widget (invisible recommended for UX) */}
             <ReCAPTCHA
               ref={recaptchaRef}
-              size="invisble" // for invisible reCAPTCHA
+              size="invisible" // for invisible reCAPTCHA
               sitekey={SITE_KEY}
             />
             {error && !form.privacyAgreement && (
@@ -208,9 +230,6 @@ const OnlineInquiriesPage = () => {
                 <p>{error}</p>
               </ErrorMessage>
             )}
-            {/* <SubmitButton type="submit" disabled={submitting}>
-              문의하기
-            </SubmitButton> */}
             <CustomButton
               disabled={submitting}
               text={"문의하기"}
@@ -220,6 +239,7 @@ const OnlineInquiriesPage = () => {
           </Form>
         </FormSection>
       </PageContainer>
+
       <ConsentDialog
         open={dialogOpen}
         checked={dialogCheckbox}
