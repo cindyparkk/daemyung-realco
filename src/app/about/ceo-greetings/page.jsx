@@ -21,9 +21,9 @@ const GreetingsPage = () => {
       />
       <TopBannerSection $isMobile={isMobile}>
         <h2>
-          <span>끊임없는 도전</span>과 <span>혁신</span>을 통해
+          "<span>끊임없는 도전</span>과 <span>혁신</span>을 통해
           <br /> <span>인정</span>받는 기업으로 <span>성장</span>해
-          나가겠습니다.
+          나가겠습니다."
         </h2>
       </TopBannerSection>
       <TextWrapperSection $isMobile={isMobile}>
@@ -66,10 +66,13 @@ const GreetingsPage = () => {
             <br />
             감사합니다.
           </p>
-          <h1>
-            <span>대표이사</span>
-            이문수
-          </h1>
+          <SignatureSection>
+            <SignatureLeft>
+              <span>대명리얼코</span>
+              <span>대표이사</span>
+            </SignatureLeft>
+            <SignatureRight>이문수</SignatureRight>
+          </SignatureSection>
         </TextSection>
       </TextWrapperSection>
     </>
@@ -123,8 +126,11 @@ const TextSection = styled.div`
   width: 70%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  color: ${colors.black};
+  column-count: 2;
+  column-gap: 40px;
 
-  h1 {
+  /* h1 {
     font-size: 25px;
     text-align: right;
     margin-top: 50px;
@@ -133,6 +139,11 @@ const TextSection = styled.div`
       color: ${colors.red};
       margin-right: 10px;
     }
+  } */
+
+  @media (max-width: 900px) {
+    column-count: 1; // collapse to single column
+    column-gap: 0px;
   }
 
   ${(props) =>
@@ -186,4 +197,54 @@ const Circle = styled.div`
     width: 5rem;
     height: 5rem;
   }
+`;
+
+const SignatureSection = styled.div`
+  display: flex;
+  align-items: center; /* align to bottom for baseline */
+  margin-top: 100px;
+  justify-content: flex-end;
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
+`;
+
+const SignatureLeft = styled.h1`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* ensure fills the same height as the name */
+  text-align: center;
+  gap: 2px;
+
+  span:first-child {
+    color: ${colors.textGrey}; // style to match image 2
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+  span:last-child {
+    color: ${colors.red}; // style to match image 1
+    font-size: 19px; // make sure it fills the "대명리얼코" width
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+`;
+
+const SignatureRight = styled.h1`
+  color: ${colors.black};
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  min-width: 88px; // adjust as needed for visual spacing
+  text-align: left;
+  padding-left: 15px;
+`;
+
+const QuotationMark = styled.span`
+  color: ${colors.red};
+  font-size: 32px;
+  font-family: "KIMM", sans-serif;
+  font-weight: 700;
 `;
