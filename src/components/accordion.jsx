@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,13 +9,28 @@ import styled from "styled-components";
 import colors from "../constants/colors";
 import useClientMediaQuery from "../hooks/useClientMediaQuery";
 
-const CustomAccordion = ({ dataItems }) => {
-  const [expanded, setExpanded] = useState(null);
+const CustomAccordion = ({ dataItems, allOpenDefault = false }) => {
+  const [expanded, setExpanded] = useState([]);
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  // Initialize all panels expanded if allOpenDefault is true
+  useEffect(() => {
+    if (allOpenDefault) {
+      setExpanded(dataItems.map((_, idx) => idx));
+    }
+  }, [allOpenDefault, dataItems]);
+
+  const handleChange = (panel) => (event) => {
+    setExpanded((prevExpanded) => {
+      const isExpanded = prevExpanded.includes(panel);
+      if (isExpanded) {
+        // Remove from expanded
+        return prevExpanded.filter((item) => item !== panel);
+      } else {
+        // Add to expanded
+        return [...prevExpanded, panel];
+      }
+    });
   };
-
   const isMobile = useClientMediaQuery("(max-width: 600px)");
 
   return (
@@ -25,7 +40,7 @@ const CustomAccordion = ({ dataItems }) => {
         return (
           <StyledAccordion
             key={index}
-            expanded={expanded === index}
+            expanded={expanded.includes(index)}
             onChange={handleChange(index)}
             $isFirst={index === 0}
           >
@@ -63,7 +78,7 @@ const CustomAccordion = ({ dataItems }) => {
 export default CustomAccordion;
 
 const AccordionContainer = styled.div`
-  width: 80%;
+  width: 90%;
 
   ${(props) =>
     props.$isMobile && {
@@ -94,17 +109,19 @@ const StyledAccordionSummary = styled(AccordionSummary)`
 
   h1 {
     color: ${colors.charcoal};
-    font-size: 2rem;
+    font-size: 3.75vw;
     span {
       color: ${colors.red};
-      font-size: 2.5rem;
-      margin-right: 20px;
+      /* font-size: 2.5rem; */
+      font-size: 4.5vw;
+      margin-right: 10px;
     }
   }
 
   p {
     font-weight: 300;
-    font-size: 16px;
+    /* font-size: 1.5vw; */
+    font-size: 1.75vw;
     color: ${colors.textGrey};
   }
 
@@ -121,16 +138,19 @@ const StyledAccordionSummary = styled(AccordionSummary)`
           marginRight: "10px",
         },
       },
+      p: {
+        fontSize: "12px",
+      },
     }}
 `;
 
 const StyledAccordionDetails = styled(AccordionDetails)`
   font-size: 14px;
   color: ${colors.charcoal};
-  margin-left: 80px;
+  /* margin-left: 50px; */
 
   div {
-    padding: 20px 0px 0px 20px;
+    padding: 15px 0px 0px 15px;
   }
 
   ${(props) =>

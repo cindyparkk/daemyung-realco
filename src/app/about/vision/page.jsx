@@ -33,14 +33,14 @@ const VisionPage = () => {
           파트너에게 새로운 경험과 가치를 제공합니다.
         </p>
       </TopBannerSection>
-      <BannerImageWrapper $isMobile={isMobile}>
+      {/* <BannerImageWrapper $isMobile={isMobile}>
         <BannerImage
           src="/assets/images/vision-banner.jpg"
           alt="Banner Image"
         />
-      </BannerImageWrapper>
+      </BannerImageWrapper> */}
       <AccordionSection>
-        <CustomAccordion dataItems={coreValues_KO} />
+        <CustomAccordion dataItems={coreValues_KO} allOpenDefault={true} />
       </AccordionSection>
     </>
   );
@@ -63,6 +63,7 @@ const TopBannerSection = styled.section`
   p {
     font-weight: 300;
     font-size: 14px;
+    color: ${colors.black};
   }
   ${(props) =>
     props.$isMobile && {
@@ -91,7 +92,9 @@ const BannerImage = styled.img`
 
 const AccordionSection = styled.section`
   background-color: ${colors.lightGrey};
-  padding: 80px 0px;
+  /* padding: 80px 0px; */
+  margin-top: 30px;
+  padding: 20px 0px;
   display: flex;
   align-items: center;
   justify-content: center;

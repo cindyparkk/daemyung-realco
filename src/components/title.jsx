@@ -32,7 +32,7 @@ const TitleContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 50px 0px;
+  margin: 30px 0px;
 `;
 
 const TitleText = styled.h1`
