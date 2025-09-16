@@ -43,8 +43,8 @@ const SiteGroupBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 75px;
-  min-width: 225px;
+  width: 20vw;
+  min-width: 220px;
   gap: 20px;
 `;
 

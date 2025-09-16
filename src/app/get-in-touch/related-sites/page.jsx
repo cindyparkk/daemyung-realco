@@ -88,7 +88,7 @@ const SiteSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 50px;
+  padding: 50px 10px;
 `;
 
 const SiteCardWrapper = styled.div`
@@ -97,6 +97,11 @@ const SiteCardWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
   ${(props) =>
     props.$isMobile && {
       flexDirection: "column",

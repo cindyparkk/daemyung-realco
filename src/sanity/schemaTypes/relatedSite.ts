@@ -17,6 +17,7 @@ export default defineType({
       title: "카테고리",
       options: {
         list: [
+          { title: "그룹사", value: "그룹사" },
           { title: "분양대행", value: "분양대행" },
           { title: "F&B", value: "F&B" },
           { title: "엔터테인먼트", value: "엔터테인먼트" },
