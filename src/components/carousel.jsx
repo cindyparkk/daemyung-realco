@@ -28,7 +28,7 @@ const CarouselItems = [
     index: 2,
     hoveredIcon: "/assets/icons/f&b-icon-white.svg",
     backgroundImage: "/assets/images/carousel-2.jpg",
-    path: "/services/f&b",
+    path: "/services/fnb",
   },
   {
     title: "엔터테인먼트",

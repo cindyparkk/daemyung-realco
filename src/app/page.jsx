@@ -52,6 +52,19 @@ const Home = () => {
       <HeroSection $isMobile={isMobile}>
         <h1>DAEMYUNG</h1>
         <h2>대명 그룹의 새로운 시작.</h2>
+        {/* <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/assets/images/hero-image-2.jpg"
+          preload="none"
+        >
+          <source
+            src="https://ik.imagekit.io/x6pjpxa9a/sample-video.mp4?updatedAt=1757602481167"
+            type="video/mp4"
+          />
+        </video> */}
         <HeroImageWrapper $isMobile={isMobile}>
           <Image src="/assets/images/hero-image.jpg" alt="Hero Image" />
         </HeroImageWrapper>
@@ -123,7 +136,10 @@ const Home = () => {
             "다년간의 숙련된 경험을 바탕으로 다양한 솔루션 및 시스템을 제공합니다."
           }
         />
-        <Carousel isButton isHoverAnimation={!isMobile} />
+        <Carousel
+          isButton
+          // isHoverAnimation={!isMobile}
+        />
       </BusinessSection>
 
       {/* 뉴스 & 소식 Section */}
