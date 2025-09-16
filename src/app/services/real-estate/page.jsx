@@ -39,7 +39,7 @@ const ServicesRealEstatePage = () => {
             alt="Banner Image"
           />
         </BannerImageWrapper>
-        <StepCardWrapper>
+        <StepCardWrapper $isMobile={isMobile}>
           {RealEstateSteps.map((item, idx) => (
             <StepCard key={idx} data={item} />
           ))}
@@ -95,10 +95,31 @@ const BannerImage = styled.img`
 `;
 
 const StepCardWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // Always 3 columns
+  grid-template-rows: repeat(2, 1fr); // Always 2 rows
   gap: 30px;
-  flex-wrap: wrap;
+  justify-items: center;
+  align-items: center;
   padding-top: 50px;
+
+  @media (max-width: 750px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 20px;
+  }
+
+  // Responsive override for mobile
+  ${(props) =>
+    props.$isMobile &&
+    `
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      gap: 20px;
+    `}
 `;
