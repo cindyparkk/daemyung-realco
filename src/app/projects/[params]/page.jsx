@@ -220,7 +220,7 @@ const ProjectsPage = () => {
         {showPageTabs && (
           <div
             style={{
-              width: isMobile && "100%",
+              width: isMobile ? "100%" : "50%",
               padding: isMobile && "0px 20px 20px 20px",
             }}
           >
@@ -246,28 +246,62 @@ const ProjectsPage = () => {
             <LogoBox>
               <Logo src={data?.logo?.src} alt={data?.logo?.alt} />
             </LogoBox>
-            <Text $isMobile={isMobile}>{data?.intro}</Text>
+            <Text style={{ textAlign: "center" }} $isMobile={isMobile}>
+              {data?.intro}
+            </Text>
             <BannerImageWrapper>
               <Image src={data?.bannerImage?.src} />
             </BannerImageWrapper>
           </>
         )}
-        <TextWrapper $isMobile={isMobile}>
-          <p style={{ color: colors.textGrey, fontSize: "14px" }}>
-            {params === "real-estate" ? data?.dateRange : data?.brand?.desc}
-          </p>
-          <BrandName>
-            <h4
-              style={{
-                fontSize: isMobile && params === "real-estate" && "25px",
-              }}
-            >
-              {params === "real-estate" ? data?.label : data?.brand?.name}
-            </h4>
-            <h6>{data?.brand?.location}</h6>
-          </BrandName>
-        </TextWrapper>
-        {params === "real-estate" ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: isMobile && "column",
+          }}
+        >
+          <TextWrapper $isMobile={isMobile} style={{ alignItems: "center" }}>
+            <p style={{ color: colors.textGrey, fontSize: "14px" }}>
+              {params === "real-estate" ? data?.dateRange : data?.brand?.desc}
+            </p>
+            <BrandName>
+              <h4
+                style={{
+                  fontSize: isMobile && params === "real-estate" && "25px",
+                }}
+              >
+                {params === "real-estate" ? data?.label : data?.brand?.name}
+              </h4>
+              <h6>{data?.brand?.location}</h6>
+            </BrandName>
+          </TextWrapper>
+          {params !== "real-estate" && (
+            <TextWrapper style={{ alignItems: "left", paddingLeft: "50px" }}>
+              {data?.desc?.map((desc, idx) =>
+                params === "fnb" ? (
+                  <ListedDesc key={idx} $isMobile={isMobile}>
+                    <li>{desc}</li>
+                  </ListedDesc>
+                ) : (
+                  <Text
+                    key={idx}
+                    style={{
+                      width: isMobile ? "85%" : "50vw",
+                      textAlign: "left",
+                    }}
+                    $isMobile={isMobile}
+                  >
+                    {desc}
+                  </Text>
+                )
+              )}
+            </TextWrapper>
+          )}
+        </div>
+
+        {params === "real-estate" && (
           <div style={{ paddingTop: "30px", width: isMobile && "85%" }}>
             <RealEstateDesc $isMobile={isMobile}>
               <div>
@@ -306,24 +340,6 @@ const ProjectsPage = () => {
               <p>{data?.contractedWith}</p>
             </RealEstateDesc>
           </div>
-        ) : (
-          <TextWrapper>
-            {data?.desc?.map((desc, idx) =>
-              params === "fnb" ? (
-                <ListedDesc key={idx} $isMobile={isMobile}>
-                  <li>{desc}</li>
-                </ListedDesc>
-              ) : (
-                <Text
-                  key={idx}
-                  style={{ width: isMobile ? "85%" : "55%" }}
-                  $isMobile={isMobile}
-                >
-                  {desc}
-                </Text>
-              )
-            )}
-          </TextWrapper>
         )}
         {data?.images?.length > 0 && (
           <>
@@ -403,7 +419,6 @@ const Logo = styled.img`
 const Text = styled.p`
   /* width: 55%; */
   font-size: 14px;
-  text-align: center;
   padding: 10px 0px;
   white-space: pre-line;
   line-height: 1.75;
@@ -437,7 +452,6 @@ const BannerImageWrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   ${(props) =>
     props.$isMobile && {
@@ -464,6 +478,7 @@ const BrandName = styled.div`
 `;
 
 const ListedDesc = styled.ul`
+  text-align: left;
   li {
     font-size: 14px;
     margin-bottom: 5px;
