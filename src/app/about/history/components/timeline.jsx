@@ -64,9 +64,7 @@ export default function AnimatedTimeline({ data }) {
               $isMobile={isMobile}
             >
               {!isMobile && dataItem.image?.asset && (
-                <TimelineOppositeContent
-                  sx={{ paddingTop: "30px", paddingBottom: "25vh" }}
-                >
+                <TimelineOppositeContent sx={{ paddingTop: "30px" }}>
                   <Image
                     src={urlFor(dataItem.image.asset._ref)
                       // .width(800)
@@ -150,10 +148,10 @@ const YearTitle = styled.h1`
 `;
 
 const Content = styled.div`
-  margin-left: 70px;
-  padding-top: 35px;
-  color: ${colors.white};
-  padding-bottom: 25vh;
+  margin-left: 50px;
+  padding: 20px 0px;
+  /* color: ${colors.white}; */
+  color: ${colors.black};
   div {
     display: flex;
     align-items: flex-start;
@@ -161,7 +159,8 @@ const Content = styled.div`
   }
   p {
     margin-bottom: 8px;
-    color: #fff;
+    /* color: #fff; */
+    color: ${colors.black};
     letter-spacing: 0.01em;
     font-size: 18px;
     font-weight: 300;
@@ -169,7 +168,7 @@ const Content = styled.div`
   }
   span {
     font-weight: 600;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
     font-size: 18px;
     margin-right: 10px;
     min-width: 36px;

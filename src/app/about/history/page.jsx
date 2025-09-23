@@ -67,7 +67,7 @@ const HistoryPage = () => {
           <Title
             text={"회사 연혁"}
             hr
-            color={colors.white}
+            // color={colors.white}
             subtitle={
               <>
                 대명그룹의 <span>어제</span>와 <span>오늘</span>, 그리고
@@ -121,7 +121,7 @@ const HistoryPage = () => {
 export default HistoryPage;
 
 const HistoryPageWrapper = styled.main`
-  background: ${colors.black};
+  /* background: ${colors.black}; */
   color: ${colors.white};
   min-height: 100vh;
   min-width: 100vw;
