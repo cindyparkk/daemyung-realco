@@ -56,14 +56,27 @@ const RelatedSitesPage = () => {
       <PageContainer>
         <SiteSection>
           <SiteCardWrapper $isMobile={isMobile}>
-            {siteData &&
-              siteData.map((data, idx) => (
+            {/* First row → only the last item */}
+            <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+              {siteData.length > 0 && (
+                <SiteCard
+                  key={"last"}
+                  category={siteData[siteData.length - 1].category}
+                  data={siteData[siteData.length - 1].sites}
+                />
+              )}
+            </Row>
+
+            {/* Second row → the rest in original order */}
+            <Row style={{ justifyContent: "space-between" }}>
+              {siteData.slice(0, siteData.length - 1).map((data, idx) => (
                 <SiteCard
                   key={idx}
                   category={data.category}
                   data={data.sites}
                 />
               ))}
+            </Row>
           </SiteCardWrapper>
         </SiteSection>
       </PageContainer>
@@ -94,8 +107,8 @@ const SiteSection = styled.section`
 const SiteCardWrapper = styled.div`
   width: 90%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 20px;
   @media (max-width: 900px) {
     flex-direction: column;
@@ -108,4 +121,17 @@ const SiteCardWrapper = styled.div`
       alignItems: "center",
       width: "100%",
     }}
+`;
+
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
