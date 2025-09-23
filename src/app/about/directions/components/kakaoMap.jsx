@@ -1,4 +1,4 @@
-"use client"; // if you're in the app directory
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -8,7 +8,9 @@ const MapContainer = styled.div`
 `;
 
 export default function KakaoMap({ address }) {
-  const mapRef = useRef(null);
+  const containerRef = useRef(null); // div container
+  const mapInstanceRef = useRef(null); // kakao map instance
+  const markerRef = useRef(null); // marker reference
   const [latLng, setLatLng] = useState(null);
 
   // Fetch coordinates
@@ -25,34 +27,63 @@ export default function KakaoMap({ address }) {
     fetchLatLng();
   }, [address]);
 
-  // Initialize map once latLng is set and the Kakao SDK is ready
+  // Initialize map once latLng is set and Kakao SDK is ready
   useEffect(() => {
     if (latLng && window.kakao && window.kakao.maps) {
       window.kakao.maps.load(() => {
-        const container = mapRef.current;
-        const options = {
-          center: new window.kakao.maps.LatLng(
-            Number(latLng.lat),
-            Number(latLng.lng)
-          ),
-          level: 3,
-        };
-        const map = new window.kakao.maps.Map(container, options);
-
-        // Add Marker
-        const markerPosition = new window.kakao.maps.LatLng(
+        const center = new window.kakao.maps.LatLng(
           Number(latLng.lat),
           Number(latLng.lng)
         );
-        new window.kakao.maps.Marker({
-          position: markerPosition,
-          map: map,
+
+        const options = {
+          center,
+          level: 3,
+        };
+
+        const map = new window.kakao.maps.Map(containerRef.current, options);
+        mapInstanceRef.current = map;
+
+        // Add Marker
+        const marker = new window.kakao.maps.Marker({
+          position: center,
+          map,
         });
+        markerRef.current = marker;
       });
     }
   }, [latLng]);
 
+  // Resize handling (zoom + re-center)
+  useEffect(() => {
+    const handleResize = () => {
+      if (!mapInstanceRef.current || !latLng) return;
+
+      const map = mapInstanceRef.current;
+      const center = new window.kakao.maps.LatLng(latLng.lat, latLng.lng);
+
+      // Zoom based on screen width
+      if (window.innerWidth < 600) {
+        map.setLevel(5); // further in
+      } else if (window.innerWidth < 900) {
+        map.setLevel(4);
+      } else {
+        map.setLevel(3); // default desktop zoom
+      }
+
+      // Keep marker in center
+      map.setCenter(center);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [latLng]);
+
   return (
-    <div ref={mapRef} style={{ width: "100%", height: "350px" }} id="map" />
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "350px" }}
+      id="map"
+    />
   );
 }
