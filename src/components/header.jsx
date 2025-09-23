@@ -75,6 +75,9 @@ const Header = () => {
                       setIsExpanded(true);
                       setSelectedMenu(item.key);
                     }}
+                    onClick={() => {
+                      handleMenuClick(item.submenu[0].path);
+                    }}
                   >
                     {item.label}
                   </MenuItem>
