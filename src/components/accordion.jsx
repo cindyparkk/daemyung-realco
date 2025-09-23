@@ -58,7 +58,14 @@ const CustomAccordion = ({ dataItems, allOpenDefault = false }) => {
               </div>
             </StyledAccordionSummary>
             <StyledAccordionDetails $isMobile={isMobile}>
-              <p style={{ whiteSpace: "pre-line" }}>{desc}</p>
+              <p
+                style={{
+                  whiteSpace: "pre-line",
+                  fontSize: isMobile ? "12px" : "16px",
+                }}
+              >
+                {desc}
+              </p>
               <div>
                 {item.descArr &&
                   item.descArr.map((d, idx) => (
@@ -109,11 +116,11 @@ const StyledAccordionSummary = styled(AccordionSummary)`
 
   h1 {
     color: ${colors.charcoal};
-    font-size: 3.75vw;
+    font-size: 3vw;
     span {
       color: ${colors.red};
       /* font-size: 2.5rem; */
-      font-size: 4.5vw;
+      font-size: 3.5vw;
       margin-right: 10px;
     }
   }
@@ -121,7 +128,7 @@ const StyledAccordionSummary = styled(AccordionSummary)`
   p {
     font-weight: 300;
     /* font-size: 1.5vw; */
-    font-size: 1.75vw;
+    font-size: 1.25vw;
     color: ${colors.textGrey};
   }
 
