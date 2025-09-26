@@ -45,30 +45,30 @@ const Home = () => {
   };
 
   const isMobile = useClientMediaQuery("(max-width: 600px)");
-
+  const isTablet = useClientMediaQuery("(max-width: 850px)");
   return (
     <>
       {/* Hero Section */}
-      <HeroSection $isMobile={isMobile}>
+      <HeroSection $isTablet={isTablet}>
         <h1>DAEMYUNG</h1>
         <h2>대명 그룹의 새로운 시작.</h2>
-        {/* <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/assets/images/hero-image-2.jpg"
-          preload="none"
-        >
-          <source
-            src="https://ik.imagekit.io/x6pjpxa9a/sample-video.mp4?updatedAt=1757602481167"
-            type="video/mp4"
-          />
-        </video> */}
-        <HeroImageWrapper $isMobile={isMobile}>
-          <Image src="/assets/images/hero-image.jpg" alt="Hero Image" />
+        <HeroImageWrapper $isTablet={isTablet}>
+          {/* <Image src="/assets/images/hero-image.jpg" alt="Hero Image" /> */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/assets/images/hero-image-2.jpg"
+            preload="none"
+          >
+            <source
+              src="https://ik.imagekit.io/x6pjpxa9a/%E1%84%83%E1%85%A2%E1%84%86%E1%85%A7%E1%86%BC%E1%84%92%E1%85%A9%E1%86%B7%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC.mp4?updatedAt=1758863497752"
+              type="video/mp4"
+            />
+          </video>
         </HeroImageWrapper>
-        {!isMobile && (
+        {!isTablet && (
           <>
             <RedSquare />
             <Circle />
@@ -77,13 +77,13 @@ const Home = () => {
       </HeroSection>
 
       {/* Vision & Values Section */}
-      <VisionSection $isMobile={isMobile}>
-        <VisionContent $isMobile={isMobile}>
+      <VisionSection $isTablet={isTablet}>
+        <VisionContent $isTablet={isTablet}>
           <VisionTitle>
             <h3>DAEMYUNG'S</h3>
             <h1>비전 및 핵심 가치</h1>
           </VisionTitle>
-          <ValueList $isMobile={isMobile}>
+          <ValueList $isTablet={isTablet}>
             <ValueItem>
               <ValueIcon
                 src={"/assets/icons/trust-icon.svg"}
@@ -159,8 +159,8 @@ const HeroSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 48px;
-  width: 80%;
+  padding: 48px 0px 48px 0px;
+  width: 90%;
   h1 {
     font-size: 4rem;
     color: ${colors.red};
@@ -173,7 +173,7 @@ const HeroSection = styled.section`
     margin-bottom: 32px;
   }
   ${(props) =>
-    props.$isMobile && {
+    props.$isTablet && {
       padding: "45px 0px",
       width: "100%",
       alignItems: "center",
@@ -185,15 +185,28 @@ const HeroSection = styled.section`
 
 const HeroImageWrapper = styled.div`
   width: 100%;
-  max-width: 80vw;
+  max-width: 95vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
-  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); */
   overflow: hidden;
+
+  & > video {
+    width: 100%;
+    max-width: 95vw;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
   ${(props) =>
-    props.$isMobile && {
+    props.$isTablet && {
       maxWidth: "100vw",
+      "& > video": {
+        width: "100vw",
+        minWidth: "100vw",
+        maxWidth: "100vw",
+      },
     }}
 `;
 
@@ -205,7 +218,7 @@ const Image = styled.img`
 const RedSquare = styled.div`
   position: absolute;
   top: 150px;
-  right: 120px;
+  right: 30px;
   width: 10rem;
   height: 10rem;
   background: ${colors.red};
@@ -215,7 +228,7 @@ const RedSquare = styled.div`
 const Circle = styled.div`
   position: absolute;
   top: 400px;
-  left: 90px;
+  left: 30px;
   width: 10rem;
   height: 10rem;
   border: 1px solid ${colors.black};
@@ -236,7 +249,7 @@ const VisionSection = styled.section`
   width: 100%;
   /* z-index: 1; */
   ${(props) =>
-    props.$isMobile && {
+    props.$isTablet && {
       flexDirection: "column",
       padding: "100px 20px 20px",
       alignItems: "center",
@@ -250,7 +263,7 @@ const VisionContent = styled.div`
   flex-direction: column;
   align-items: center;
   ${(props) =>
-    props.$isMobile && {
+    props.$isTablet && {
       margin: "0px",
       maxWidth: "95%",
     }}
@@ -270,7 +283,7 @@ const VisionTitle = styled.div`
 
 const ValueList = styled.div`
   padding: 0;
-  margin: ${(props) => (props.$isMobile ? "0px" : "0 0 30px 0")};
+  margin: ${(props) => (props.$isTablet ? "0px" : "0 0 30px 0")};
 `;
 
 const ValueItem = styled.div`

@@ -50,9 +50,10 @@ const Carousel = ({ isButton, isHoverAnimation }) => {
   };
 
   const isMobile = useClientMediaQuery("(max-width: 600px)");
+  const isTablet = useClientMediaQuery("(max-width: 850px)");
 
   return (
-    <CarouselContainer $isMobile={isMobile}>
+    <CarouselContainer $isTablet={isTablet}>
       {CarouselItems.map((item, idx) => {
         const isHovered = isHoverAnimation ? hoveredIdx === item.index : true;
 
@@ -102,7 +103,7 @@ const CarouselContainer = styled.div`
   gap: 10px;
   padding: 20px;
   ${(props) =>
-    props.$isMobile && {
+    props.$isTablet && {
       flexDirection: "column",
     }}
 `;
