@@ -7,6 +7,7 @@ import inquiry from "./inquiry";
 import project from "./project";
 // import projectCategory from "./category";
 import otherProject from "./otherProject";
+import realEstateCategory from "./real-estate-category";
 
 export const schemaTypes = [
   timelineType,
@@ -14,6 +15,7 @@ export const schemaTypes = [
   relatedSite,
   newsItem,
   inquiry,
+  realEstateCategory,
   project,
   // projectCategory,
   otherProject,

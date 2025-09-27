@@ -13,15 +13,10 @@ export default defineType({
     }),
     defineField({
       name: "category",
-      type: "string",
-      title: "사업 분야",
-      options: {
-        list: [
-          { title: "분양대행", value: "분양대행" },
-          { title: "F&B", value: "fnb" },
-          { title: "엔터테인먼트", value: "entertainment" },
-        ],
-      },
+      title: "사업 분야", // Project Category
+      type: "reference",
+      to: [{ type: "real-estate-category" }],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "dateRange",
