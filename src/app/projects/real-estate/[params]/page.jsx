@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Title from "../../../../components/title";
 import PageTab from "../../../../components/pageTab";
 import ImageCarousel from "../../components/imageCarousel";
+import ImageCarouselInline from "../../components/inlineImageCarousel";
 import colors from "../../../../constants/colors";
 
 import { client } from "../../../../sanity/lib/client";
@@ -36,6 +37,7 @@ const RealEstatePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const isMobile = useClientMediaQuery("(max-width: 600px)");
+  const isTablet = useClientMediaQuery("(max-width: 850px)");
 
   // Extract tab index from pathname (last segment)
   const pathSegments = pathname.split("/");
@@ -201,19 +203,19 @@ const RealEstatePage = () => {
             {currentProject.images?.length > 0 && (
               <>
                 <ImageWrapperSection>
-                  <Circle />
-                  <RedSquare />
-                  <ImageWrapper $isMobile={isMobile}>
-                    {currentProject.images.map((img, idx) => (
-                      <Image
-                        key={idx}
-                        src={img.url}
-                        alt={`분양대행 이미지 ${idx + 1}`}
-                        onClick={() => handleImageClick(idx)}
-                      />
-                    ))}
-                  </ImageWrapper>
+                  {!isTablet && (
+                    <>
+                      <Circle />
+                      <RedSquare />
+                    </>
+                  )}
+                  <ImageCarouselInline
+                    images={currentProject.images}
+                    onImageClick={(idx) => handleImageClick(idx)}
+                  />
                 </ImageWrapperSection>
+
+                {/* Full-size modal carousel */}
                 <ImageCarousel
                   images={currentProject.images}
                   open={openImageModal}
@@ -302,7 +304,7 @@ const ImageWrapperSection = styled.section`
   align-items: center;
   justify-content: center;
   padding: 50px 0px;
-  margin: 50px 0px 80px 0px;
+  margin: 50px 0px 0px 0px;
 `;
 
 const ImageWrapper = styled.div`
@@ -325,7 +327,7 @@ const RedSquare = styled.div`
   background: ${colors.red};
   z-index: 0;
   position: absolute;
-  right: 15%;
+  right: 30px;
   bottom: -30px;
   @media (max-width: 900px) {
     right: -20px;
@@ -349,8 +351,8 @@ const Circle = styled.div`
   width: 10rem;
   height: 10rem;
   position: absolute;
-  left: 15%;
-  top: 180px;
+  left: 10px;
+  top: 20px;
   @media (max-width: 900px) {
     left: -40px;
     top: 40px;

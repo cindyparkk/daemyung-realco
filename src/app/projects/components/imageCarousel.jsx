@@ -11,6 +11,7 @@ const modalStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.8)",
 };
 
 const ImageCarousel = ({ images, open, onClose, startIndex }) => {
@@ -47,7 +48,11 @@ const ImageCarousel = ({ images, open, onClose, startIndex }) => {
           />
           <IconButton
             onClick={goNext}
-            sx={{ position: "absolute", right: 0, top: "50%" }}
+            sx={{
+              position: "absolute",
+              right: 0,
+              top: "50%",
+            }}
           >
             <KeyboardArrowRightIcon
               sx={{ color: colors.white, fontSize: isMobile ? "2rem" : "3rem" }}
