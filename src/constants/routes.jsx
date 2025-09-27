@@ -55,7 +55,7 @@ const menu_KO = [
     submenu: [
       {
         label: "분양대행",
-        path: "/projects/real-estate",
+        path: "/projects/real-estate/0",
       },
       {
         label: "F&B",

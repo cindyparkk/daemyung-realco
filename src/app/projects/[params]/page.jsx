@@ -1,8 +1,7 @@
 "use client";
 import styled from "styled-components";
-import { ImageList, ImageListItem } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
@@ -12,52 +11,7 @@ import colors from "../../../constants/colors";
 import { client } from "../../../sanity/lib/client";
 import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
-const sections = ["real-estate", "fnb", "entertainment"];
-
-const ProjectsPage = () => {
-  const containerRef = useRef(null);
-  const sectionRefs = useRef([]);
-  const router = useRouter();
-  const { params } = useParams(); // This gets the dynamic [params]
-  // const [currentIndex, setCurrentIndex] = useState(() => {
-  //   const index = sections.indexOf(params);
-  //   return index !== -1 ? index : 0;
-  // });
-
-  // // On load: scroll to the section based on the URL param
-  // useEffect(() => {
-  //   const index = sections.indexOf(params);
-  //   if (index !== -1 && sectionRefs.current[index]) {
-  //     sectionRefs.current[index].scrollIntoView({ behavior: "auto" });
-  //     setCurrentIndex(index);
-  //   }
-  // }, [params]);
-
-  // // Throttle scroll handling with a timer to avoid spamming
-  // const scrollTimeout = useRef(null);
-
-  // const handleScroll = () => {
-  //   if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-
-  //   scrollTimeout.current = setTimeout(() => {
-  //     const scrollTop = containerRef.current.scrollTop;
-  //     const height = window.innerHeight;
-  //     const index = Math.round(scrollTop / height);
-
-  //     if (index !== currentIndex) {
-  //       setCurrentIndex(index);
-  //       router.replace(`/projects/${sections[index]}`);
-  //     }
-  //   }, 100); // Wait 100ms after scroll ends
-  // };
-
-  const [data, setData] = useState([]);
-  const [realEstateData, setRealEstateData] = useState([]);
-  const [fnbData, setFnbData] = useState([]);
-  const [entertainmentData, setEntertainmentData] = useState([]);
-  const [dataIndex, setDataIndex] = useState(0);
-
-  const query = `*[_type == "otherProject"]{
+const query = `*[_type == "otherProject"]{
   _id,
   label,
   category,
@@ -81,67 +35,39 @@ const ProjectsPage = () => {
   }
 }`;
 
-  const REALESTATE_QUERY = `*[_type == "project"]{
-  _id,
-  label,
-  category,
-  dateRange,
-  work,
-  location,
-  area,
-  contractedWith,
-  images[]{
-    "url": asset->url
-  }
-} | order(dateRange desc)`;
+const fetchOptions = { next: { revalidate: 30 } };
 
-  const fetchOptions = { next: { revalidate: 30 } };
+const ProjectsPage = () => {
+  const { params } = useParams(); // dynamic [params]
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+
+  const [fnbData, setFnbData] = useState([]);
+  const [entertainmentData, setEntertainmentData] = useState([]);
+  const [dataIndex, setDataIndex] = useState(0);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const projectData = await client.fetch(query, {}, fetchOptions);
-      const REALESTATEData = await client.fetch(
-        REALESTATE_QUERY,
-        {},
-        fetchOptions
-      );
       setFnbData(projectData.filter((obj) => obj.category === "fnb"));
       setEntertainmentData(
         projectData.filter((obj) => obj.category === "entertainment")
       );
-      setRealEstateData(REALESTATEData);
     }
     fetchData();
   }, []);
 
   useEffect(() => {
-    switch (params) {
-      case "real-estate":
-        setData(realEstateData[dataIndex]);
-        break;
-      case "fnb":
-        setData(fnbData[dataIndex]);
-        break;
-      case "entertainment":
-        setData(entertainmentData[dataIndex]);
-        break;
-      default:
-        setData(realEstateData);
-    }
-  }, [params, dataIndex, realEstateData, fnbData, entertainmentData]);
-
-  const sliceSentences = (text) => {
-    if (text && text !== "") {
-      return text.replace(/\./g, ".\n");
-    } else return text;
-  };
+    if (!params || (params !== "fnb" && params !== "entertainment")) return;
+    if (params === "fnb") setData(fnbData[dataIndex]);
+    else if (params === "entertainment") setData(entertainmentData[dataIndex]);
+  }, [params, dataIndex, fnbData, entertainmentData]);
 
   const showPageTabs =
-    params === "real-estate" ||
     (params === "fnb" && fnbData.length > 1) ||
     (params === "entertainment" && entertainmentData.length > 1);
 
-  // Image Modal props
+  // Image modal state
   const [openImageModal, setOpenImageModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -150,68 +76,19 @@ const ProjectsPage = () => {
     setOpenImageModal(true);
   };
 
-  function srcset(image, size, rows = 1, cols = 1) {
-    return {
-      src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-      srcSet: `${image}?w=${size * cols}&h=${
-        size * rows
-      }&fit=crop&auto=format&dpr=2 2x`,
-    };
-  }
-
-  const isMobile = useClientMediaQuery("(max-width: 600px)");
-
   return (
     <>
-      {/* <ScrollContainer ref={containerRef} onScroll={handleScroll}>
-        {sections.map((section, i) => (
-          <Section key={section} ref={(el) => (sectionRefs.current[i] = el)}> */}
-      {/* <Title
-        text={
-          section === "entertainment"
-            ? "엔터테인먼트"
-            : section === "fnb"
-              ? "F&B"
-              : "분양대행"
-        }
-        hr
-        subtitle={
-          section === "entertainment" ? (
-            <>
-              대명그룹이 책임지고 담당한 <span>엔터</span> 사업
-            </>
-          ) : section === "fnb" ? (
-            <>
-              대명그룹이 책임지고 담당한 <span>F&B</span> 사업
-            </>
-          ) : (
-            <>
-              대명그룹이 책임지고 담당한 <span>분양대행</span>
-            </>
-          )
-        }
-      /> */}
       <Title
-        text={
-          params === "entertainment"
-            ? "엔터테인먼트"
-            : params === "fnb"
-              ? "F&B"
-              : "분양대행"
-        }
-        hr={params !== "real-estate" && true}
+        text={params === "entertainment" ? "엔터테인먼트" : "F&B"}
+        hr={true}
         subtitle={
           params === "entertainment" ? (
             <>
               대명그룹이 책임지고 담당한 <span>엔터</span> 사업
             </>
-          ) : params === "fnb" ? (
-            <>
-              대명그룹이 책임지고 담당한 <span>F&B</span> 사업
-            </>
           ) : (
             <>
-              대명그룹이 책임지고 담당한 <span>분양대행</span>
+              대명그룹이 책임지고 담당한 <span>F&B</span> 사업
             </>
           )
         }
@@ -221,154 +98,101 @@ const ProjectsPage = () => {
           <div
             style={{
               width: isMobile ? "100%" : "50%",
-              padding: isMobile && "0px 20px 20px 20px",
+              padding: isMobile ? "0px 20px 20px 20px" : undefined,
             }}
           >
             <PageTab
               pageValue={dataIndex}
-              data={
-                params === "fnb"
-                  ? fnbData
-                  : params === "entertainment"
-                    ? entertainmentData
-                    : realEstateData
-              }
+              data={params === "fnb" ? fnbData : entertainmentData}
               isArr
-              onClick={(idx) => {
-                setDataIndex(idx);
-              }}
+              onClick={(idx) => setDataIndex(idx)}
               isFullWidth={params === "entertainment"}
             />
           </div>
         )}
-        {params !== "real-estate" && (
+
+        {data && (
           <>
             <LogoBox>
-              <Logo src={data?.logo?.src} alt={data?.logo?.alt} />
+              <Logo src={data.logo?.src} alt={data.logo?.alt} />
             </LogoBox>
             <Text style={{ textAlign: "center" }} $isMobile={isMobile}>
-              {data?.intro}
+              {data.intro}
             </Text>
             <BannerImageWrapper>
-              <Image src={data?.bannerImage?.src} />
+              <Image src={data.bannerImage?.src} />
             </BannerImageWrapper>
-          </>
-        )}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: isMobile && "column",
-          }}
-        >
-          <TextWrapper $isMobile={isMobile} style={{ alignItems: "center" }}>
-            <p style={{ color: colors.textGrey, fontSize: "14px" }}>
-              {params === "real-estate" ? data?.dateRange : data?.brand?.desc}
-            </p>
-            <BrandName>
-              <h4
-                style={{
-                  fontSize: isMobile && params === "real-estate" && "25px",
-                }}
-              >
-                {params === "real-estate" ? data?.label : data?.brand?.name}
-              </h4>
-              <h6>{data?.brand?.location}</h6>
-            </BrandName>
-          </TextWrapper>
-          {params !== "real-estate" && (
-            <TextWrapper style={{ alignItems: "left", paddingLeft: "50px" }}>
-              {data?.desc?.map((desc, idx) =>
-                params === "fnb" ? (
-                  <ListedDesc key={idx} $isMobile={isMobile}>
-                    <li>{desc}</li>
-                  </ListedDesc>
-                ) : (
-                  <Text
-                    key={idx}
-                    style={{
-                      width: isMobile ? "85%" : "50vw",
-                      textAlign: "left",
-                    }}
-                    $isMobile={isMobile}
-                  >
-                    {desc}
-                  </Text>
-                )
-              )}
-            </TextWrapper>
-          )}
-        </div>
 
-        {params === "real-estate" && (
-          <div style={{ paddingTop: "30px", width: isMobile && "85%" }}>
-            <RealEstateDesc $isMobile={isMobile}>
-              <div>
-                <span>
-                  <Image src={"/assets/icons/work-icon.svg"} />
-                </span>
-                <h5>업무</h5>
-              </div>
-              <p>{data?.work}</p>
-            </RealEstateDesc>
-            <RealEstateDesc $isMobile={isMobile}>
-              <div>
-                <span>
-                  <Image src={"/assets/icons/location-icon.svg"} />
-                </span>
-                <h5>위치</h5>
-              </div>
-              <p>{data?.location}</p>
-            </RealEstateDesc>
-            <RealEstateDesc $isMobile={isMobile}>
-              <div>
-                <span>
-                  <Image src={"/assets/icons/area-icon.svg"} />
-                </span>
-                <h5>연면적</h5>
-              </div>
-              <p>{data?.area}</p>
-            </RealEstateDesc>
-            <RealEstateDesc $isMobile={isMobile}>
-              <div>
-                <span>
-                  <Image src={"/assets/icons/contract-icon.svg"} />
-                </span>
-                <h5>계약주체</h5>
-              </div>
-              <p>{data?.contractedWith}</p>
-            </RealEstateDesc>
-          </div>
-        )}
-        {data?.images?.length > 0 && (
-          <>
-            <ImageWrapperSection>
-              <Circle />
-              <RedSquare />
-              <ImageWrapper $isMobile={isMobile}>
-                {data?.images?.map((img, idx) => (
-                  <Image
-                    key={idx}
-                    src={img.url}
-                    alt={`${data?.brand?.name} 이미지 ${idx + 1}`}
-                    onClick={() => handleImageClick(idx)}
-                  />
-                ))}
-              </ImageWrapper>
-            </ImageWrapperSection>
-            <ImageCarousel
-              images={data?.images}
-              open={openImageModal}
-              onClose={() => setOpenImageModal(false)}
-              startIndex={selectedIndex}
-            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: isMobile ? "column" : "row",
+              }}
+            >
+              <TextWrapper
+                $isMobile={isMobile}
+                style={{ alignItems: "center" }}
+              >
+                <p style={{ color: colors.textGrey, fontSize: "14px" }}>
+                  {data.brand?.desc}
+                </p>
+                <BrandName>
+                  <h4>{data.brand?.name}</h4>
+                  <h6>{data.brand?.location}</h6>
+                </BrandName>
+              </TextWrapper>
+
+              <TextWrapper style={{ alignItems: "left", paddingLeft: "50px" }}>
+                {data.desc?.map((desc, idx) =>
+                  params === "fnb" ? (
+                    <ListedDesc key={idx} $isMobile={isMobile}>
+                      <li>{desc}</li>
+                    </ListedDesc>
+                  ) : (
+                    <Text
+                      key={idx}
+                      style={{
+                        width: isMobile ? "85%" : "50vw",
+                        textAlign: "left",
+                      }}
+                      $isMobile={isMobile}
+                    >
+                      {desc}
+                    </Text>
+                  )
+                )}
+              </TextWrapper>
+            </div>
+
+            {data.images?.length > 0 && (
+              <>
+                <ImageWrapperSection>
+                  <Circle />
+                  <RedSquare />
+                  <ImageWrapper $isMobile={isMobile}>
+                    {data.images.map((img, idx) => (
+                      <Image
+                        key={idx}
+                        src={img.url}
+                        alt={`${data.brand?.name} 이미지 ${idx + 1}`}
+                        onClick={() => handleImageClick(idx)}
+                      />
+                    ))}
+                  </ImageWrapper>
+                </ImageWrapperSection>
+                <ImageCarousel
+                  images={data.images}
+                  open={openImageModal}
+                  onClose={() => setOpenImageModal(false)}
+                  startIndex={selectedIndex}
+                />
+              </>
+            )}
           </>
         )}
       </PageContainer>
-      {/* </Section>
-        ))}
-      </ScrollContainer> */}
     </>
   );
 };
@@ -422,10 +246,11 @@ const Text = styled.p`
   padding: 10px 0px;
   white-space: pre-line;
   line-height: 1.75;
+  color: ${colors.black};
   ${(props) =>
     props.$isMobile && {
       width: "90%",
-    }}
+    }};
 `;
 
 const Image = styled.img`
@@ -474,6 +299,7 @@ const BrandName = styled.div`
 
   h6 {
     font-size: 14px;
+    color: ${colors.charcoal};
   }
 `;
 
@@ -482,6 +308,7 @@ const ListedDesc = styled.ul`
   li {
     font-size: 14px;
     margin-bottom: 5px;
+    color: ${colors.black};
   }
   ${(props) =>
     props.$isMobile && {
@@ -515,6 +342,7 @@ const RealEstateDesc = styled.div`
 
   p {
     text-align: center;
+    color: ${colors.black};
   }
 
   ${(props) =>

@@ -1,17 +1,19 @@
 "use client";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
-import Title from "../../../components/title";
-import PageTab from "../../../components/pageTab";
-import ImageCarousel from "../components/imageCarousel";
-import colors from "../../../constants/colors";
+import Title from "../../../../components/title";
+import PageTab from "../../../../components/pageTab";
+import ImageCarousel from "../../components/imageCarousel";
+import colors from "../../../../constants/colors";
 
-import { client } from "../../../sanity/lib/client";
-import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
+import { client } from "../../../../sanity/lib/client";
+import useClientMediaQuery from "../../../../hooks/useClientMediaQuery";
+import useTransitionRouter from "../../../../hooks/useTransitionRouter";
 
-const REALESTATE_QUERY = `*[_type == "project"]{
+const REALESTATE_QUERY_BY_CATEGORY = (categoryId) => `
+*[_type == "project" && category._ref == "${categoryId}"] {
   _id,
   label,
   category,
@@ -23,30 +25,65 @@ const REALESTATE_QUERY = `*[_type == "project"]{
   images[]{
     "url": asset->url
   }
-} | order(dateRange desc)`;
+} | order(dateRange desc)
+`;
+
+const CATEGORY_QUERY = `*[_type == "real-estate-category"] | order(_createdAt asc){ _id, title, _createdAt }`;
 
 const fetchOptions = { next: { revalidate: 30 } };
 
 const RealEstatePage = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const isMobile = useClientMediaQuery("(max-width: 600px)");
 
-  const [realEstateData, setRealEstateData] = useState([]);
-  const [dataIndex, setDataIndex] = useState(0);
-  const [data, setData] = useState(null);
+  // Extract tab index from pathname (last segment)
+  const pathSegments = pathname.split("/");
+  const tabParam = pathSegments[pathSegments.length - 1];
+  const dataIndex =
+    tabParam && !isNaN(parseInt(tabParam)) ? parseInt(tabParam) : 0;
 
+  const [categories, setCategories] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
+
+  // Fetch categories once
   useEffect(() => {
-    async function fetchRealEstate() {
-      const data = await client.fetch(REALESTATE_QUERY, {}, fetchOptions);
-      setRealEstateData(data);
-      setData(data[0]);
+    async function fetchCategories() {
+      const projectCategories = await client.fetch(
+        CATEGORY_QUERY,
+        {},
+        fetchOptions
+      );
+      setCategories(projectCategories);
     }
-    fetchRealEstate();
+    fetchCategories();
   }, []);
 
+  // Fetch projects when categories or tab changes
   useEffect(() => {
-    setData(realEstateData[dataIndex]);
-  }, [dataIndex, realEstateData]);
+    async function fetchProjects() {
+      if (categories.length > 0 && categories[dataIndex]) {
+        const projectsByCategory = await client.fetch(
+          REALESTATE_QUERY_BY_CATEGORY(categories[dataIndex]._id),
+          {},
+          fetchOptions
+        );
+        setFilteredProjects(projectsByCategory);
+        setSelectedProjectIndex(0);
+      }
+    }
+    fetchProjects();
+  }, [categories, dataIndex]);
+
+  // Ensure valid project index
+  useEffect(() => {
+    if (selectedProjectIndex >= filteredProjects.length) {
+      setSelectedProjectIndex(0);
+    }
+  }, [filteredProjects, selectedProjectIndex]);
+
+  const currentProject = filteredProjects[selectedProjectIndex];
 
   // Image Modal state
   const [openImageModal, setOpenImageModal] = useState(false);
@@ -56,6 +93,14 @@ const RealEstatePage = () => {
     setSelectedIndex(index);
     setOpenImageModal(true);
   };
+
+  //   const { push } = useTransitionRouter();
+
+  const handleButtonClick = async (index) => {
+    router.push(`/projects/real-estate/${index}`);
+  };
+
+  console.log(currentProject);
 
   return (
     <>
@@ -68,23 +113,37 @@ const RealEstatePage = () => {
         }
       />
       <PageContainer>
-        {realEstateData.length > 1 && (
-          <div
-            style={{
-              width: isMobile ? "100%" : "50%",
-              padding: isMobile ? "0px 20px 20px 20px" : undefined,
-            }}
-          >
-            <PageTab
-              pageValue={dataIndex}
-              data={realEstateData}
-              isArr
-              onClick={(idx) => setDataIndex(idx)}
-            />
-          </div>
-        )}
+        {/* Buttons for tab selection */}
+        <ButtonGroup $isMobile={isMobile}>
+          {categories.map((cat, idx) => (
+            <TabButton
+              key={cat._id}
+              $active={idx === dataIndex}
+              onClick={() => handleButtonClick(idx)}
+            >
+              {cat.title}
+            </TabButton>
+          ))}
+        </ButtonGroup>
 
-        {data && (
+        <div
+          style={{
+            width: "100%",
+            padding: isMobile ? "0px 20px 20px 20px" : undefined,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <PageTab
+            pageValue={selectedProjectIndex}
+            data={filteredProjects}
+            isArr
+            onClick={(idx) => setSelectedProjectIndex(idx)}
+          />
+        </div>
+
+        {currentProject && (
           <>
             <div
               style={{
@@ -99,7 +158,7 @@ const RealEstatePage = () => {
                   </span>
                   <h5>업무</h5>
                 </div>
-                <p>{data.work}</p>
+                <p>{currentProject.work}</p>
               </RealEstateDesc>
               <RealEstateDesc $isMobile={isMobile}>
                 <div>
@@ -108,7 +167,7 @@ const RealEstatePage = () => {
                   </span>
                   <h5>위치</h5>
                 </div>
-                <p>{data.location}</p>
+                <p>{currentProject.location}</p>
               </RealEstateDesc>
               <RealEstateDesc $isMobile={isMobile}>
                 <div>
@@ -117,7 +176,7 @@ const RealEstatePage = () => {
                   </span>
                   <h5>연면적</h5>
                 </div>
-                <p>{data.area}</p>
+                <p>{currentProject.area}</p>
               </RealEstateDesc>
               <RealEstateDesc $isMobile={isMobile}>
                 <div>
@@ -126,17 +185,26 @@ const RealEstatePage = () => {
                   </span>
                   <h5>계약주체</h5>
                 </div>
-                <p>{data.contractedWith}</p>
+                <p>{currentProject.contractedWith}</p>
+              </RealEstateDesc>
+              <RealEstateDesc $isMobile={isMobile}>
+                <div>
+                  <span>
+                    <Image src={"/assets/icons/calendar-icon.svg"} />
+                  </span>
+                  <h5>진행기간</h5>
+                </div>
+                <p>{currentProject.dateRange}</p>
               </RealEstateDesc>
             </div>
 
-            {data.images?.length > 0 && (
+            {currentProject.images?.length > 0 && (
               <>
                 <ImageWrapperSection>
                   <Circle />
                   <RedSquare />
                   <ImageWrapper $isMobile={isMobile}>
-                    {data.images.map((img, idx) => (
+                    {currentProject.images.map((img, idx) => (
                       <Image
                         key={idx}
                         src={img.url}
@@ -147,7 +215,7 @@ const RealEstatePage = () => {
                   </ImageWrapper>
                 </ImageWrapperSection>
                 <ImageCarousel
-                  images={data.images}
+                  images={currentProject.images}
                   open={openImageModal}
                   onClose={() => setOpenImageModal(false)}
                   startIndex={selectedIndex}
@@ -294,5 +362,39 @@ const Circle = styled.div`
     top: 20px;
     width: 5rem;
     height: 5rem;
+  }
+`;
+
+// Buttons container
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  ${(props) =>
+    props.$isMobile &&
+    `
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  `}
+`;
+
+// Single tab button
+const TabButton = styled.button`
+  padding: 8px 16px;
+  font-size: 14px;
+  color: ${(props) => (props.$active ? colors.white : colors.red)};
+  background-color: ${(props) => (props.$active ? colors.red : "transparent")};
+  border: 2px solid ${colors.red};
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: ${(props) => (props.$active ? "bold" : "normal")};
+
+  &:hover {
+    background-color: ${colors.red};
+    color: ${colors.white};
   }
 `;
