@@ -1,5 +1,7 @@
 "use client";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Title from "../../../components/title";
 import PageTab from "../../../components/pageTab";
 import StepCard from "./components/stepCard";
@@ -8,9 +10,33 @@ import menu_KO from "../../../constants/routes";
 import colors from "../../../constants/colors";
 import RealEstateSteps from "../../../data/realEstateSteps";
 import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
+import { client } from "../../../sanity/lib/client";
+
+const CATEGORY_QUERY = `*[_type == "real-estate-category"] | order(_createdAt asc){ _id, title, _createdAt }`;
+
+const fetchOptions = { next: { revalidate: 30 } };
 
 const ServicesRealEstatePage = () => {
+  const router = useRouter();
   const isMobile = useClientMediaQuery("(max-width: 600px)");
+  const [categories, setCategories] = useState([]);
+
+  // Fetch categories
+  useEffect(() => {
+    async function fetchCategories() {
+      const projectCategories = await client.fetch(
+        CATEGORY_QUERY,
+        {},
+        fetchOptions
+      );
+      setCategories(projectCategories);
+    }
+    fetchCategories();
+  }, []);
+
+  const handleButtonClick = async (index) => {
+    router.push(`/projects/real-estate/${index}`);
+  };
 
   return (
     <>
@@ -40,6 +66,43 @@ const ServicesRealEstatePage = () => {
             alt="Banner Image"
           />
         </BannerImageWrapper>
+        <TitleWrapper>
+          <hr
+            style={{
+              width: "20%",
+              border: `0.5px solid ${colors.darkGrey}`,
+            }}
+          />
+          <h3>분양대행 사업분야</h3>
+          <hr
+            style={{
+              width: "20%",
+              border: `0.5px solid ${colors.darkGrey}`,
+            }}
+          />
+        </TitleWrapper>
+        <ButtonGroup $isMobile={isMobile}>
+          {categories.map((cat, idx) => (
+            <TabButton key={cat._id} onClick={() => handleButtonClick(idx)}>
+              {cat.title}
+            </TabButton>
+          ))}
+        </ButtonGroup>
+        <TitleWrapper>
+          <hr
+            style={{
+              width: "20%",
+              border: `0.5px solid ${colors.darkGrey}`,
+            }}
+          />
+          <h3>분양대행 프로세스</h3>
+          <hr
+            style={{
+              width: "20%",
+              border: `0.5px solid ${colors.darkGrey}`,
+            }}
+          />
+        </TitleWrapper>
         <StepCardWrapper $isMobile={isMobile}>
           {RealEstateSteps.map((item, idx) => (
             <StepCard key={idx} data={item} />
@@ -80,8 +143,8 @@ const PageContainer = styled.div`
 
 const BannerImageWrapper = styled.div`
   width: 100%;
-  min-height: 500px;
-  height: 60vh;
+  min-height: 350px;
+  height: 30vh;
   overflow: hidden;
   margin-top: 50px;
   ${(props) =>
@@ -103,7 +166,7 @@ const StepCardWrapper = styled.div`
   gap: 30px;
   justify-items: center;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 20px;
 
   @media (max-width: 750px) {
     grid-template-columns: repeat(2, 1fr);
@@ -124,4 +187,55 @@ const StepCardWrapper = styled.div`
       grid-template-rows: none;
       gap: 20px;
     `}
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin: 30px 0px;
+  h3 {
+    letter-spacing: 0.5rem;
+    font-size: 12px;
+    color: ${colors.darkGrey};
+    text-align: center;
+    /* width: 100%; */
+    margin-right: -0.5rem;
+  }
+`;
+
+// Buttons container
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  ${(props) =>
+    props.$isMobile &&
+    `
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  `}
+`;
+
+// Single tab button
+const TabButton = styled.button`
+  padding: 8px 20px;
+  font-size: 16px;
+  color: ${colors.red};
+  background-color: transparent;
+  border: 2px solid ${colors.red};
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${colors.red};
+    color: ${colors.white};
+  }
 `;

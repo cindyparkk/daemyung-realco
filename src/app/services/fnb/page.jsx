@@ -95,8 +95,8 @@ const PageContainer = styled.div`
 
 const BannerImageWrapper = styled.div`
   width: 100%;
-  min-height: 500px;
-  height: 60vh;
+  min-height: 350px;
+  height: 30vh;
   overflow: hidden;
   margin-top: 50px;
 
