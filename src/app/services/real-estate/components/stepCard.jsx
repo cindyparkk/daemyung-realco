@@ -70,5 +70,6 @@ const Desc = styled.div`
     font-weight: 500;
     line-height: 30px;
     font-size: 16px;
+    color: ${colors.black};
   }
 `;

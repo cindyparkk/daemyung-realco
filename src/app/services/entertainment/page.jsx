@@ -6,6 +6,7 @@ import PageTab from "../../../components/pageTab";
 
 import menu_KO from "../../../constants/routes";
 import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
+import colors from "../../../constants/colors";
 
 const ServicesEntPage = () => {
   const isMobile = useClientMediaQuery("(max-width: 600px)");
@@ -79,6 +80,7 @@ export default ServicesEntPage;
 const TitleDescSection = styled.section`
   padding-bottom: 50px;
   text-align: center;
+  color: ${colors.black};
   p {
     font-weight: 300;
   }
@@ -131,6 +133,7 @@ const Image = styled.img`
 const TextWrapper = styled.div`
   text-align: center;
   padding: 50px 0px;
+  color: ${colors.black};
   p {
     font-weight: 300;
     line-height: 1.5;

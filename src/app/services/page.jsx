@@ -5,6 +5,7 @@ import Title from "../../components/title";
 import PageTab from "../../components/pageTab";
 import Carousel from "../../components/carousel";
 import menu_KO from "../../constants/routes";
+import colors from "../../constants/colors";
 import useClientMediaQuery from "../../hooks/useClientMediaQuery";
 
 const ServicesPage = () => {
@@ -41,6 +42,7 @@ export default ServicesPage;
 const TitleDescSection = styled.section`
   padding-bottom: 50px;
   text-align: center;
+  color: ${colors.black};
   p {
     font-weight: 300;
   }

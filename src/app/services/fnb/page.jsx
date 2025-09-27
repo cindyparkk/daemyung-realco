@@ -70,6 +70,7 @@ export default ServicesFBPage;
 const TitleDescSection = styled.section`
   padding-bottom: 50px;
   text-align: center;
+  color: ${colors.black};
   p {
     font-weight: 300;
   }
@@ -115,6 +116,7 @@ const TextWrapper = styled.div`
   text-align: center;
   padding: 50px 0px;
   border-bottom: 1px solid ${colors.red};
+  color: ${colors.black};
   p {
     font-weight: 300;
     line-height: 1.5;

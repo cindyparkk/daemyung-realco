@@ -5,6 +5,7 @@ import PageTab from "../../../components/pageTab";
 import StepCard from "./components/stepCard";
 
 import menu_KO from "../../../constants/routes";
+import colors from "../../../constants/colors";
 import RealEstateSteps from "../../../data/realEstateSteps";
 import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
@@ -54,6 +55,7 @@ export default ServicesRealEstatePage;
 const TitleDescSection = styled.section`
   padding-bottom: 50px;
   text-align: center;
+  color: ${colors.black};
   p {
     font-weight: 300;
   }
