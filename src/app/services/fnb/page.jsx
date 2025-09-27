@@ -34,7 +34,12 @@ const ServicesFBPage = () => {
         </p>
       </TitleDescSection>
       <PageContainer $isMobile={isMobile}>
-        <PageTab pageValue={2} data={menu_KO[1].submenu} isRouter isFullWidth />
+        <PageTab
+          pageValue={1}
+          data={menu_KO[1].submenu.slice(1)}
+          isRouter
+          isFullWidth
+        />
         <BannerImageWrapper $isMobile={isMobile}>
           <BannerImage
             loading="lazy"
