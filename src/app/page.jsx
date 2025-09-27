@@ -122,6 +122,7 @@ const Home = () => {
         </VisionContent>
         <VisionImageWrapper>
           <Image
+            loading="lazy"
             src="/assets/images/hero-image-2.jpg"
             alt="Daemyung Building"
           />

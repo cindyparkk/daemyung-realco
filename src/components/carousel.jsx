@@ -69,6 +69,7 @@ const Carousel = ({ isButton, isHoverAnimation }) => {
             <Overlay $show={isHovered} />
             <Content>
               <Image
+                loading="lazy"
                 src={isHovered ? item.hoveredIcon : item.icon}
                 alt="Logo"
                 width={70}

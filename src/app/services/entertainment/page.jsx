@@ -36,23 +36,33 @@ const ServicesEntPage = () => {
         <FlexBox $isMobile={isMobile}>
           <ImageWrapper $height={"80px"}>
             <Image
+              loading="lazy"
               src="/assets/images/logo/friends_screen-logo.jpeg"
               alt="Friends Screen Logo"
             />
           </ImageWrapper>
           <ImageWrapper $height={"80px"}>
-            <Image src="/assets/images/logo/cgv-logo.svg" alt="CGV Logo" />
+            <Image
+              loading="lazy"
+              src="/assets/images/logo/cgv-logo.svg"
+              alt="CGV Logo"
+            />
           </ImageWrapper>
         </FlexBox>
         <FlexBox $isMobile={isMobile}>
           <ImageWrapper $height={"320px"}>
             <Image
+              loading="lazy"
               src="/assets/images/enter-banner-1.jpg"
               alt="Friends Screen Banner"
             />
           </ImageWrapper>
           <ImageWrapper $height={"320px"}>
-            <Image src="/assets/images/enter-banner-2.jpg" alt="CGV Banner" />
+            <Image
+              loading="lazy"
+              src="/assets/images/enter-banner-2.jpg"
+              alt="CGV Banner"
+            />
           </ImageWrapper>
         </FlexBox>
         <TextWrapper>

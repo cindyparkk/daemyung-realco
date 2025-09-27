@@ -40,6 +40,7 @@ const DirectionsPage = () => {
             </DirectionsTitle>
             <IconBox>
               <Image
+                loading="lazy"
                 src={"/assets/icons/subway-icon.svg"}
                 alt={"Subway Icon"}
                 width={25}
@@ -50,6 +51,7 @@ const DirectionsPage = () => {
             <p>KTX 광명역 하차 → 5번 출구 650m 도보 11분</p>
             <IconBox>
               <Image
+                loading="lazy"
                 src={"/assets/icons/bus-icon.svg"}
                 alt={"Bus Icon"}
                 width={23}

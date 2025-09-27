@@ -66,6 +66,7 @@ export default function AnimatedTimeline({ data }) {
               {!isMobile && dataItem.image?.asset && (
                 <TimelineOppositeContent sx={{ paddingTop: "30px" }}>
                   <Image
+                    loading="lazy"
                     src={urlFor(dataItem.image.asset._ref)
                       // .width(800)
                       .url()}
@@ -89,6 +90,7 @@ export default function AnimatedTimeline({ data }) {
                 {isMobile && dataItem.image?.asset && (
                   <ImageWrapper>
                     <Image
+                      loading="lazy"
                       src={urlFor(dataItem.image.asset._ref).url()}
                       alt={dataItem.year}
                       layout="responsive"

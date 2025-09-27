@@ -12,7 +12,7 @@ import colors from "../constants/colors";
 
 const MainWrapper = styled.main`
   background: ${colors.white};
-  padding-top: 64px; /* Height of your fixed header */
+  padding-top: 70px; /* Height of your fixed header */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
