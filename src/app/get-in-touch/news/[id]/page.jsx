@@ -80,7 +80,13 @@ const NewsArticlePage = () => {
             <BannerImage src={data.image.asset.url} alt={data.image.alt} />
           </BannerImageWrapper>
         )}
-        <p style={{ padding: "30px 0px", whiteSpace: "pre-line" }}>
+        <p
+          style={{
+            padding: "30px 0px",
+            whiteSpace: "pre-line",
+            color: colors.black,
+          }}
+        >
           {data.bodyText}
         </p>
         <SourceWrapper>
@@ -151,6 +157,7 @@ const ArticleTitle = styled.div`
     text-align: center;
     width: 90%;
     line-height: 1.25;
+    color: ${colors.charcoal};
   }
   p {
     color: ${colors.textGrey};
@@ -194,6 +201,7 @@ const SourceWrapper = styled.div`
   p {
     border-bottom: 1px solid ${colors.black};
     font-weight: 300;
+    color: ${colors.black};
     &:hover {
       color: ${colors.red};
       border-bottom: 1px solid ${colors.red};

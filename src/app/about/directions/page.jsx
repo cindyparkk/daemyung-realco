@@ -117,6 +117,7 @@ const Directions = styled.div`
   li {
     font-weight: 300;
     line-height: 30px;
+    color: ${colors.black};
   }
 
   ul {

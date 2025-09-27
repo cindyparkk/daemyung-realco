@@ -106,7 +106,7 @@ const OnlineInquiriesPage = () => {
 
   const isMobile = useClientMediaQuery("(max-width: 600px)");
 
-  const handleLoaderButtonClick =  () => {
+  const handleLoaderButtonClick = () => {
     window.location.reload();
     setLoaderOpen(false);
   };
@@ -207,7 +207,7 @@ const OnlineInquiriesPage = () => {
                 readOnly
                 required
               />
-              <p>
+              <p style={{ color: colors.black }}>
                 개인정보 수집 동의 약관에 동의합니다.{" "}
                 <span style={{ color: colors.red }}>*</span>
               </p>
@@ -324,6 +324,7 @@ const Label = styled.label`
   font-size: 14px;
   margin-bottom: 8px;
   display: block;
+  color: ${colors.black};
   span {
     color: ${colors.red};
   }

@@ -168,6 +168,7 @@ const NewsContent = styled.div`
 const NewsTitle = styled.h2`
   font-size: 20px;
   margin: 0 0 10px 0;
+  color: ${colors.black};
 `;
 
 const NewsMeta = styled.div`
