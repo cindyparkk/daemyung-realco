@@ -19,6 +19,19 @@ export default function RootLayout({ children }) {
             href="/assets/logo-light.svg"
             media="(prefers-color-scheme: dark)"
           />
+          <meta property="og:title" content="대명리얼코 - 홈페이지" />
+          <meta
+            property="og:description"
+            content="분양대행·F&B·엔터테인먼트를 아우르는 대명리얼코"
+          />
+          <meta
+            property="og:image"
+            content="https://ik.imagekit.io/x6pjpxa9a/website-preview.png?updatedAt=1759039575336"
+          />
+          <meta
+            property="og:url"
+            content="https://www.daemyung-realco.co.kr/"
+          />
           <title>대명리얼코</title>
         </head>
         <body>
