@@ -1,5 +1,6 @@
 "use client";
 import styled from "styled-components";
+import { useState } from "react";
 import Image from "next/image";
 
 import Title from "../../../components/title";
@@ -10,12 +11,30 @@ import useClientMediaQuery from "../../../hooks/useClientMediaQuery";
 
 const DirectionsPage = () => {
   const isMobile = useClientMediaQuery("(max-width: 600px)");
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   return (
     <>
       <Title text={"오시는 길"} hr subtitle={<>daemyung</>} />
       <PageWrapper $isMobile={isMobile}>
-        <KakaoMap address={"경기도 광명시 일직동 514"} />
+        <MapContainer>
+          {!mapLoaded && (
+            <MapLoadingBox>
+              <Image
+                loading="lazy"
+                src={"/assets/logo-light.svg"}
+                alt={"대명리얼코 로고"}
+                width={150}
+                height={102}
+              />
+              <h2>지도 로딩중...</h2>
+            </MapLoadingBox>
+          )}
+          <KakaoMap
+            address={"경기도 광명시 일직동 514"}
+            onLoad={() => setMapLoaded(true)}
+          />
+        </MapContainer>
         <DirectionsWrapper $isMobile={isMobile}>
           <Directions>
             <DirectionsTitle>
@@ -150,5 +169,28 @@ const IconBox = styled.div`
   p {
     font-weight: 300;
     color: ${colors.red};
+  }
+`;
+
+const MapContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 350px; // Set as needed or inherit from KakaoMap
+  /* margin-bottom: 40px; */
+`;
+
+const MapLoadingBox = styled.div`
+  width: 100%;
+  height: 350px;
+  background-color: ${colors.black};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+
+  h2 {
+    color: ${colors.white};
+    font-size: 18px;
   }
 `;

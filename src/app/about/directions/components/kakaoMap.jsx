@@ -7,7 +7,7 @@ const MapContainer = styled.div`
   z-index: 100;
 `;
 
-export default function KakaoMap({ address }) {
+export default function KakaoMap({ address, onLoad }) {
   const containerRef = useRef(null); // div container
   const mapInstanceRef = useRef(null); // kakao map instance
   const markerRef = useRef(null); // marker reference
@@ -50,9 +50,14 @@ export default function KakaoMap({ address }) {
           map,
         });
         markerRef.current = marker;
+
+        // Notify parent that map is loaded
+        if (typeof onLoad === "function") {
+          onLoad();
+        }
       });
     }
-  }, [latLng]);
+  }, [latLng, onLoad]);
 
   // Resize handling (zoom + re-center)
   useEffect(() => {

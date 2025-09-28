@@ -59,7 +59,7 @@ const Home = () => {
             muted
             loop
             playsInline
-            poster="/assets/images/hero-image-2.jpg"
+            // poster="/assets/images/hero-image-2.jpg"
             preload="none"
           >
             <source
