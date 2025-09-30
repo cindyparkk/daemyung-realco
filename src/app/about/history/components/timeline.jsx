@@ -206,10 +206,10 @@ const ImageWrapper = styled.div`
 
 // styled component for desktop (non-mobile)
 const ImageContainer = styled.div`
-  width: 85%; // Set image container to 80% width
+  width: 90%; // Set image container to 80% width
   margin: 0 auto; // Center the image in its parent
   display: flex;
-  align-items: center;
-  height: 260px; // Fixed height for consistency
+  align-items: centerㅋ;
+  /* height: 260px; // Fixed height for consistency */
   overflow: hidden; // Prevent overflow if aspect ratio differs
 `;
