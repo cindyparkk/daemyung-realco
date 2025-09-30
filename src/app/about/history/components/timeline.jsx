@@ -63,7 +63,7 @@ export default function AnimatedTimeline({ data }) {
               ref={(el) => (refs.current[idx] = el)}
               $isMobile={isMobile}
             >
-              {!isMobile && dataItem.image?.asset && (
+              {/* {!isMobile && dataItem.image?.asset && (
                 <TimelineOppositeContent sx={{ paddingTop: "30px" }}>
                   <Image
                     src={urlFor(dataItem.image.asset._ref)
@@ -76,6 +76,25 @@ export default function AnimatedTimeline({ data }) {
                     objectFit="cover"
                     priority
                   />
+                </TimelineOppositeContent>
+              )} */}
+              {!isMobile && dataItem.image?.asset && (
+                <TimelineOppositeContent sx={{ paddingTop: "30px" }}>
+                  <ImageContainer>
+                    <Image
+                      src={urlFor(dataItem.image.asset._ref).url()}
+                      alt={dataItem.year}
+                      width={350}
+                      height={150}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover", // Show full image, preserve aspect ratio
+                        objectPosition: "center",
+                      }}
+                      priority
+                    />
+                  </ImageContainer>
                 </TimelineOppositeContent>
               )}
               <TimelineSeparator>
@@ -183,5 +202,14 @@ const Content = styled.div`
 
 const ImageWrapper = styled.div`
   margin-bottom: 20px;
-  /* You may want to adjust spacing/margins here */
+`;
+
+// styled component for desktop (non-mobile)
+const ImageContainer = styled.div`
+  width: 85%; // Set image container to 80% width
+  margin: 0 auto; // Center the image in its parent
+  display: flex;
+  align-items: center;
+  height: 260px; // Fixed height for consistency
+  overflow: hidden; // Prevent overflow if aspect ratio differs
 `;
