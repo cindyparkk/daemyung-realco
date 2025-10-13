@@ -7,7 +7,14 @@ import Tab from "@mui/material/Tab";
 
 import colors from "../constants/colors";
 
-const PageTab = ({ pageValue, data, isRouter, onClick, isFullWidth }) => {
+const PageTab = ({
+  pageValue,
+  data,
+  isRouter,
+  onClick,
+  isFullWidth,
+  isMobile,
+}) => {
   const [tabValue, setTabValue] = useState(pageValue);
   const router = useRouter();
 
@@ -44,11 +51,16 @@ const PageTab = ({ pageValue, data, isRouter, onClick, isFullWidth }) => {
       <TabsContainer $isFullWidth={isFullWidth}>
         <StyledTabs
           value={tabValue}
+          $isMobile={isMobile}
           onChange={handleTabChange}
           variant={isRouter || isFullWidth ? "fullWidth" : "scrollable"}
           scrollButtons="auto"
           TabIndicatorProps={{
             style: { backgroundColor: colors.red, height: 2 },
+          }}
+          allowScrollButtonsMobile
+          sx={{
+            overflowX: "auto",
           }}
         >
           {data.map((item, idx) => (
@@ -80,7 +92,9 @@ const TabsContainer = styled.div`
 `;
 
 const StyledTabs = styled(Tabs)`
-  width: 100%;
+  && {
+    width: ${(props) => (props.$isMobile ? "max-content" : "100%")};
+  }
 `;
 
 const StyledTab = styled(Tab)`

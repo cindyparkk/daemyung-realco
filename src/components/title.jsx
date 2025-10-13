@@ -53,7 +53,7 @@ const SubtitleText = styled.h3`
 
   ${(props) =>
     props.$isMobile && {
-      width: "85%",
+      width: "95%",
     }}
 `;
 

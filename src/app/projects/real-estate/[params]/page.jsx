@@ -102,8 +102,6 @@ const RealEstatePage = () => {
     router.push(`/projects/real-estate/${index}`);
   };
 
-  console.log(currentProject);
-
   return (
     <>
       <Title
@@ -128,25 +126,35 @@ const RealEstatePage = () => {
           ))}
         </ButtonGroup>
 
-        <div
-          style={{
-            width: "100%",
-            padding: isMobile ? "0px 20px 20px 20px" : undefined,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <PageTab
-            pageValue={selectedProjectIndex}
-            data={filteredProjects}
-            isArr
-            onClick={(idx) => setSelectedProjectIndex(idx)}
-          />
+        <div style={{ padding: isMobile && "0px 20px", width: "100%" }}>
+          <div
+            style={{
+              width: "100%",
+              // padding: isMobile && "0px 20px 20px 20px",
+              display: !isMobile && "flex",
+              alignItems: !isMobile && "center",
+              justifyContent: !isMobile && "center",
+              overflowX: "auto",
+              scrollbarWidth: "none",
+              // WebkitOverflowScrolling: "touch",
+            }}
+          >
+            <PageTab
+              pageValue={selectedProjectIndex}
+              data={filteredProjects}
+              isArr
+              onClick={(idx) => setSelectedProjectIndex(idx)}
+              isMobile={isMobile}
+            />
+          </div>
         </div>
 
         {currentProject && (
           <>
+            <BrandName $isMobile={isMobile}>
+              <h4>{currentProject.label}</h4>
+            </BrandName>
+
             <div
               style={{
                 paddingTop: "30px",
@@ -398,5 +406,24 @@ const TabButton = styled.button`
   &:hover {
     background-color: ${colors.red};
     color: ${colors.white};
+  }
+`;
+
+const BrandName = styled.div`
+  /* padding-bottom: 20px; */
+  display: flex;
+  align-items: center;
+
+  h4 {
+    color: ${colors.red};
+    font-weight: bold;
+    font-size: 28px;
+    margin: 20px 15px 0px 15px;
+    text-align: center;
+
+    ${(props) =>
+      props.$isMobile && {
+        fontSize: "20px",
+      }}
   }
 `;
