@@ -84,8 +84,8 @@ export default function AnimatedTimeline({ data }) {
                     <Image
                       src={urlFor(dataItem.image.asset._ref).url()}
                       alt={dataItem.year}
-                      width={350}
-                      height={150}
+                      width={800}
+                      height={510}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -108,7 +108,11 @@ export default function AnimatedTimeline({ data }) {
                 {isMobile && dataItem.image?.asset && (
                   <ImageWrapper>
                     <Image
-                      src={urlFor(dataItem.image.asset._ref).url()}
+                      src={urlFor(dataItem.image.asset._ref)
+                        .quality(100)
+                        .auto("format")
+                        .url()}
+                      unoptimized
                       alt={dataItem.year}
                       layout="responsive"
                       width={350}
