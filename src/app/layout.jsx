@@ -32,6 +32,10 @@ export default function RootLayout({ children }) {
             property="og:url"
             content="https://www.daemyung-realco.co.kr/"
           />
+          <meta
+            name="naver-site-verification"
+            content="3a97812f7a1a09007e8ba1be79e563b345acdfd9"
+          />
           <title>대명리얼코</title>
         </head>
         <body>
